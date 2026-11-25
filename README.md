@@ -2,6 +2,13 @@
 
 **Zero Emission Vision, Responsible Advancement.** ZENRES turns Indian MSME factory records into audit-ready EU CBAM evidence, verifiable dual-QR passports and revenue-generating return freight — and puts those factories in front of global B2B buyers.
 
+## Live demo
+
+- Public site: https://zenres.vercel.app
+- Demo workspace: https://zenres-app.vercel.app/dashboard
+
+The Vercel deployments run the frontend demo with seeded pilot data. The Go APIs, worker, database, and real authentication are not hosted there; run the full stack locally with Docker or deploy those services separately before using live accounts or data.
+
 This monorepo implements both Codex plans:
 
 | Plan | What's here |

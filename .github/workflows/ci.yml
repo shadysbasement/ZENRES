@@ -1,0 +1,53 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 24, cache: npm }
+      - run: npm ci
+      - run: node scripts/check-palette.mjs
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --project=desktop-1440
+        working-directory: apps/web-public
+      - run: npx playwright test
+        working-directory: apps/web-app
+
+  go:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env: { POSTGRES_USER: zevra, POSTGRES_PASSWORD: zevra, POSTGRES_DB: zevra }
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U zevra" --health-interval 3s --health-retries 20
+    defaults: { run: { working-directory: services } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.26", cache-dependency-path: services/go.sum }
+      - run: go vet ./...
+      - run: go test -race ./...
+      - name: Apply migrations and seed the pilot
+        env: { PGPASSWORD: zevra, DATABASE_URL: "postgres://zevra:zevra@localhost:5432/zevra?sslmode=disable" }
+        run: |
+          for f in ../db/migrations/*.sql; do psql -h localhost -U zevra -d zevra -v ON_ERROR_STOP=1 -f "$f"; done
+          go run ./core-api/cmd/seed-pilot
+
+  worker:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: services/intel-worker } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -e ".[dev]"
+      - run: pytest -q

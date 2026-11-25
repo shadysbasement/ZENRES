@@ -1,0 +1,34 @@
+
+@layer base {
+	body {
+		background: var(--surface-canvas);
+	}
+}
+
+/* Page transitions (View Transitions API, progressive enhancement) */
+@keyframes zv-vt-out {
+	to {
+		opacity: 0;
+		transform: translate3d(0, -28px, 0) scale(0.985);
+	}
+}
+@keyframes zv-vt-in {
+	from {
+		clip-path: inset(100% 0 0 0);
+	}
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+::view-transition-old(root) {
+	animation: zv-vt-out 420ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+::view-transition-new(root) {
+	animation: zv-vt-in 820ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation: none;
+	}
+}

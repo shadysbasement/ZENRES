@@ -1,0 +1,92 @@
+@layer base {
+	body {
+		background: var(--surface-canvas);
+	}
+}
+@layer components {
+	.grid {
+		display: grid;
+		gap: 16px;
+	}
+	.panel {
+		background: var(--surface-card);
+		border: var(--hairline);
+		border-radius: var(--radius-md);
+		padding: 18px 20px;
+		min-width: 0;
+	}
+	.panel-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 12px;
+		margin-bottom: 14px;
+	}
+	.panel-head h2,
+	.panel-head h3 {
+		font-size: 14px;
+		font-weight: 600;
+		letter-spacing: -0.01em;
+	}
+	.table-wrap {
+		overflow-x: auto;
+		margin: 0 -20px;
+	}
+	.table-wrap .table th:first-child,
+	.table-wrap .table td:first-child {
+		padding-left: 20px;
+	}
+	.table-wrap .table th:last-child,
+	.table-wrap .table td:last-child {
+		padding-right: 20px;
+	}
+	.fade-in {
+		animation: zv-fade-in 700ms var(--ease-expo) both;
+		animation-delay: calc(var(--i, 0) * 60ms);
+	}
+	@keyframes zv-fade-in {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+	}
+	.fine {
+		font-size: 11px;
+		line-height: 1.5;
+		color: var(--ink-muted);
+	}
+	.tabs-line {
+		display: flex;
+		gap: 2px;
+		border-bottom: var(--hairline);
+		margin-bottom: 18px;
+		overflow-x: auto;
+	}
+	.tabs-line button {
+		position: relative;
+		height: 38px;
+		padding: 0 14px;
+		font-size: 13px;
+		font-weight: 500;
+		color: var(--ink-muted);
+		white-space: nowrap;
+	}
+	.tabs-line button[aria-selected='true'] {
+		color: var(--ink-primary);
+	}
+	.tabs-line button[aria-selected='true']::after {
+		content: '';
+		position: absolute;
+		left: 10px;
+		right: 10px;
+		bottom: -1px;
+		height: 2px;
+		background: var(--brand-emerald);
+	}
+	.empty {
+		padding: 32px;
+		text-align: center;
+		color: var(--ink-muted);
+		font-size: 13px;
+	}
+}

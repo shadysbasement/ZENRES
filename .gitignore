@@ -1,0 +1,23 @@
+node_modules/
+.svelte-kit/
+build/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage/
+test-results/
+playwright-report/
+__pycache__/
+.venv/
+.pytest_cache/
+services/bin/
+*.pdf
+!templates/**/*.pdf
+
+# local tooling (contains dev-only secrets / absolute paths)
+.claude/
+*.key
+*.asc

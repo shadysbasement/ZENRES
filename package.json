@@ -1,0 +1,21 @@
+{
+  "name": "zevra",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Zevra — Zero Emission Vision, Responsible Advancement. CBAM compliance, dual-QR traceability, FreightLink backhaul and B2B discovery for Indian MSMEs and EU importers.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:public": "npm run dev -w @zevra/web-public",
+    "dev:app": "npm run dev -w @zevra/web-app",
+    "build": "npm run build -w @zevra/web-public && npm run build -w @zevra/web-app",
+    "check": "npm run check -w @zevra/web-public && npm run check -w @zevra/web-app",
+    "test": "npm run test -w @zevra/web-public && npm run test -w @zevra/web-app",
+    "lint:palette": "node scripts/check-palette.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

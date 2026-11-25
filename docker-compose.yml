@@ -1,0 +1,68 @@
+# Zevra local stack: Postgres 17 + Redis 7 + Go auth/core APIs + FastAPI worker + both SvelteKit apps.
+#   cp .env.example .env && docker compose up --build
+#   docker compose run --rm seed     # populate the Deccan Alloy Works pilot
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment: { POSTGRES_USER: zevra, POSTGRES_PASSWORD: zevra, POSTGRES_DB: zevra }
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U zevra"], interval: 3s, retries: 20 }
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  auth-api:
+    build: { context: ./services, dockerfile: Dockerfile, args: { CMD: auth-api/cmd/server } }
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://zevra:zevra@postgres:5432/zevra?sslmode=disable
+      AUTH_API_ADDR: ":8081"
+      COOKIE_SECURE: "false"
+    ports: ["8081:8081"]
+    depends_on: { postgres: { condition: service_healthy } }
+
+  core-api:
+    build: { context: ./services, dockerfile: Dockerfile, args: { CMD: core-api/cmd/api } }
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://zevra:zevra@postgres:5432/zevra?sslmode=disable
+      DB_APP_ROLE: ""            # local superuser; production connects as zevra_app so RLS always applies
+      AUTH_API_URL: http://auth-api:8081
+      WORKER_URL: http://intel-worker:8090
+      CORE_API_ADDR: ":8082"
+      TYPST_TEMPLATES: /templates/typst
+    volumes: ["./templates:/templates:ro"]
+    ports: ["8082:8082"]
+    depends_on: { postgres: { condition: service_healthy } }
+
+  seed:
+    build: { context: ./services, dockerfile: Dockerfile, args: { CMD: core-api/cmd/seed-pilot } }
+    environment: { DATABASE_URL: "postgres://zevra:zevra@postgres:5432/zevra?sslmode=disable" }
+    depends_on: { postgres: { condition: service_healthy } }
+    profiles: ["tools"]
+
+  intel-worker:
+    build: ./services/intel-worker
+    env_file: .env
+    ports: ["8090:8090"]
+
+  web-public:
+    build: { context: ., dockerfile: apps/Dockerfile, args: { APP: web-public } }
+    env_file: .env
+    environment: { AUTH_API_URL: http://auth-api:8081, CORE_API_URL: http://core-api:8082, PORT: "3000", ORIGIN: http://localhost:5173 }
+    ports: ["5173:3000"]
+    depends_on: [auth-api, core-api]
+
+  web-app:
+    build: { context: ., dockerfile: apps/Dockerfile, args: { APP: web-app } }
+    env_file: .env
+    environment: { AUTH_API_URL: http://auth-api:8081, PORT: "3000", ORIGIN: http://localhost:5174 }
+    ports: ["5174:3000"]
+    depends_on: [auth-api, core-api]
+
+volumes:
+  pgdata:

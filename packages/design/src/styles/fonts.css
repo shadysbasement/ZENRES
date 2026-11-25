@@ -1,0 +1,40 @@
+/* Self-hosted typography. Switzer © Indian Type Foundry (Fontshare FFL, see fonts/switzer/LICENSE-FFL.txt). */
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+
+@font-face {
+	font-family: 'Switzer';
+	src: url('../fonts/switzer/Switzer-Variable.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Switzer';
+	src: url('../fonts/switzer/Switzer-VariableItalic.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* Metric-matched fallbacks to minimise layout shift while WOFF2 files stream in. */
+@font-face {
+	font-family: 'Switzer Fallback';
+	src: local('Helvetica Neue'), local('Arial');
+	size-adjust: 101%;
+	ascent-override: 96%;
+	descent-override: 24%;
+	line-gap-override: 0%;
+}
+
+@font-face {
+	font-family: 'Newsreader Fallback';
+	src: local('Georgia'), local('Times New Roman');
+	size-adjust: 94%;
+	ascent-override: 102%;
+	descent-override: 26%;
+}

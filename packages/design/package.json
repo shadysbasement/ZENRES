@@ -1,0 +1,10 @@
+{
+  "name": "@zevra/design",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shared Zevra Swiss-industrial design system: tokens, self-hosted fonts, motion primitives and brand components.",
+  "files": [
+    "src"
+  ]
+}

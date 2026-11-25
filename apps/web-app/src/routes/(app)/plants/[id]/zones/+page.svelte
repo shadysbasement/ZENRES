@@ -15,7 +15,7 @@
 	}
 </script>
 
-<svelte:head><title>Zones — {plant.name} — Zevra</title></svelte:head>
+<svelte:head><title>Zones — {plant.name} — ZENRES</title></svelte:head>
 
 <PageHeader eyebrow="Plants · {plant.name}" title="Zones, shifts &" serif="line assignments" lede="Configure factory zones, their 3D bounding boxes and live shift rosters. Headcount edits broadcast to every open tab." />
 

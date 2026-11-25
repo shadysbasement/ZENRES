@@ -5,7 +5,7 @@
 	import { DISCLAIMERS } from '$lib/content';
 
 	const columns = [
-		{ title: 'Platform', links: [['Zevra Business', '/#platform'], ['Zevra Carbon', '/#cbam'], ['Zevra Trace', '/#traceability'], ['Zevra Connect', '/#platform']] },
+		{ title: 'Platform', links: [['ZENRES Business', '/#platform'], ['ZENRES Carbon', '/#cbam'], ['ZENRES Trace', '/#traceability'], ['ZENRES Connect', '/#platform']] },
 		{ title: 'Logistics', links: [['FreightLink', '/freightlink'], ['Delhi ↔ Mumbai', '/freightlink#corridors'], ['Ludhiana ↔ Delhi', '/freightlink#corridors'], ['Free carrier onboarding', '/signup?role=transporter']] },
 		{ title: 'Commercial', links: [['Pricing', '/pricing'], ['Plan comparison', '/pricing#compare'], ['EU Importer Hub', '/pricing#importer_hub'], ['Verify a QR passport', '/verify/c/01JD8ZV001CNTR7Q4M2X9KPWBA']] },
 		{ title: 'Account', links: [['Sign in', '/login'], ['Create workspace', '/signup'], ['Continue with Proton', '/login?method=proton'], ['Security', '/#security']] }
@@ -68,11 +68,11 @@
 		</div>
 
 		<div class="giant" aria-hidden="true">
-			{#each 'ZEVRA'.split('') as ch, i (i)}<span style="--i:{i}" use:reveal={{ delay: i * 60 }}>{ch}</span>{/each}
+			{#each 'ZENRES'.split('') as ch, i (i)}<span style="--i:{i}" use:reveal={{ delay: i * 60 }}>{ch}</span>{/each}
 		</div>
 
 		<div class="bar">
-			<span>© 2026 Zevra Technologies. All rights reserved.</span>
+			<span>© 2026 ZENRES Technologies. All rights reserved.</span>
 			<span class="build" onclick={buildClick} role="presentation">BUILD 2026.11 // ZV-CORE</span>
 		</div>
 	</div>

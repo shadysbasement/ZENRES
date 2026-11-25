@@ -55,9 +55,9 @@
 	});
 </script>
 
-<svelte:head><title>Capex Simulator — Zevra</title></svelte:head>
+<svelte:head><title>Capex Simulator — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Carbon · B5" title="Decarbonisation" serif="capex ROI simulator" lede="Model solar PV, scrap-ratio optimisation, fuel switching and qualifying-asset depreciation — and see payback, IRR, avoided tCO₂e and projected CBAM savings." />
+<PageHeader eyebrow="ZENRES Carbon · B5" title="Decarbonisation" serif="capex ROI simulator" lede="Model solar PV, scrap-ratio optimisation, fuel switching and qualifying-asset depreciation — and see payback, IRR, avoided tCO₂e and projected CBAM savings." />
 
 <div class="g2">
 	<section class="panel">

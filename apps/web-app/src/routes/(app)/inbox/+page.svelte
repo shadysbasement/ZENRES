@@ -20,7 +20,7 @@
 		{ id: 'gmail', name: 'Gmail', mode: 'OAuth2 · read-only + optional reply', status: 'Connected', account: 'exports@deccanalloy.in' },
 		{ id: 'outlook', name: 'Microsoft 365 / Outlook', mode: 'Graph webhooks', status: 'Available', account: '' },
 		{ id: 'imap', name: 'IMAP / SMTP', mode: 'TLS required · Zoho, cPanel, Proton Bridge', status: 'Available', account: '' },
-		{ id: 'inbound', name: 'Zevra inbound address', mode: 'Zero-config forwarding', status: 'Active', account: ORG.inbound }
+		{ id: 'inbound', name: 'ZENRES inbound address', mode: 'Zero-config forwarding', status: 'Active', account: ORG.inbound }
 	];
 	const rules = [
 		['Domain', '*.de, *.nl, *.it, *.fr', 'Buyers & Agencies'],
@@ -39,9 +39,9 @@
 	}
 </script>
 
-<svelte:head><title>Inbox — Zevra</title></svelte:head>
+<svelte:head><title>Inbox — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Business · A6" title="Connected mail &" serif="buying agency inbox" lede="Buyer RFQs, agency requests and compliance deadlines classified from your business mailboxes — feeding the top-right bell.">
+<PageHeader eyebrow="ZENRES Business · A6" title="Connected mail &" serif="buying agency inbox" lede="Buyer RFQs, agency requests and compliance deadlines classified from your business mailboxes — feeding the top-right bell.">
 	{#snippet actions()}
 		<button class="btn btn-sm" onclick={() => (showConnect = !showConnect)}><Icon name="link" size={14} />Mail connections</button>
 		<button class="btn btn-sm btn-dark" onclick={() => ws.simulateInbound()}><Icon name="mail" size={14} />Send mock inbound webhook</button>
@@ -65,7 +65,7 @@
 			<span class="eyebrow">Buying-agency sender rules</span>
 			{#each rules as [k, v, cat] (v)}<div class="rule"><span class="pill pill-outline">{k}</span><span class="mono small">{v}</span><span class="muted small">→ {cat}</span></div>{/each}
 		</div>
-		<p class="fine">OAuth refresh tokens and IMAP credentials are envelope-encrypted (KMS). Zevra never stores mail you have not routed to it.</p>
+		<p class="fine">OAuth refresh tokens and IMAP credentials are envelope-encrypted (KMS). ZENRES never stores mail you have not routed to it.</p>
 	</section>
 {/if}
 
@@ -118,7 +118,7 @@
 			</div>
 			<div class="acts">
 				{#if cur.category === 'buyer_agency'}
-					<button class="btn btn-sm btn-primary" onclick={() => ws.convertToRfq(cur.id)}>Convert to Zevra RFQ</button>
+					<button class="btn btn-sm btn-primary" onclick={() => ws.convertToRfq(cur.id)}>Convert to ZENRES RFQ</button>
 					<a class="btn btn-sm" href="/carbon/audit">Link attachment to Evidence Vault</a>
 					<a class="btn btn-sm" href="/carbon/exports">Attach CBAM pack</a>
 				{:else if cur.link}

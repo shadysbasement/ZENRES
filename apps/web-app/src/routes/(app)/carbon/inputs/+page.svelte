@@ -66,9 +66,9 @@
 	];
 </script>
 
-<svelte:head><title>Activity Inputs — Zevra</title></svelte:head>
+<svelte:head><title>Activity Inputs — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Carbon · B1" title="Activity data" serif="capture" lede="Electricity, fuel, process and raw-material inputs — from bills, meters and the factory floor — each with a data-quality label." />
+<PageHeader eyebrow="ZENRES Carbon · B1" title="Activity data" serif="capture" lede="Electricity, fuel, process and raw-material inputs — from bills, meters and the factory floor — each with a data-quality label." />
 
 <div class="g2">
 	<section class="panel">

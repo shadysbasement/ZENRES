@@ -3,7 +3,7 @@
 	import Logo from '$design/components/Logo.svelte';
 </script>
 
-<svelte:head><title>{page.status === 404 ? 'Page not found' : 'Error'} — Zevra</title></svelte:head>
+<svelte:head><title>{page.status === 404 ? 'Page not found' : 'Error'} — ZENRES</title></svelte:head>
 
 <main class="err container">
 	<a href="/dashboard" class="brand"><Logo size={24} /></a>

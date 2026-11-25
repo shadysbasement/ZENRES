@@ -41,7 +41,7 @@
 
 <header class="nav" class:scrolled class:hidden class:open={ui.menuOpen}>
 	<div class="container-wide inner">
-		<a href="/" class="brand" aria-label="Zevra home" onclick={() => { ui.menuOpen = false; lockScroll(false); }}>
+		<a href="/" class="brand" aria-label="ZENRES home" onclick={() => { ui.menuOpen = false; lockScroll(false); }}>
 			<Logo size={26} inverse={ui.menuOpen} />
 		</a>
 

@@ -1,6 +1,6 @@
-# Zevra
+# ZENRES
 
-**Zero Emission Vision, Responsible Advancement.** Zevra turns Indian MSME factory records into audit-ready EU CBAM evidence, verifiable dual-QR passports and revenue-generating return freight — and puts those factories in front of global B2B buyers.
+**Zero Emission Vision, Responsible Advancement.** ZENRES turns Indian MSME factory records into audit-ready EU CBAM evidence, verifiable dual-QR passports and revenue-generating return freight — and puts those factories in front of global B2B buyers.
 
 This monorepo implements both Codex plans:
 
@@ -12,8 +12,8 @@ This monorepo implements both Codex plans:
 ```
 zevra/
 ├── apps/
-│   ├── web-public/        # zevra.io — landing, pricing, FreightLink, QR resolver, auth, onboarding, hidden vault
-│   └── web-app/           # app.zevra.io — 3D digital twin, all four pillars, silent tier gating, ops vault
+│   ├── web-public/        # public site — landing, pricing, FreightLink, QR resolver, auth, onboarding, hidden vault
+│   └── web-app/           # workspace — 3D digital twin, all four pillars, silent tier gating, ops vault
 ├── packages/design/       # shared tokens, self-hosted fonts, motion primitives, preloader, cursor
 ├── services/
 │   ├── auth-api/          # Argon2id, Google/Apple OIDC+PKCE, Proton magic link + WKD + passkeys, PGP vault
@@ -47,7 +47,7 @@ In the app, open the avatar menu → **Demo organisation** to switch between **M
 ```bash
 cp .env.example .env
 docker compose up --build          # Postgres 17, Redis 7, auth-api, core-api, intel-worker, both apps
-docker compose run --rm seed       # three demo orgs; prints logins (password: Zevra-Pilot-2026!)
+docker compose run --rm seed       # three demo orgs; prints logins (password: ZENRES-Pilot-2026!)
 ```
 
 Without Docker:
@@ -105,4 +105,4 @@ Set `ADMIN_GATE_PATH`, `ADMIN_GATE_SECRET` and `ADMIN_GATE_PASSPHRASE_SHA256` (s
 - The in-process rate limiter and KV store are single-replica; swap in Redis for multi-replica deployments.
 - Typst rendering needs the `typst` binary and the `tiaoma` package for QR codes.
 - Google's "Continue with Google" button uses a monochrome G so the zero-yellow rule holds; check Google's branding guidelines before launch. The Proton mark is a geometric approximation — replace it with the official asset from Proton's brand kit.
-- CBAM figures are illustrative estimates; Zevra provides reporting support, not legal, tax or accounting advice.
+- CBAM figures are illustrative estimates; ZENRES provides reporting support, not legal, tax or accounting advice.

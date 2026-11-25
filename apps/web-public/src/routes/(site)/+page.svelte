@@ -18,7 +18,7 @@
 	const sectors = ['Iron & Steel', 'Aluminium', 'Cement', 'Fertilisers', 'Hydrogen', 'General Manufacturing'];
 
 	const quality = [
-		{ name: 'Measured', cls: 'pill-emerald', body: 'From meters, bills and production records captured inside Zevra.' },
+		{ name: 'Measured', cls: 'pill-emerald', body: 'From meters, bills and production records captured inside ZENRES.' },
 		{ name: 'Supplier-Reported', cls: 'pill-cobalt', body: 'Declared by an upstream supplier with linked evidence.' },
 		{ name: 'Estimated', cls: 'pill-terracotta', body: 'Modelled or default values — clearly flagged until replaced.' },
 		{ name: 'Independently Verified', cls: 'pill-dark', body: 'Signed off by an accredited verifier or CA in the audit workspace.' }
@@ -33,8 +33,8 @@
 </script>
 
 <svelte:head>
-	<title>Zevra — CBAM proof, QR passports & return freight for Indian manufacturers</title>
-	<meta name="description" content="Zevra turns Tally records, meters and floor sheets into audit-ready EU CBAM evidence, verifiable dual-QR passports and revenue-generating backhaul freight." />
+	<title>ZENRES — CBAM proof, QR passports & return freight for Indian manufacturers</title>
+	<meta name="description" content="ZENRES turns Tally records, meters and floor sheets into audit-ready EU CBAM evidence, verifiable dual-QR passports and revenue-generating backhaul freight." />
 </svelte:head>
 
 <Preloader ondone={() => (ui.ready = true)} />
@@ -66,7 +66,7 @@
 		<div class="hero-lower">
 			<div class="hero-copy">
 				<p class="lede">
-					Zevra connects to Tally.ERP 9 — it never replaces it — and turns your ledgers, utility bills and floor sheets into
+					ZENRES connects to Tally.ERP 9 — it never replaces it — and turns your ledgers, utility bills and floor sheets into
 					measured carbon intelligence, dual QR traceability and discovery by global B2B buyers.
 				</p>
 				<div class="hero-ctas">
@@ -97,9 +97,9 @@
 
 <!-- ───────────────────────── MANIFESTO ───────────────────────── -->
 <section class="manifesto container">
-	<span class="eyebrow" use:reveal>(00) — Why Zevra</span>
+	<span class="eyebrow" use:reveal>(00) — Why ZENRES</span>
 	<ScrollText
-		text="Indian factories already keep meticulous records. The EU now asks for *proof.* Zevra turns the ledgers, meters and floor sheets you trust into evidence your importer can file — and fills the empty truck on the way *home.*"
+		text="Indian factories already keep meticulous records. The EU now asks for *proof.* ZENRES turns the ledgers, meters and floor sheets you trust into evidence your importer can file — and fills the empty truck on the way *home.*"
 	/>
 </section>
 
@@ -116,7 +116,7 @@
 <section class="section container-wide" id="cbam">
 	<SectionHead index="02" label="CBAM & carbon intelligence" title="Default values cost more." serif="Measured data costs less.">
 		Under the definitive regime, embedded emissions without verified actual data fall back to default values with date-effective
-		markups. Zevra makes measured data the path of least resistance.
+		markups. ZENRES makes measured data the path of least resistance.
 	</SectionHead>
 	<div class="cbam-grid">
 		<div class="cbam-card card" use:reveal>

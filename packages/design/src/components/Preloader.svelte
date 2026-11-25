@@ -15,7 +15,7 @@
 		ondone?: () => void;
 	}
 	let {
-		word = 'ZEVRA',
+		word = 'ZENRES',
 		status = ['Loading CN-code engine', 'Calibrating emission factors', 'Linking QR passports', 'Mapping freight corridors'],
 		minDuration = 2100,
 		sessionKey = 'zv-preloaded',
@@ -79,7 +79,7 @@
 </script>
 
 {#if phase !== 'gone'}
-	<div class="preloader" class:count={phase === 'count'} class:out={phase === 'out'} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-label="Loading Zevra">
+	<div class="preloader" class:count={phase === 'count'} class:out={phase === 'out'} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)} aria-label="Loading ZENRES">
 		<div class="grid-lines" aria-hidden="true">
 			{#each Array(6) as _, i (i)}<span style="--i:{i}"></span>{/each}
 		</div>

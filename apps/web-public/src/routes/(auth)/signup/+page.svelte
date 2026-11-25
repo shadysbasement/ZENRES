@@ -6,7 +6,7 @@
 	const planName: Record<string, string> = { starter: 'MSME Starter', growth: 'MSME Growth', importer_hub: 'EU Importer Hub' };
 </script>
 
-<svelte:head><title>Create your workspace — Zevra</title></svelte:head>
+<svelte:head><title>Create your workspace — ZENRES</title></svelte:head>
 
 <div class="head">
 	<span class="eyebrow">Create workspace {#if plan && planName[plan]}· <span class="text-emerald">{planName[plan]}</span>{/if}</span>

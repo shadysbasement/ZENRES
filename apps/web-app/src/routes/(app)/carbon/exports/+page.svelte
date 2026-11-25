@@ -47,9 +47,9 @@
 	}
 </script>
 
-<svelte:head><title>Registry Exports — Zevra</title></svelte:head>
+<svelte:head><title>Registry Exports — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Carbon · B3" title="EU CBAM Registry" serif="exports & packs" lede="Machine-readable Registry XML and Excel communication templates, validated against date-effective content rules. Output is reporting support for your declarant." />
+<PageHeader eyebrow="ZENRES Carbon · B3" title="EU CBAM Registry" serif="exports & packs" lede="Machine-readable Registry XML and Excel communication templates, validated against date-effective content rules. Output is reporting support for your declarant." />
 
 <div class="g2">
 	<section class="panel">

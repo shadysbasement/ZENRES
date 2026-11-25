@@ -45,9 +45,9 @@
 	});
 </script>
 
-<svelte:head><title>Shipments — Zevra</title></svelte:head>
+<svelte:head><title>Shipments — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Trace & FreightLink · C3" title="Shipments, tracking &" serif="proof of delivery" lede="Booked → Pickup → In transit → Delivered, with QR scans at both ends, consent-based GPS, a digital POD and a document vault." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink · C3" title="Shipments, tracking &" serif="proof of delivery" lede="Booked → Pickup → In transit → Delivered, with QR scans at both ends, consent-based GPS, a digital POD and a document vault." />
 
 <div class="list">
 	{#each ws.freight.shipments as x (x.id)}

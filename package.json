@@ -1,8 +1,8 @@
 {
-  "name": "zevra",
+  "name": "zenres",
   "private": true,
   "version": "0.1.0",
-  "description": "Zevra — Zero Emission Vision, Responsible Advancement. CBAM compliance, dual-QR traceability, FreightLink backhaul and B2B discovery for Indian MSMEs and EU importers.",
+  "description": "ZENRES — Zero Emission Vision, Responsible Advancement. CBAM compliance, dual-QR traceability, FreightLink backhaul and B2B discovery for Indian MSMEs and EU importers.",
   "workspaces": [
     "packages/*",
     "apps/*"

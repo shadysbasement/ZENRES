@@ -30,9 +30,9 @@
 	}
 </script>
 
-<svelte:head><title>Team & Access — Zevra</title></svelte:head>
+<svelte:head><title>Team & Access — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Settings · E2" title="Team, RBAC &" serif="tenant security" lede="Seven roles from the Zevra blueprint, each scoped by PostgreSQL row-level security. External partners only ever see what is assigned to them." />
+<PageHeader eyebrow="Settings · E2" title="Team, RBAC &" serif="tenant security" lede="Seven roles from the ZENRES blueprint, each scoped by PostgreSQL row-level security. External partners only ever see what is assigned to them." />
 
 <div class="g2">
 	<section class="panel">

@@ -15,9 +15,9 @@
 		<rect x="19.25" y="5.25" width="3.5" height="3.5" rx="0.6" class="node" />
 	</svg>
 	{#if wordmark}
-		<span class="word">ZEVRA</span>
+		<span class="word">ZENRES</span>
 	{/if}
-	<span class="sr-only">Zevra</span>
+	<span class="sr-only">ZENRES</span>
 </span>
 
 <style>

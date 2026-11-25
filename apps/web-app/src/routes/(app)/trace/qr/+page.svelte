@@ -52,9 +52,9 @@
 	const fields = { public: ['Manufacturer', 'Product & CN', 'Batch & date', 'Carbon badge'], partner: ['+ Linked batches & qty', '+ Milestones & documents', '+ Calculation summary'], private: ['+ BOM & precursor lots', '+ Meter evidence & costing', '+ Audit hash trail'] };
 </script>
 
-<svelte:head><title>QR Studio — Zevra</title></svelte:head>
+<svelte:head><title>QR Studio — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Trace · C1" title="Dual QR identity &" serif="traceability studio" lede="Product/Batch and Container/Shipment QR passports with non-guessable tokens, versioned corrections and selective off-chain hash anchoring.">
+<PageHeader eyebrow="ZENRES Trace · C1" title="Dual QR identity &" serif="traceability studio" lede="Product/Batch and Container/Shipment QR passports with non-guessable tokens, versioned corrections and selective off-chain hash anchoring.">
 	{#snippet actions()}
 		<button class="btn btn-sm" onclick={() => window.print()}><Icon name="download" size={14} />Print label sheet (Typst PDF)</button>
 	{/snippet}
@@ -116,7 +116,7 @@
 				<code class="hash">{container.merkle_root}</code>
 			{:else}<p class="small muted">Not anchored yet.</p>{/if}
 			<button class="btn btn-sm btn-dark" onclick={anchor}>Anchor current state</button>
-			<p class="fine">Anchoring proves post-anchor immutability, not source-input truthfulness. Only hashes leave Zevra — never business data.</p>
+			<p class="fine">Anchoring proves post-anchor immutability, not source-input truthfulness. Only hashes leave ZENRES — never business data.</p>
 		</section>
 		<section class="panel">
 			<div class="panel-head"><h2>Versioned event log</h2></div>

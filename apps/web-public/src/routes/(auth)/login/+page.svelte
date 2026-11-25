@@ -3,14 +3,14 @@
 	import SplitText from '$design/components/SplitText.svelte';
 </script>
 
-<svelte:head><title>Sign in — Zevra</title></svelte:head>
+<svelte:head><title>Sign in — ZENRES</title></svelte:head>
 
 <div class="head">
 	<span class="eyebrow">Sign in</span>
 	<SplitText tag="h1" class="auth-title" lines={[[{ text: 'Welcome back to ' }, { text: 'your workspace.', serif: true }]]} />
 </div>
 <AuthProviders mode="login" />
-<p class="switch">New to Zevra? <a href="/signup" class="link-u text-emerald">Create a free workspace</a></p>
+<p class="switch">New to ZENRES? <a href="/signup" class="link-u text-emerald">Create a free workspace</a></p>
 
 <style>
 	.head {

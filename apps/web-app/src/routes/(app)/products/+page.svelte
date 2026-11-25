@@ -27,9 +27,9 @@
 	}
 </script>
 
-<svelte:head><title>Products & SKUs — Zevra</title></svelte:head>
+<svelte:head><title>Products & SKUs — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Business · A2" title="Products &" serif="CN-code SKUs" lede="Export products mapped to 8-digit EU Combined Nomenclature codes, with bills of materials, costing and embedded emissions.">
+<PageHeader eyebrow="ZENRES Business · A2" title="Products &" serif="CN-code SKUs" lede="Export products mapped to 8-digit EU Combined Nomenclature codes, with bills of materials, costing and embedded emissions.">
 	{#snippet actions()}
 		<span class="mono muted usage">{ws.products.length}{max ? ` / ${max}` : ''} SKUs</span>
 		<button class="btn btn-sm btn-primary" onclick={start}><Icon name="plus" size={14} />Map new SKU</button>
@@ -56,7 +56,7 @@
 			</div>
 			<div class="foot">
 				<span class="muted">{p.bom.length} BOM inputs</span>
-				{#if p.published_connect}<span class="pill pill-cobalt">On Zevra Connect</span>{/if}
+				{#if p.published_connect}<span class="pill pill-cobalt">On ZENRES Connect</span>{/if}
 			</div>
 		</a>
 	{/each}

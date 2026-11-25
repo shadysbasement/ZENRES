@@ -43,7 +43,7 @@ export function buildRegistryXml(o: { quarter: string; installation: { name: str
   <Goods>
 ${lines}
   </Goods>
-  <Disclaimer>Prepared with Zevra reporting support. Not legal, tax or accounting advice.</Disclaimer>
+  <Disclaimer>Prepared with ZENRES reporting support. Not legal, tax or accounting advice.</Disclaimer>
 </CBAMReport>
 `;
 }

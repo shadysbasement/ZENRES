@@ -6,7 +6,7 @@
 	const faqs = [
 		['Is pricing in USD?', 'Yes. All contract pricing is in USD, excluding applicable taxes. INR and EUR figures shown on this page are indicative conversions for convenience.'],
 		['What does “2 months free” mean?', 'Annual billing is priced at ten times the monthly fee: $990, $2,490 and $4,990 per year respectively.'],
-		['Do I lose features when my plan has limits?', 'No. Your workspace is complete for your tier. When your own work reaches a limit — a second plant, a sixth CN-code SKU — Zevra shows a quiet one-line note you can dismiss.'],
+		['Do I lose features when my plan has limits?', 'No. Your workspace is complete for your tier. When your own work reaches a limit — a second plant, a sixth CN-code SKU — ZENRES shows a quiet one-line note you can dismiss.'],
 		['How does the EU Importer Hub supplier seat work?', '15 suppliers are included. Each additional active supplier is $25/month, and the charge is always shown for confirmation before an invite is sent.'],
 		['Is FreightLink transport included in the subscription?', 'No. Freight transport is paid separately. The optional 2% FreightLink commission is illustrative and always disclosed before booking.'],
 		['Can transporters join for free?', 'Yes. Basic carrier registration and verification is free, and organic ranking never depends on paid promotion.'],
@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Pricing — Zevra</title>
+	<title>Pricing — ZENRES</title>
 	<meta name="description" content="MSME Starter $99/mo, MSME Growth $249/mo, EU Importer Hub $499/mo. Annual billing includes two months free." />
 </svelte:head>
 

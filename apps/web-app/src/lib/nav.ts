@@ -2,7 +2,7 @@
 export const NAV = [
 	{ group: 'Overview', items: [{ key: 'dashboard', label: 'Dashboard', icon: 'dashboard' }, { key: 'inbox', label: 'Inbox', icon: 'inbox' }] },
 	{
-		group: 'Zevra Business',
+		group: 'ZENRES Business',
 		items: [
 			{ key: 'plants', label: 'Plants & Zones', icon: 'plant' },
 			{ key: 'products', label: 'Products & SKUs', icon: 'product' },
@@ -12,7 +12,7 @@ export const NAV = [
 		]
 	},
 	{
-		group: 'Zevra Carbon',
+		group: 'ZENRES Carbon',
 		items: [
 			{ key: 'carbon/inputs', label: 'Activity Inputs', icon: 'inputs' },
 			{ key: 'carbon/cbam', label: 'CBAM Engine', icon: 'cbam' },
@@ -31,7 +31,7 @@ export const NAV = [
 			{ key: 'freight/enterprise', label: 'Enterprise Fleet', icon: 'fleet' }
 		]
 	},
-	{ group: 'Connect', items: [{ key: 'connect', label: 'Zevra Connect', icon: 'connect' }, { key: 'importer-hub', label: 'Importer Hub', icon: 'importer' }] },
+	{ group: 'Connect', items: [{ key: 'connect', label: 'ZENRES Connect', icon: 'connect' }, { key: 'importer-hub', label: 'Importer Hub', icon: 'importer' }] },
 	{ group: 'Settings', items: [{ key: 'settings/billing', label: 'Billing & Usage', icon: 'billing' }, { key: 'settings/team', label: 'Team & Access', icon: 'team' }] }
 ];
 

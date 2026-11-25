@@ -31,9 +31,9 @@
 	const zonesOf = (id: string) => (id === 'plt_chakan' ? ws.zones : []);
 </script>
 
-<svelte:head><title>Plants & Zones — Zevra</title></svelte:head>
+<svelte:head><title>Plants & Zones — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Business · A1" title="Plants &" serif="factory zones" lede="Manufacturing installations, metering points and the 3D zone layout that powers the digital twin and per-zone emissions.">
+<PageHeader eyebrow="ZENRES Business · A1" title="Plants &" serif="factory zones" lede="Manufacturing installations, metering points and the 3D zone layout that powers the digital twin and per-zone emissions.">
 	{#snippet actions()}
 		<button class="btn btn-sm btn-primary" onclick={addPlant}><Icon name="plus" size={14} />Add plant</button>
 	{/snippet}

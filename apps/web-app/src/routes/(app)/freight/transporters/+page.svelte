@@ -17,9 +17,9 @@
 	}
 </script>
 
-<svelte:head><title>Transporters — Zevra</title></svelte:head>
+<svelte:head><title>Transporters — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Trace & FreightLink · C4" title="Transporter onboarding &" serif="verified directory" lede="Free carrier onboarding. Verified badges and organic ranking never depend on paid promotion." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink · C4" title="Transporter onboarding &" serif="verified directory" lede="Free carrier onboarding. Verified badges and organic ranking never depend on paid promotion." />
 
 <div class="g2">
 	<form class="panel" onsubmit={submit}>

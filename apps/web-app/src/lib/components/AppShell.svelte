@@ -63,7 +63,7 @@
 <div class="shell" class:collapsed>
 	<aside class="side" class:mobile-open={mobileNav}>
 		<div class="side-top">
-			<a href="/dashboard" class="brand" aria-label="Zevra dashboard"><Logo size={22} wordmark={!collapsed} /></a>
+			<a href="/dashboard" class="brand" aria-label="ZENRES dashboard"><Logo size={22} wordmark={!collapsed} /></a>
 			<button class="collapse" onclick={() => (collapsed = !collapsed)} aria-label="Toggle sidebar"><Icon name="layers" size={15} /></button>
 		</div>
 		<button class="org" onclick={() => (menuOpen = !menuOpen)}>

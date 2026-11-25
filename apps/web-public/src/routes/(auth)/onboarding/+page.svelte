@@ -73,7 +73,7 @@
 	const steps = ['Role', 'Organisation', 'Plan'];
 </script>
 
-<svelte:head><title>Set up your organisation — Zevra</title></svelte:head>
+<svelte:head><title>Set up your organisation — ZENRES</title></svelte:head>
 
 <div class="ob">
 	<div class="progress" aria-label="Onboarding progress">

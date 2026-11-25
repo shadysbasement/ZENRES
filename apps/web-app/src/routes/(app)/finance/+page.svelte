@@ -42,9 +42,9 @@
 	const invoices = $derived(ws.vouchers.filter((v) => v.type === 'sales').slice(-12).reverse());
 </script>
 
-<svelte:head><title>Finance — Zevra</title></svelte:head>
+<svelte:head><title>Finance — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Business · A4" title="Financials, orders &" serif="production costing" lede="Revenue, expenses and profit sourced from Tally vouchers, with order books, invoice register and receivables/payables aging." />
+<PageHeader eyebrow="ZENRES Business · A4" title="Financials, orders &" serif="production costing" lede="Revenue, expenses and profit sourced from Tally vouchers, with order books, invoice register and receivables/payables aging." />
 
 <div class="kpis">
 	<Kpi i={0} label="Revenue · 12 mo" value={money(ytd.revenue, ws.currency, { compact: true })} />

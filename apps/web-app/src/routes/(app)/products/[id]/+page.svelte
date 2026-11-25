@@ -35,13 +35,13 @@
 	);
 </script>
 
-<svelte:head><title>{p ? p.sku : 'Product'} — Zevra</title></svelte:head>
+<svelte:head><title>{p ? p.sku : 'Product'} — ZENRES</title></svelte:head>
 
 {#if p}
 	<PageHeader eyebrow="Products · CN {p.cn}" title={p.name} lede="{p.sector} · capacity {p.capacity_tpm} t/month · wastage {p.wastage_pct}%">
 		{#snippet actions()}
 			<span class="pill {QUALITY_PILL[p.quality]}">{QUALITY_LABEL[p.quality]}</span>
-			<label class="pub"><input type="checkbox" bind:checked={p.published_connect} /> Publish to Zevra Connect</label>
+			<label class="pub"><input type="checkbox" bind:checked={p.published_connect} /> Publish to ZENRES Connect</label>
 		{/snippet}
 	</PageHeader>
 

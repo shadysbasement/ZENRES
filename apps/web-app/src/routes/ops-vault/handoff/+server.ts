@@ -1,7 +1,7 @@
 import type { RequestHandler } from './$types';
 import { OPS_COOKIE, cookieOpts, exchangeHandoff } from '$lib/server/opsVault';
 
-/** One-time code from the PGP vault on zevra.io → host-only __Host-zv_ops cookie on app.zevra.io. */
+/** One-time code from the PGP vault on zenres.example → host-only __Host-zv_ops cookie on app.zenres.example. */
 export const GET: RequestHandler = async ({ url, cookies, getClientAddress, request }) => {
 	const code = url.searchParams.get('code') ?? '';
 	const notFound = () => new Response('Not Found', { status: 404, headers: { 'cache-control': 'no-store' } });

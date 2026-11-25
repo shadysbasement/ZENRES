@@ -26,9 +26,9 @@
 	};
 </script>
 
-<svelte:head><title>Enterprise Fleet — Zevra</title></svelte:head>
+<svelte:head><title>Enterprise Fleet — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Trace & FreightLink · C5" title="Enterprise fleet &" serif="international coordination" lede="Live multi-truck fleet, bulk and AI-assisted backhaul, cargo consolidation and multi-company freight performance — for EU Importer Hub networks." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink · C5" title="Enterprise fleet &" serif="international coordination" lede="Live multi-truck fleet, bulk and AI-assisted backhaul, cargo consolidation and multi-company freight performance — for EU Importer Hub networks." />
 
 <div class="kpis">
 	<Kpi i={0} label="Trucks live" value="5" delta="consent-based GPS" />
@@ -72,7 +72,7 @@
 				{/each}
 				<div class="cl tot"><span>40 ft HC to JNPT → Rotterdam</span><span class="mono">23.2 / 26 t</span></div>
 			</div>
-			<p class="fine">International coordination connects carriers, freight forwarders and export documents. Zevra does not operate vessels or perform customs clearance.</p>
+			<p class="fine">International coordination connects carriers, freight forwarders and export documents. ZENRES does not operate vessels or perform customs clearance.</p>
 		</section>
 	</div>
 </div>

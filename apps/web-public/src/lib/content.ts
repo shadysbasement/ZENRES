@@ -1,6 +1,6 @@
 /**
- * Zevra public-site content model.
- * All commercial terms and numeric claims mirror the Zevra Complete Subscription & FreightLink
+ * ZENRES public-site content model.
+ * All commercial terms and numeric claims mirror the ZENRES Complete Subscription & FreightLink
  * Blueprint (v2) and the Product Concept & Team Brief. Estimates are always labelled illustrative.
  */
 
@@ -18,7 +18,7 @@ export const NAV_LINKS = [
 
 export const DISCLAIMERS = {
 	reporting:
-		'Zevra provides reporting support, not legal, tax or accounting advice. Final CBAM declarations remain the responsibility of the authorised declarant.',
+		'ZENRES provides reporting support, not legal, tax or accounting advice. Final CBAM declarations remain the responsibility of the authorised declarant.',
 	buyers:
 		'Illustrative target buyer ecosystems (such as global retail and luxury groups) do not imply confirmed partnerships or endorsement.',
 	anchoring:
@@ -88,7 +88,7 @@ export const TIERS: Tier[] = [
 			'Default vs Actual CBAM comparison',
 			'EU Registry XML & Excel export',
 			'Evidence vault & verifier marketplace',
-			'Dual QR passports & Zevra Connect profile'
+			'Dual QR passports & ZENRES Connect profile'
 		]
 	},
 	{
@@ -150,7 +150,7 @@ export const COMPARISON: { dimension: string; values: [string, string, string] }
 	{ dimension: 'Full CN engine • Art. 9 / CCTS • Precursors', values: ['—', 'Included', 'Included'] },
 	{ dimension: 'Audit Evidence Locker', values: ['Central vault + verifier marketplace', 'Tamper-evident hash trail + Priority CA workspace', 'EU Customs Audit Defence Pack + dedicated AM'] },
 	{ dimension: 'Decarbonisation Capex ROI simulator', values: ['—', 'Included', 'Included'] },
-	{ dimension: 'Dual QR traceability • Zevra Connect', values: ['Included', 'Included', 'Included'] },
+	{ dimension: 'Dual QR traceability • ZENRES Connect', values: ['Included', 'Included', 'Included'] },
 	{ dimension: 'FreightLink logistics', values: ['Not included', 'Empty truck finder, return-load matching, negotiation, QR pickup/POD, cost analytics', 'Multi-truck live fleet, AI/bulk backhaul, cargo consolidation, international coordination, green logistics score'] },
 	{ dimension: 'Support & setup', values: ['Email support • optional $350 assisted setup sprint', 'Priority CA workspace • $350 setup fee per matrix', 'Dedicated account manager • custom integrations quoted'] }
 ];
@@ -162,15 +162,15 @@ export const COMPARISON: { dimension: string; values: [string, string, string] }
 export const PILLARS = [
 	{
 		index: '01',
-		name: 'Zevra Business',
+		name: 'ZENRES Business',
 		headline: "Connect Tally, don't replace it.",
-		body: 'Your books stay in Tally.ERP 9. Zevra reads sales and purchase ledgers, BOMs and inventory movement so production costing, stock and the 3D factory view stay in step with the records you already trust.',
+		body: 'Your books stay in Tally.ERP 9. ZENRES reads sales and purchase ledgers, BOMs and inventory movement so production costing, stock and the 3D factory view stay in step with the records you already trust.',
 		capabilities: ['Tally.ERP 9 CSV / XML / ODBC sync', 'Sales & purchase ledgers', 'Bills of materials', 'Inventory movement', 'Production costing', '3D factory operational visibility'],
 		metric: { label: 'Voucher dedupe', value: 'Idempotent' }
 	},
 	{
 		index: '02',
-		name: 'Zevra Carbon',
+		name: 'ZENRES Carbon',
 		headline: 'Audit-ready EU CBAM reporting.',
 		body: 'Capture Scope 1 & 2 activity from bills, meters and the factory floor. Map every product to its CN code, apply date-effective rules and export Registry-ready XML — with every figure labelled for data quality.',
 		capabilities: ['Scope 1 & 2 activity capture', 'OCR & WhatsApp floor-bot ingestion', 'CN-code engine', 'Article 9 / CCTS deductions', 'Registry XML / Excel export', 'Measured vs estimated labels'],
@@ -178,7 +178,7 @@ export const PILLARS = [
 	},
 	{
 		index: '03',
-		name: 'Zevra Trace & FreightLink',
+		name: 'ZENRES Trace & FreightLink',
 		headline: 'Dual QR passports & zero empty return km.',
 		body: 'Product/Batch QR and Container/Shipment QR are linked in one ledger, with selective off-chain hash anchoring. FreightLink fills the empty return leg of every corridor with matched cargo.',
 		capabilities: ['Product / Batch QR', 'Container / Shipment QR', 'Selective off-chain hash anchoring', 'Corridor backhaul matching', 'QR pickup & delivery', 'Digital proof of delivery'],
@@ -186,7 +186,7 @@ export const PILLARS = [
 	},
 	{
 		index: '04',
-		name: 'Zevra Connect',
+		name: 'ZENRES Connect',
 		headline: 'Discoverable to global buyers.',
 		body: 'Verified MSME profiles and carbon-enriched catalogues put export-ready factories in front of international buyers — with structured RFQs and an EU Importer portal that scales from 15 to 500 suppliers.',
 		capabilities: ['Verified MSME profiles', 'Carbon-enriched catalogues', 'Structured RFQ workflows', 'Side-by-side quote comparison', 'EU Importer multi-supplier portal', 'Disclosed intermediary introductions'],
@@ -199,14 +199,14 @@ export const PILLARS = [
 /* ------------------------------------------------------------------ */
 
 export const JOURNEY = [
-	{ n: '01', title: 'Business records in Tally', body: 'Sales, purchases, stock and BOMs sync from Tally.ERP 9 via CSV, XML or ODBC — never replaced.', tag: 'Zevra Business' },
-	{ n: '02', title: 'Production & utility capture', body: 'Electricity, fuel and process inputs from bills, meters, OCR and WhatsApp floor supervisors.', tag: 'Zevra Carbon' },
-	{ n: '03', title: 'Carbon calculation', body: 'Direct and indirect embedded emissions per CN code, with date-effective rules and quality labels.', tag: 'Zevra Carbon' },
-	{ n: '04', title: 'Product / Batch QR', body: 'Each batch receives a non-guessable passport linking specs, production date and carbon footprint.', tag: 'Zevra Trace' },
-	{ n: '05', title: 'Container / Shipment QR', body: 'Containers such as ZV-001 link the batches packed inside, with dispatch status and documents.', tag: 'Zevra Trace' },
-	{ n: '06', title: 'Verifiable traceability', body: 'Selective off-chain hash anchoring makes post-anchor edits tamper-evident.', tag: 'Zevra Trace' },
-	{ n: '07', title: 'Buyer discovery', body: 'Approved evidence enriches your Zevra Connect catalogue for international buyers and RFQs.', tag: 'Zevra Connect' },
-	{ n: '08', title: 'Export & CBAM submission support', body: 'Registry-ready XML and Excel packs for your EU importer, with an audit trail behind every number.', tag: 'Zevra Carbon' }
+	{ n: '01', title: 'Business records in Tally', body: 'Sales, purchases, stock and BOMs sync from Tally.ERP 9 via CSV, XML or ODBC — never replaced.', tag: 'ZENRES Business' },
+	{ n: '02', title: 'Production & utility capture', body: 'Electricity, fuel and process inputs from bills, meters, OCR and WhatsApp floor supervisors.', tag: 'ZENRES Carbon' },
+	{ n: '03', title: 'Carbon calculation', body: 'Direct and indirect embedded emissions per CN code, with date-effective rules and quality labels.', tag: 'ZENRES Carbon' },
+	{ n: '04', title: 'Product / Batch QR', body: 'Each batch receives a non-guessable passport linking specs, production date and carbon footprint.', tag: 'ZENRES Trace' },
+	{ n: '05', title: 'Container / Shipment QR', body: 'Containers such as ZV-001 link the batches packed inside, with dispatch status and documents.', tag: 'ZENRES Trace' },
+	{ n: '06', title: 'Verifiable traceability', body: 'Selective off-chain hash anchoring makes post-anchor edits tamper-evident.', tag: 'ZENRES Trace' },
+	{ n: '07', title: 'Buyer discovery', body: 'Approved evidence enriches your ZENRES Connect catalogue for international buyers and RFQs.', tag: 'ZENRES Connect' },
+	{ n: '08', title: 'Export & CBAM submission support', body: 'Registry-ready XML and Excel packs for your EU importer, with an audit trail behind every number.', tag: 'ZENRES Carbon' }
 ] as const;
 
 /* ------------------------------------------------------------------ */

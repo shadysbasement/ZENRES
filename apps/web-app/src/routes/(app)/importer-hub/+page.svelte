@@ -54,9 +54,9 @@
 	const ranked = $derived([...ws.suppliers].filter((s) => s.intensity).sort((a, b) => a.intensity! - b.intensity!));
 </script>
 
-<svelte:head><title>Importer Hub — Zevra</title></svelte:head>
+<svelte:head><title>Importer Hub — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Connect · D2 · EU Importer Hub" title="Supplier" serif="network portal" lede="15 suppliers included, scalable to 500. Each supplier works in an isolated tenant — no supplier ever sees another’s pricing, BOM or records.">
+<PageHeader eyebrow="ZENRES Connect · D2 · EU Importer Hub" title="Supplier" serif="network portal" lede="15 suppliers included, scalable to 500. Each supplier works in an isolated tenant — no supplier ever sees another’s pricing, BOM or records.">
 	{#snippet actions()}
 		<a class="btn btn-sm btn-primary" href="/carbon/exports"><Icon name="layers" size={14} />Roll into consolidated XML</a>
 	{/snippet}

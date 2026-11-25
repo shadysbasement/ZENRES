@@ -68,7 +68,7 @@
 	const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 </script>
 
-<svelte:head><title>Dashboard — Zevra</title></svelte:head>
+<svelte:head><title>Dashboard — ZENRES</title></svelte:head>
 
 <PageHeader eyebrow="{greet}, {USER.name.split(' ')[0]} · {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}" title="Chakan Extrusion Plant," serif="live.">
 	{#snippet actions()}

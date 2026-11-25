@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>Verify QR passport — Zevra</title>
+	<title>Verify QR passport — ZENRES</title>
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
@@ -24,7 +24,7 @@
 		<div class="notice card" use:reveal>
 			<span class="pill pill-crimson">Not found</span>
 			<h1>This passport could not be resolved.</h1>
-			<p>The QR token is unknown or malformed. Zevra passport tokens are 26-character identifiers — check the label for damage, or ask the manufacturer for a reprint.</p>
+			<p>The QR token is unknown or malformed. ZENRES passport tokens are 26-character identifiers — check the label for damage, or ask the manufacturer for a reprint.</p>
 		</div>
 	{:else if data.state === 'unavailable'}
 		<div class="notice card" use:reveal>

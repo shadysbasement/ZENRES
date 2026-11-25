@@ -48,9 +48,9 @@
 	}
 </script>
 
-<svelte:head><title>Tally.ERP 9 Hub — Zevra</title></svelte:head>
+<svelte:head><title>Tally.ERP 9 Hub — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Zevra Business · A5" title="Tally.ERP 9" serif="integration hub" lede="Zevra connects to Tally — it never replaces it. Import day books, run a local middleware connector, and keep an audit trail of every sync and correction." />
+<PageHeader eyebrow="ZENRES Business · A5" title="Tally.ERP 9" serif="integration hub" lede="ZENRES connects to Tally — it never replaces it. Import day books, run a local middleware connector, and keep an audit trail of every sync and correction." />
 
 <div class="g2">
 	<section class="panel wizard">
@@ -107,7 +107,7 @@
 tally_url    = "http://127.0.0.1:9000"
 mode         = ["xml", "odbc"]
 schedule     = "*/15 * * * *"
-upstream     = "https://api.zevra.io/api/v1/tally/connector-sync"
+upstream     = "https://api.zenres.example/api/v1/tally/connector-sync"
 token        = "zvt_••••••••••••3f9a"</pre>
 			{#if ws.manifest.capabilities.has('freightlink_core')}
 				<div class="fsync"><Icon name="truck" size={14} /><span>FreightLink freight invoices sync back to Tally as purchase vouchers.</span></div>

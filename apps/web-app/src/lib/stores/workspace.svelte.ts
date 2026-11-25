@@ -184,11 +184,11 @@ class Workspace {
 		this.connect.rfqs.unshift(rfq);
 		n.read = true;
 		n.link = { type: 'rfq', href: '/connect', label: `Open ${rfq.id}` };
-		this.toast(`Converted to Zevra RFQ ${rfq.id}`, 'ok');
+		this.toast(`Converted to ZENRES RFQ ${rfq.id}`, 'ok');
 		if (this.mode === 'live') void this.#api('POST', `/api/v1/notifications/${id}/convert-rfq`, {});
 	}
 
-	/** Mock inbound webhook (inbox+<org>@mail.zevra.io) — classified like the FastAPI triage worker. */
+	/** Mock inbound webhook (inbox+<org>@mail.zenres.example) — classified like the FastAPI triage worker. */
 	simulateInbound() {
 		const samples = [
 			{ name: 'Sofia Ricci', email: 's.ricci@milano-metalli.it', org: 'Milano Metalli · EU Importer', subject: 'Urgent RFQ: 25 t 6063 bars + CBAM XML by 10 Dec', snippet: 'We need a price quote for 25 t of 6063-T6 bars delivered CIF Genoa, plus your CBAM communication template and container specs.', tag: 'CN 76042910', deadline: new Date(Date.now() + 14 * 86400000).toISOString() },
@@ -206,7 +206,7 @@ class Workspace {
 			tag: s.tag,
 			deadline: s.deadline,
 			severity: s.deadline ? 'elevated' : 'normal',
-			link: { type: 'rfq', href: '/connect', label: 'Convert to Zevra RFQ' },
+			link: { type: 'rfq', href: '/connect', label: 'Convert to ZENRES RFQ' },
 			read: false,
 			received_at: new Date().toISOString()
 		};

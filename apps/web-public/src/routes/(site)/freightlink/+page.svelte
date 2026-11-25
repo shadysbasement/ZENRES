@@ -9,7 +9,7 @@
 		['Business identity', 'Legal name, GSTIN, contact person and service corridors.'],
 		['Vehicle registration (RC)', 'Registration number, vehicle type and rated payload per truck.'],
 		['Insurance & permits', 'Valid insurance, national and state permits with expiry tracking.'],
-		['Document verification', 'A checklist reviewed by Zevra — the verified badge is never for sale.']
+		['Document verification', 'A checklist reviewed by ZENRES — the verified badge is never for sale.']
 	];
 	const rules = [
 		['Never auto-booked', 'Every booking requires explicit, authorised acceptance of an itemised quote.'],
@@ -20,15 +20,15 @@
 </script>
 
 <svelte:head>
-	<title>FreightLink — Return-load backhaul matching · Zevra</title>
+	<title>FreightLink — Return-load backhaul matching · ZENRES</title>
 	<meta name="description" content="FreightLink matches empty return truck capacity to load demand on Delhi–Mumbai and Ludhiana–Delhi corridors, with QR pickup and digital POD." />
 </svelte:head>
 
 <section class="hero container-wide">
-	<span class="eyebrow" use:reveal>FreightLink — Zevra Trace</span>
+	<span class="eyebrow" use:reveal>FreightLink — ZENRES Trace</span>
 	<SplitText tag="h1" class="f-title" lines={[[{ text: 'Every return leg' }], [{ text: 'is a load waiting', serif: true }], [{ text: 'to be matched.', serif: true, accent: true }]]} />
 	<div class="hero-row">
-		<p class="lede" use:reveal={{ delay: 200 }}>Transporters list empty return capacity for free. Shippers post load demand on the same corridor. Zevra’s deterministic matcher applies hard filters first, then ranks by detour, availability, quote and reliability.</p>
+		<p class="lede" use:reveal={{ delay: 200 }}>Transporters list empty return capacity for free. Shippers post load demand on the same corridor. ZENRES’s deterministic matcher applies hard filters first, then ranks by detour, availability, quote and reliability.</p>
 		<div class="ctas" use:reveal={{ delay: 300 }}>
 			<span use:magnetic><a class="btn btn-primary btn-lg" href="/signup?role=transporter">Register as transporter — free</a></span>
 			<a class="btn btn-lg" href="/signup?plan=growth">Ship with FreightLink</a>

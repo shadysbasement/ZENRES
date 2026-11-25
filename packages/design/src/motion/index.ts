@@ -1,5 +1,5 @@
 /**
- * Zevra motion primitives — framework-light Svelte actions.
+ * ZENRES motion primitives — framework-light Svelte actions.
  * Every primitive is a no-op (content shown immediately) under prefers-reduced-motion.
  */
 

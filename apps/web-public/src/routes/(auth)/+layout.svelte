@@ -31,10 +31,10 @@
 	<main class="pane">
 		<div class="pane-top">
 			<a href="/" class="mobile-brand"><Logo size={22} /></a>
-			<a href="/" class="back link-u">← Back to zevra.io</a>
+			<a href="/" class="back link-u">← Back to ZENRES</a>
 		</div>
 		<div class="pane-body">{@render children()}</div>
-		<p class="pane-foot">By continuing you agree to Zevra’s terms and privacy notice. Zevra provides reporting support, not legal or tax advice.</p>
+		<p class="pane-foot">By continuing you agree to ZENRES’s terms and privacy notice. ZENRES provides reporting support, not legal or tax advice.</p>
 	</main>
 </div>
 

@@ -13,7 +13,7 @@
 		{ id: 'importer_hub', m: 499, y: 4990, caps: ['importer_multi_supplier', 'consolidated_cbam_xml', 'supplier_benchmarking', 'customs_audit_pack', 'freightlink_enterprise_fleet', 'ai_backhaul_bulk', 'extra_supplier_seat'] }
 	];
 	const CAP_LABEL: Record<string, string> = {
-		core_erp_tally_csv: 'Tally CSV & business core', basic_cbam: 'Basic Scope 1 & 2 CBAM', evidence_vault: 'Evidence vault', qr_traceability: 'Dual QR traceability', zevra_connect: 'Zevra Connect',
+		core_erp_tally_csv: 'Tally CSV & business core', basic_cbam: 'Basic Scope 1 & 2 CBAM', evidence_vault: 'Evidence vault', qr_traceability: 'Dual QR traceability', zevra_connect: 'ZENRES Connect',
 		ocr_ingestion: 'OCR bill extraction', whatsapp_floorbot: 'WhatsApp floor-bot', precursor_tracking: 'Unlimited SKUs & precursors', cbam_article9_ccts: 'Article 9 / CCTS', tamper_audit_locker: 'Tamper-evident audit locker', capex_roi_simulator: 'Capex ROI simulator', priority_ca_workspace: 'Priority CA workspace', freightlink_core: 'FreightLink backhaul',
 		importer_multi_supplier: '15–500 supplier portal', consolidated_cbam_xml: 'Consolidated Registry XML', supplier_benchmarking: 'Supplier benchmarking', customs_audit_pack: 'Customs audit defence pack', freightlink_enterprise_fleet: 'Enterprise fleet', ai_backhaul_bulk: 'AI / bulk backhaul', extra_supplier_seat: 'Extra supplier seats $25/mo'
 	};
@@ -29,7 +29,7 @@
 	] as const;
 </script>
 
-<svelte:head><title>Billing & Usage — Zevra</title></svelte:head>
+<svelte:head><title>Billing & Usage — ZENRES</title></svelte:head>
 
 <PageHeader eyebrow="Settings · E1" title="Subscription, billing &" serif="usage" lede="Transparent plan management. Prices in USD excluding applicable taxes; INR and EUR shown for convenience.">
 	{#snippet actions()}

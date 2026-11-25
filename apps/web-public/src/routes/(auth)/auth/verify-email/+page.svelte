@@ -59,7 +59,7 @@
 	}
 </script>
 
-<svelte:head><title>Verify — Zevra</title></svelte:head>
+<svelte:head><title>Verify — ZENRES</title></svelte:head>
 
 <div class="v">
 	{#if phase === 'working'}
@@ -78,7 +78,7 @@
 			<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="18" r="9" /><path d="M24 24l14 14m-5-5 4-4m-8 0 4-4" /></svg>
 			<div>
 				<span class="label">Proton Pass / device passkey</span>
-				<span class="hint">WebAuthn · phishing-resistant · bound to zevra.io</span>
+				<span class="hint">WebAuthn · phishing-resistant · bound to this site</span>
 			</div>
 		</div>
 		{#if passkeyState === 'done'}

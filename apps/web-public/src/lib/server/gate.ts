@@ -1,5 +1,12 @@
 import { env } from '$env/dynamic/private';
 import { createHash, timingSafeEqual } from 'node:crypto';
+import { isIP } from 'node:net';
+
+/** Vercel supplies the original caller in this trusted platform header. */
+export function clientIP(request: Request, fallback: () => string): string {
+	const forwarded = env.VERCEL ? request.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() : '';
+	return forwarded && isIP(forwarded) ? forwarded : fallback();
+}
 
 /**
  * Hidden PGP admin gate configuration. The path lives ONLY in server env

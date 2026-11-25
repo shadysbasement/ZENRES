@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -830,8 +831,18 @@ func (s *Server) onboardingComplete(w http.ResponseWriter, r *http.Request) {
 /* hidden PGP vault                                                    */
 /* ------------------------------------------------------------------ */
 
+// The public SvelteKit gate authenticates this header with X-Zevra-Gate.
+// Vercel replaces X-Forwarded-For on the server-to-server hop, so the
+// original caller must travel in a separate header.
+func vaultClientIP(r *http.Request) string {
+	if ip := strings.TrimSpace(r.Header.Get("X-Zenres-Client-IP")); net.ParseIP(ip) != nil {
+		return ip
+	}
+	return platform.ClientIP(r)
+}
+
 func (s *Server) vaultChallenge(w http.ResponseWriter, r *http.Request) {
-	ip := platform.ClientIP(r)
+	ip := vaultClientIP(r)
 	if !s.Limiter.Allow("vault-ch:"+ip, 5, 15*time.Minute) {
 		platform.Error(w, 429, "rate_limited")
 		return
@@ -857,7 +868,7 @@ func (s *Server) vaultVerify(w http.ResponseWriter, r *http.Request) {
 		platform.Error(w, 400, "invalid_input")
 		return
 	}
-	out, err := s.Vault.Verify(r.Context(), in, platform.ClientIP(r), r.UserAgent())
+	out, err := s.Vault.Verify(r.Context(), in, vaultClientIP(r), r.UserAgent())
 	if err != nil {
 		status := 401
 		if errors.Is(err, pgp.ErrChallengeExpired) || errors.Is(err, pgp.ErrTooManyAttempts) || errors.Is(err, pgp.ErrReplay) {

@@ -1,5 +1,5 @@
 import type { RequestHandler } from './$types';
-import { checkTriggerHash, gatePath, rateLimit } from '$lib/server/gate';
+import { checkTriggerHash, clientIP, gatePath, rateLimit } from '$lib/server/gate';
 
 /**
  * Generic client telemetry sink. Also resolves the stealth trigger: when the posted key hash
@@ -7,7 +7,7 @@ import { checkTriggerHash, gatePath, rateLimit } from '$lib/server/gate';
  * other request receives an identical empty 204.
  */
 export const POST: RequestHandler = async ({ request, getClientAddress }) => {
-	const ip = getClientAddress();
+	const ip = clientIP(request, getClientAddress);
 	const empty = () => new Response(null, { status: 204, headers: { 'cache-control': 'no-store' } });
 	if (!rateLimit(`tele:${ip}`, 10, 15 * 60_000)) return empty();
 	let body: unknown;

@@ -1,5 +1,11 @@
 import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
+import { isIP } from 'node:net';
+
+export function clientIP(request: Request, fallback: () => string): string {
+	const forwarded = env.VERCEL ? request.headers.get('x-vercel-forwarded-for')?.split(',')[0]?.trim() : '';
+	return forwarded && isIP(forwarded) ? forwarded : fallback();
+}
 
 const AUTH_API = env.AUTH_API_URL ?? 'http://localhost:8081';
 /** `__Host-` requires Secure; browsers treat http://localhost as a secure context, so this works in dev too. */

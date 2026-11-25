@@ -1,7 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
-import { gateSecretHeader, isGateRequest, rateLimit } from '$lib/server/gate';
+import { clientIP, gateSecretHeader, isGateRequest, rateLimit } from '$lib/server/gate';
 
 /**
  * Catch-all route. Every unknown path 404s through here with identical behaviour, except the
@@ -23,7 +23,7 @@ export const load: PageServerLoad = ({ url, setHeaders }) => {
 async function callVault(path: string, body: unknown, ip: string, ua: string) {
 	const res = await fetch(`${AUTH_API}/api/v1/vault-auth/${path}`, {
 		method: 'POST',
-		headers: { 'content-type': 'application/json', 'x-forwarded-for': ip, 'user-agent': ua, ...gateSecretHeader() },
+		headers: { 'content-type': 'application/json', 'x-zenres-client-ip': ip, 'user-agent': ua, ...gateSecretHeader() },
 		body: JSON.stringify(body),
 		signal: AbortSignal.timeout(8000)
 	});
@@ -34,7 +34,7 @@ async function callVault(path: string, body: unknown, ip: string, ua: string) {
 export const actions: Actions = {
 	challenge: async ({ request, url, getClientAddress }) => {
 		if (!isGateRequest(url.pathname)) notFound();
-		const ip = getClientAddress();
+		const ip = clientIP(request, getClientAddress);
 		if (!rateLimit(`vault-ch:${ip}`, 5, 15 * 60_000)) return fail(429, { stage: 1, error: 'RATE LIMITED — RETRY LATER' });
 		const identifier = String((await request.formData()).get('identifier') ?? '')
 			.replace(/\s+/g, '')
@@ -50,7 +50,7 @@ export const actions: Actions = {
 	},
 	verify: async ({ request, url, getClientAddress }) => {
 		if (!isGateRequest(url.pathname)) notFound();
-		const ip = getClientAddress();
+		const ip = clientIP(request, getClientAddress);
 		const fd = await request.formData();
 		const challenge_id = String(fd.get('challenge_id') ?? '');
 		const signed = String(fd.get('signed') ?? '');

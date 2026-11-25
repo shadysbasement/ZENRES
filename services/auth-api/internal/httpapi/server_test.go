@@ -220,6 +220,19 @@ func TestVaultEndpointsAreStealth(t *testing.T) {
 	}
 }
 
+func TestVaultClientIPUsesAuthenticatedProxyHeader(t *testing.T) {
+	r := httptest.NewRequest("POST", "/api/v1/vault-auth/challenge", nil)
+	r.RemoteAddr = "192.0.2.12:443"
+	r.Header.Set("X-Zenres-Client-IP", "198.51.100.42")
+	if got := vaultClientIP(r); got != "198.51.100.42" {
+		t.Fatalf("forwarded client IP = %q", got)
+	}
+	r.Header.Set("X-Zenres-Client-IP", "not-an-ip")
+	if got := vaultClientIP(r); got != "192.0.2.12" {
+		t.Fatalf("invalid forwarded client IP was trusted: %q", got)
+	}
+}
+
 func TestCSRFRequiredWithSession(t *testing.T) {
 	s, _, mail := newServer(t)
 	h := s.Routes()

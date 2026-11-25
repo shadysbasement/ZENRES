@@ -59,12 +59,20 @@
 
 	const mmss = $derived(`${String(Math.floor(remaining / 60)).padStart(2, '0')}:${String(remaining % 60).padStart(2, '0')}`);
 	const fpr = $derived(/^[0-9A-F]{40,64}$/.test(identifier) ? identifier : '<FINGERPRINT>');
-	const helper = $derived(`pbpaste | gpg --decrypt | gpg --clearsign --local-user ${fpr} | pbcopy`);
+	const helper = $derived(`gpg --decrypt challenge.asc | gpg --clearsign --local-user ${fpr} > response.asc`);
 
 	async function copy(text: string, which: 'msg' | 'cmd') {
 		await navigator.clipboard.writeText(text);
 		copied = which;
 		setTimeout(() => (copied = ''), 1600);
+	}
+
+	function downloadChallenge() {
+		const a = document.createElement('a');
+		a.href = URL.createObjectURL(new Blob([armored], { type: 'text/plain' }));
+		a.download = 'challenge.asc';
+		a.click();
+		setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 	}
 
 	const submitting = () => {
@@ -121,6 +129,7 @@
 					<div class="block-head">
 						<span>ENCRYPTED CHALLENGE · {challengeId.slice(0, 13)}…</span>
 						<button type="button" onclick={() => copy(armored, 'msg')}>{copied === 'msg' ? 'COPIED ✓' : 'COPY'}</button>
+						<button type="button" onclick={downloadChallenge}>DOWNLOAD</button>
 					</div>
 					<pre class="armored" aria-label="Encrypted challenge">{armored}</pre>
 				</div>
@@ -131,6 +140,7 @@
 						<button type="button" onclick={() => copy(helper, 'cmd')}>{copied === 'cmd' ? 'COPIED ✓' : 'COPY'}</button>
 					</div>
 					<code class="cmd">$ {helper}</code>
+					<p class="dim">Run this command on the computer holding your private key, then open response.asc and paste its contents below.</p>
 				</div>
 
 				<form method="POST" action="?/verify" use:enhance={submitting} autocomplete="off">

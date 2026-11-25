@@ -158,6 +158,9 @@ type Vault interface {
 	CreateAdminSession(ctx context.Context, s *AdminSession) error
 	AdminSessionByHash(ctx context.Context, hash []byte, now time.Time) (*AdminSession, error)
 	TouchAdminSession(ctx context.Context, id uuid.UUID, now time.Time) error
+	// Handoff codes are single-use and shared across auth API instances.
+	CreateHandoff(ctx context.Context, codeHash []byte, token string, expiresAt time.Time) error
+	ConsumeHandoff(ctx context.Context, codeHash []byte, now time.Time) (string, error)
 
 	Audit(ctx context.Context, e AuditEvent) error
 }

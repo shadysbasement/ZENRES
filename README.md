@@ -6,8 +6,9 @@
 
 - Public site: https://zenres.vercel.app
 - Demo workspace: https://zenres-app.vercel.app/dashboard
+- PGP admin auth API: https://zenres-auth.vercel.app/healthz
 
-The Vercel deployments run the frontend demo with seeded pilot data. The Go APIs, worker, database, and real authentication are not hosted there; run the full stack locally with Docker or deploy those services separately before using live accounts or data.
+The workspace still runs on seeded pilot data. The PGP admin vault is backed by the deployed Go auth API and Neon Postgres. Ordinary account sign-in, the core API, and the worker need their remaining production integrations before live customer data is used.
 
 This monorepo implements both Codex plans:
 
@@ -27,7 +28,7 @@ zevra/
 │   ├── core-api/          # entitlements, RLS, SSE twin, Tally, CBAM/XML, QR, FreightLink, Connect, Importer Hub, seed
 │   ├── intel-worker/      # OCR extraction, buyer-mail triage, vernacular floor-bot, backhaul ranking
 │   └── internal/platform/ # shared Go helpers
-├── db/migrations/         # 001 auth + vault · 002 core platform with row-level security
+├── db/migrations/         # 001 auth + vault · 002 core platform · 003 admin handoff
 ├── templates/typst/       # QR label sheets, EU Customs Audit Defence Pack, digital POD
 └── scripts/check-palette.mjs   # zero-yellow / banned-font guardrail
 ```
@@ -96,6 +97,8 @@ make enroll-admin HANDLE=zv-founder-01 KEY=founder.asc
 
 Set `ADMIN_GATE_PATH`, `ADMIN_GATE_SECRET` and `ADMIN_GATE_PASSPHRASE_SHA256` (sha256 of your trigger passphrase) in the deployment's secret store — never in git. For local testing without GnuPG, `services/auth-api/cmd/vault-dev-sign` generates a throwaway key and performs the decrypt + clearsign step.
 
+The deployed auth service lives in the `services` Vercel project. Run migrations `001` and `003` against its Postgres database, then enroll a public key with `make enroll-admin`. The public and app projects both need `AUTH_API_URL`; the public site and auth API share `ADMIN_GATE_SECRET`, while the app and auth API share `INTERNAL_API_SECRET`. The one-time handoff is stored in Postgres so it works across Vercel instances.
+
 ## Tests
 
 | Suite | Covers |
@@ -109,7 +112,7 @@ Set `ADMIN_GATE_PATH`, `ADMIN_GATE_SECRET` and `ADMIN_GATE_PASSPHRASE_SHA256` (s
 
 - The web app uses seeded pilot data in the browser unless `PUBLIC_CORE_API_URL` is set; in live mode it loads the manifest, twin and notifications from the core API and streams updates over SSE. Not every page has a live write path yet.
 - Go queries are hand-written with `pgx/v5` rather than sqlc-generated.
-- The in-process rate limiter and KV store are single-replica; swap in Redis for multi-replica deployments.
+- The standard-user flows still use an in-process rate limiter and KV store. Move those to a shared store before using ordinary accounts at scale; the admin handoff already uses Postgres.
 - Typst rendering needs the `typst` binary and the `tiaoma` package for QR codes.
 - Google's "Continue with Google" button uses a monochrome G so the zero-yellow rule holds; check Google's branding guidelines before launch. The Proton mark is a geometric approximation — replace it with the official asset from Proton's brand kit.
 - CBAM figures are illustrative estimates; ZENRES provides reporting support, not legal, tax or accounting advice.

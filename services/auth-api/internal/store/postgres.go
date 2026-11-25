@@ -299,6 +299,17 @@ func (p *Postgres) TouchAdminSession(ctx context.Context, id uuid.UUID, now time
 	return err
 }
 
+func (p *Postgres) CreateHandoff(ctx context.Context, codeHash []byte, token string, expiresAt time.Time) error {
+	_, err := p.DB.Exec(ctx, `INSERT INTO admin_handoff_codes (code_hash, session_token, expires_at) VALUES ($1,$2,$3)`, codeHash, token, expiresAt)
+	return err
+}
+
+func (p *Postgres) ConsumeHandoff(ctx context.Context, codeHash []byte, now time.Time) (string, error) {
+	var token string
+	err := p.DB.QueryRow(ctx, `DELETE FROM admin_handoff_codes WHERE code_hash=$1 AND expires_at>$2 RETURNING session_token`, codeHash, now).Scan(&token)
+	return token, notFound(err)
+}
+
 func (p *Postgres) Audit(ctx context.Context, e AuditEvent) error {
 	meta, _ := json.Marshal(e.Metadata)
 	if e.Metadata == nil {

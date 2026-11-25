@@ -867,7 +867,10 @@ func (s *Server) vaultVerify(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	code := platform.RandomToken(32)
-	s.KV.Put("handoff:"+code, []byte(out.Token), 60*time.Second)
+	if err := s.Vault.Store.CreateHandoff(r.Context(), platform.SHA256(code), out.Token, s.Now().Add(60*time.Second)); err != nil {
+		s.fail(w, err)
+		return
+	}
 	platform.JSON(w, 200, map[string]any{"handoff_url": s.Cfg.AppURL + "/ops-vault/handoff?code=" + code})
 }
 
@@ -881,16 +884,16 @@ func (s *Server) vaultExchange(w http.ResponseWriter, r *http.Request) {
 		notFound(w)
 		return
 	}
-	tok, ok := s.KV.Take("handoff:" + in.Code)
-	if !ok {
+	tok, err := s.Vault.Store.ConsumeHandoff(r.Context(), platform.SHA256(in.Code), s.Now())
+	if err != nil {
 		notFound(w)
 		return
 	}
-	if _, err := s.Vault.ValidateSession(r.Context(), string(tok), in.IP, in.UA); err != nil {
+	if _, err := s.Vault.ValidateSession(r.Context(), tok, in.IP, in.UA); err != nil {
 		notFound(w)
 		return
 	}
-	platform.JSON(w, 200, map[string]string{"token": string(tok)})
+	platform.JSON(w, 200, map[string]string{"token": tok})
 }
 
 func (s *Server) vaultSession(w http.ResponseWriter, r *http.Request) {

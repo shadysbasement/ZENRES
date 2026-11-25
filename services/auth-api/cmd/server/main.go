@@ -105,6 +105,9 @@ func main() {
 	}
 
 	addr := platform.Env("AUTH_API_ADDR", ":8081")
+	if port := os.Getenv("PORT"); port != "" {
+		addr = ":" + port
+	}
 	httpSrv := &http.Server{Addr: addr, Handler: srv.Routes(), ReadHeaderTimeout: 5 * time.Second}
 	go func() {
 		slog.Info("zevra-auth-api listening", "addr", addr)

@@ -9,7 +9,7 @@ export const cookieOpts = {
 	path: '/',
 	httpOnly: true,
 	secure: true,
-	sameSite: 'strict' as const,
+	sameSite: 'lax' as const,
 	maxAge: 4 * 60 * 60
 };
 

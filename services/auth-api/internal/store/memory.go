@@ -374,6 +374,25 @@ func (m *Memory) TouchAdminSession(_ context.Context, id uuid.UUID, now time.Tim
 	return nil
 }
 
+func (m *Memory) CreateHandoff(_ context.Context, codeHash []byte, token string, expiresAt time.Time) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.kv["handoff:"+string(codeHash)] = kvEntry{v: []byte(token), exp: expiresAt}
+	return nil
+}
+
+func (m *Memory) ConsumeHandoff(_ context.Context, codeHash []byte, now time.Time) (string, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	key := "handoff:" + string(codeHash)
+	e, ok := m.kv[key]
+	delete(m.kv, key)
+	if !ok || !now.Before(e.exp) {
+		return "", ErrNotFound
+	}
+	return string(e.v), nil
+}
+
 func (m *Memory) Audit(_ context.Context, e AuditEvent) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()

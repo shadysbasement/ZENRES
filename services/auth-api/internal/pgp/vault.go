@@ -253,8 +253,12 @@ func (v *Vault) ValidateSession(ctx context.Context, token, ip, ua string) (*sto
 	if now.Sub(s.LastSeenAt) > SessionIdle || subtle.ConstantTimeCompare(s.IPUAHash, IPUAHash(ip, ua)) != 1 {
 		return nil, store.ErrNotFound
 	}
+	k, err := v.Store.AdminKeyByID(ctx, s.AdminKeyID)
+	if err != nil || k.Status != "active" || k.RevokedAt != nil || (k.KeyExpiresAt != nil && !now.Before(*k.KeyExpiresAt)) {
+		return nil, store.ErrNotFound
+	}
 	_ = v.Store.TouchAdminSession(ctx, s.ID, now)
-	return v.Store.AdminKeyByID(ctx, s.AdminKeyID)
+	return k, nil
 }
 
 // FingerprintOf parses an armored public key and returns its uppercase fingerprint.

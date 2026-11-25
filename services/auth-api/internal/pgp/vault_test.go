@@ -115,6 +115,23 @@ func TestValidChallengeResponse(t *testing.T) {
 	}
 }
 
+func TestSessionStopsWhenAdminKeyIsRevoked(t *testing.T) {
+	f := setup(t)
+	ctx := context.Background()
+	ch, err := f.vault.IssueChallenge(ctx, f.fpr, "10.4.2.17")
+	if err != nil {
+		t.Fatal(err)
+	}
+	out, err := f.vault.Verify(ctx, VerifyIn{ChallengeID: ch.ChallengeID, Signed: f.offlineSign(t, ch.ArmoredChallenge, f.priv, nil)}, "10.4.2.17", "UA")
+	if err != nil {
+		t.Fatal(err)
+	}
+	f.mem.RevokeAdminKey(out.Key.ID)
+	if _, err := f.vault.ValidateSession(ctx, out.Token, "10.4.2.17", "UA"); err == nil {
+		t.Fatal("revoked admin key must invalidate its active session")
+	}
+}
+
 func TestReplayIsBlocked(t *testing.T) {
 	f := setup(t)
 	ctx := context.Background()

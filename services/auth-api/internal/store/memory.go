@@ -374,6 +374,19 @@ func (m *Memory) TouchAdminSession(_ context.Context, id uuid.UUID, now time.Tim
 	return nil
 }
 
+func (m *Memory) RevokeAdminSession(_ context.Context, hash []byte) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	for _, s := range m.adminSess {
+		if bytes.Equal(s.TokenHash, hash) {
+			now := time.Now()
+			s.RevokedAt = &now
+			break
+		}
+	}
+	return nil
+}
+
 func (m *Memory) CreateHandoff(_ context.Context, codeHash []byte, token string, expiresAt time.Time) error {
 	m.mu.Lock()
 	defer m.mu.Unlock()

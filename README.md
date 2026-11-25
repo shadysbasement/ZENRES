@@ -8,7 +8,7 @@
 - Demo workspace: https://zenres-app.vercel.app/dashboard
 - PGP admin auth API: https://zenres-auth.vercel.app/healthz
 
-The workspace still runs on seeded pilot data. The PGP admin vault is backed by the deployed Go auth API and Neon Postgres. Ordinary account sign-in, the core API, and the worker need their remaining production integrations before live customer data is used.
+The workspace still runs on seeded pilot data. The PGP admin login is backed by the deployed Go auth API and Neon Postgres; the admin operations view still shows sample records and keeps edits in the browser. Ordinary account sign-in, the core API, and the worker need their remaining production integrations before live customer data is used.
 
 This monorepo implements both Codex plans:
 

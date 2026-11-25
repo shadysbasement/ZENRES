@@ -299,6 +299,11 @@ func (p *Postgres) TouchAdminSession(ctx context.Context, id uuid.UUID, now time
 	return err
 }
 
+func (p *Postgres) RevokeAdminSession(ctx context.Context, hash []byte) error {
+	_, err := p.DB.Exec(ctx, `UPDATE admin_sessions SET revoked_at=NOW() WHERE token_hash=$1 AND revoked_at IS NULL`, hash)
+	return err
+}
+
 func (p *Postgres) CreateHandoff(ctx context.Context, codeHash []byte, token string, expiresAt time.Time) error {
 	_, err := p.DB.Exec(ctx, `INSERT INTO admin_handoff_codes (code_hash, session_token, expires_at) VALUES ($1,$2,$3)`, codeHash, token, expiresAt)
 	return err

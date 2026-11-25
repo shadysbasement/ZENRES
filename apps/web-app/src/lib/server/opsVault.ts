@@ -47,3 +47,12 @@ export async function exchangeHandoff(code: string, ip: string, ua: string) {
 	if (!res.ok) return null;
 	return (await res.json()) as { token: string };
 }
+
+export async function revokeOpsSession(token: string) {
+	await fetch(`${AUTH_API}/internal/vault-auth/logout`, {
+		method: 'POST',
+		headers: { 'content-type': 'application/json', 'x-internal-secret': env.INTERNAL_API_SECRET ?? '' },
+		body: JSON.stringify({ token }),
+		signal: AbortSignal.timeout(3000)
+	});
+}

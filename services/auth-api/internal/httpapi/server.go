@@ -96,6 +96,7 @@ func (s *Server) Routes() http.Handler {
 		r.Use(s.internalOnly)
 		r.Post("/exchange", s.vaultExchange)
 		r.Post("/session", s.vaultSession)
+		r.Post("/logout", s.vaultLogout)
 	})
 	r.NotFound(func(w http.ResponseWriter, _ *http.Request) { http.Error(w, "Not Found", http.StatusNotFound) })
 	return r
@@ -923,6 +924,22 @@ func (s *Server) vaultSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	platform.JSON(w, 200, map[string]any{"handle": k.Handle, "fingerprint": k.Fingerprint, "role": k.Role})
+}
+
+func (s *Server) vaultLogout(w http.ResponseWriter, r *http.Request) {
+	var in struct {
+		Token string `json:"token"`
+	}
+	if platform.DecodeLoose(r, &in) != nil || in.Token == "" {
+		notFound(w)
+		return
+	}
+	if err := s.Vault.Store.RevokeAdminSession(r.Context(), platform.SHA256(in.Token)); err != nil {
+		s.fail(w, err)
+		return
+	}
+	w.Header().Set("Cache-Control", "no-store")
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (s *Server) fail(w http.ResponseWriter, err error) {

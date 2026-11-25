@@ -233,6 +233,22 @@ func TestVaultClientIPUsesAuthenticatedProxyHeader(t *testing.T) {
 	}
 }
 
+func TestVaultLogoutRevokesSession(t *testing.T) {
+	s, mem, _ := newServer(t)
+	h := s.Routes()
+	token := platform.RandomToken(32)
+	if err := mem.CreateAdminSession(context.Background(), &store.AdminSession{TokenHash: platform.SHA256(token), ExpiresAt: time.Now().Add(time.Hour)}); err != nil {
+		t.Fatal(err)
+	}
+	rec := do(t, h, "POST", "/internal/vault-auth/logout", map[string]string{"token": token}, nil, map[string]string{"X-Internal-Secret": "internal"})
+	if rec.Code != 204 {
+		t.Fatalf("logout: %d %s", rec.Code, rec.Body)
+	}
+	if _, err := mem.AdminSessionByHash(context.Background(), platform.SHA256(token), time.Now()); err == nil {
+		t.Fatal("logged-out session still active")
+	}
+}
+
 func TestCSRFRequiredWithSession(t *testing.T) {
 	s, _, mail := newServer(t)
 	h := s.Routes()

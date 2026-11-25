@@ -27,10 +27,11 @@
 		<span class="mono tag">SUPER-ADMIN VAULT</span>
 		<span class="sp"></span>
 		<span class="mono who">PGP · {data.admin.handle} · …{data.admin.fingerprint.slice(-16)}</span>
-		<a class="mono out" href="/logout">EXIT</a>
+		<a class="mono out" href="/ops-vault/logout">EXIT</a>
 	</header>
 	<nav>{#each tabs as t, i (t)}<button class:on={tab === t} onclick={() => (tab = t)}><span class="mono">0{i + 1}</span>{t}</button>{/each}</nav>
 	<main>
+		<p class="mono dim">DEMO OPERATIONS · Sample records and edits in this view stay in this browser session.</p>
 		{#if tab === 'Approvals'}
 			<h1>Account & transporter approvals</h1>
 			{#each approvals as a (a.id)}

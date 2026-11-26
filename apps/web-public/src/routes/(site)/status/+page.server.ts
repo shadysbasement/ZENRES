@@ -14,5 +14,11 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 			auth = 'unavailable';
 		}
 	}
-	return { auth, checkedAt: new Date().toISOString() };
+	let announcements: { id: string; title: string; body: string; state: string; published_at: string }[] = [];
+	let noticesAvailable = false;
+	try {
+		const response = await fetch('/api/support/announcements', { signal: AbortSignal.timeout(5000), cache: 'no-store' });
+		if (response.ok) { announcements = await response.json(); noticesAvailable = true; }
+	} catch { /* notices are shown only when the support service responds */ }
+	return { auth, checkedAt: new Date().toISOString(), announcements, noticesAvailable };
 };

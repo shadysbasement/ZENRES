@@ -26,7 +26,8 @@
 		</section>
 	</div>
 	<p class="checked">Checked by the website at {new Date(data.checkedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Kolkata' })} IST. Refresh for a new check.</p>
-	<div class="note card"><h2>What this does not cover</h2><p>The workspace still uses sample data. Core API, worker jobs, database backups and payment services are not represented by these checks. Incident history and alerting are not yet available.</p><a class="link-u" href="/features">See feature availability →</a></div>
+	<section class="notices"><h2>Maintenance & incident notices</h2>{#if !data.noticesAvailable}<p>Notices are temporarily unavailable.</p>{:else if data.announcements.length}{#each data.announcements as item (item.id)}<article class="card"><span class="eyebrow">{item.state} · {new Date(item.published_at).toLocaleString()}</span><h3>{item.title}</h3><p>{item.body}</p></article>{/each}{:else}<p>No published notices. This does not guarantee every service is operating.</p>{/if}</section>
+	<div class="note card"><h2>What this does not cover</h2><p>The workspace still uses sample data. Core API, worker jobs, database backups and payment services are not represented by these checks. Notices are published manually; automated incident detection and alerting are not available.</p><a class="link-u" href="/features">See feature availability →</a></div>
 </div>
 
 <style>
@@ -43,6 +44,7 @@
 	.good { color: #197451; background: #e5f5ec; }
 	.bad { color: #a6404f; background: #fbe9eb; }
 	.checked { margin-top: 14px; color: var(--ink-muted); font-size: var(--fs-xs); }
+	.notices { margin-top: 55px; }.notices h2 { color: var(--ink-primary); font-size: 1.6rem; margin-bottom: 16px; }.notices article { padding: 22px; margin-bottom: 10px; }.notices h3 { color: var(--ink-primary); font-size: 1.2rem; margin: 8px 0; }.notices p { line-height: 1.5; font-size: var(--fs-sm); }
 	.note { margin-top: 54px; padding: 26px; max-width: 800px; }
 	.note h2 { color: var(--ink-primary); font-size: 1.25rem; }
 	.note p { max-width: 65ch; margin: 10px 0 20px; line-height: 1.6; font-size: var(--fs-sm); }

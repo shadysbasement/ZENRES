@@ -32,7 +32,7 @@
 	<WorkspaceBackdrop/>
 	<header>
 		<Logo size={26} />
-		<span class="tag">Admin workspace</span>
+		<span class="tag">Admin workspace</span><a class="btn btn-sm out" href="/ops-vault/support">Support operations ↗</a>
 		<span class="sp"></span>
 		<span class="mono who">PGP · {data.admin.handle} · …{data.admin.fingerprint.slice(-16)}</span>
 		<button class="appearance-button" aria-label="Customize appearance" onclick={() => (appearanceOpen = true)}><Icon name="settings" size={18}/></button><a class="btn btn-sm out" href="/ops-vault/logout">Exit vault ↗</a>

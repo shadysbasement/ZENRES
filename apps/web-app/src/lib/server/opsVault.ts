@@ -30,7 +30,7 @@ export async function validateOpsSession(token: string | undefined, ip: string, 
 			signal: AbortSignal.timeout(2000)
 		});
 		if (!res.ok) return null;
-		return (await res.json()) as { handle: string; fingerprint: string; expires_at: string };
+		return (await res.json()) as { handle: string; fingerprint: string; role: string };
 	} catch {
 		if (dev) console.warn('[ops-vault] auth service unreachable — vault stays hidden');
 		return null;

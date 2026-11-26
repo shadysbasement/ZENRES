@@ -22,6 +22,7 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/shadysbasement/zevra/services/auth-api/internal/auth"
 	"github.com/shadysbasement/zevra/services/auth-api/internal/pgp"
@@ -30,16 +31,18 @@ import (
 )
 
 type Config struct {
-	PublicURL      string // https://zevra.io
-	AppURL         string // https://app.zevra.io
-	CookieDomain   string // .zevra.io (empty for host-only in dev)
-	CookieSecure   bool
-	GateSecret     string // X-Zevra-Gate header required on vault endpoints
-	InternalSecret string // X-Internal-Secret for service-to-service calls
-	SessionTTL     time.Duration
-	LegalApproved  bool
-	TermsVersion   string
-	PrivacyVersion string
+	PublicURL          string // https://zevra.io
+	AppURL             string // https://app.zevra.io
+	CookieDomain       string // .zevra.io (empty for host-only in dev)
+	CookieSecure       bool
+	GateSecret         string // X-Zevra-Gate header required on vault endpoints
+	InternalSecret     string // X-Internal-Secret for service-to-service calls
+	SessionTTL         time.Duration
+	LegalApproved      bool
+	TermsVersion       string
+	PrivacyVersion     string
+	SupportNotify      bool
+	SupportPlanEnforce bool
 }
 
 type Server struct {
@@ -51,6 +54,7 @@ type Server struct {
 	Mail      auth.Mailer
 	Providers map[string]auth.IdentityProvider
 	WebAuthn  *webauthn.WebAuthn
+	SupportDB *pgxpool.Pool
 	Now       func() time.Time
 }
 
@@ -90,6 +94,23 @@ func (s *Server) Routes() http.Handler {
 		r.Post("/link/confirm", s.linkConfirm)
 	})
 	r.With(s.csrf).Post("/api/v1/onboarding/complete", s.onboardingComplete)
+	r.Route("/api/v1/support", func(r chi.Router) {
+		r.Get("/announcements", s.supportAnnouncements)
+		r.With(s.csrf).Get("/tickets", s.supportTickets)
+		r.With(s.csrf).Post("/tickets", s.supportCreateTicket)
+		r.With(s.csrf).Get("/tickets/{id}", s.supportTicket)
+		r.With(s.csrf).Post("/tickets/{id}/messages", s.supportCustomerMessage)
+		r.With(s.csrf).Post("/tickets/{id}/feedback", s.supportFeedback)
+	})
+	r.Route("/internal/support", func(r chi.Router) {
+		r.Use(s.internalOnly, s.supportAdminAuth)
+		r.Get("/tickets", s.supportAdminTickets)
+		r.Get("/agents", s.supportAdminAgents)
+		r.Get("/costs", s.supportAdminCosts)
+		r.Get("/tickets/{id}", s.supportAdminTicket)
+		r.Post("/tickets/{id}", s.supportAdminUpdate)
+		r.Post("/announcements", s.supportPublishAnnouncement)
+	})
 
 	// Hidden vault: 404 unless the SvelteKit gate route adds the secret header.
 	r.Route("/api/v1/vault-auth", func(r chi.Router) {

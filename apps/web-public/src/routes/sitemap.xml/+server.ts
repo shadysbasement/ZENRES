@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { legalConfig } from '$lib/server/legal';
 import { LEGAL_LINKS } from '$lib/legal/policies';
 
-const PATHS = ['/', '/features', '/pricing', '/freightlink', '/status', '/login', '/signup'];
+const PATHS = ['/', '/features', '/pricing', '/freightlink', '/support', '/status', '/login', '/signup'];
 
 export const GET: RequestHandler = ({ url }) => {
 	const paths = legalConfig().published ? [...PATHS, ...LEGAL_LINKS.map(({ slug }) => `/legal/${slug}`)] : PATHS;

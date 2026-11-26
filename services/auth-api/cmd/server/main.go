@@ -30,6 +30,7 @@ func main() {
 
 	var users store.Users
 	var vaultStore store.Vault
+	var supportDB *store.Postgres
 	mem := store.NewMemory()
 	var kv store.KV = mem // swap for Redis in multi-replica deployments
 	if dsn := os.Getenv("DATABASE_URL"); dsn != "" && platform.Env("STORE", "postgres") == "postgres" {
@@ -38,7 +39,7 @@ func main() {
 			slog.Error("postgres", "err", err)
 			os.Exit(1)
 		}
-		users, vaultStore = pg, pg
+		users, vaultStore, supportDB = pg, pg, pg
 	} else {
 		slog.Warn("STORE=memory — data is ephemeral (development only)")
 		users, vaultStore = mem, mem
@@ -94,17 +95,22 @@ func main() {
 
 	srv := &httpapi.Server{
 		Cfg: httpapi.Config{
-			PublicURL:      publicURL,
-			AppURL:         appURL,
-			CookieDomain:   os.Getenv("COOKIE_DOMAIN"),
-			CookieSecure:   platform.Env("COOKIE_SECURE", "true") != "false",
-			GateSecret:     os.Getenv("ADMIN_GATE_SECRET"),
-			InternalSecret: os.Getenv("INTERNAL_API_SECRET"),
-			LegalApproved:  os.Getenv("ZENRES_LEGAL_APPROVED") == "true",
-			TermsVersion:   os.Getenv("ZENRES_LEGAL_TERMS_VERSION"),
-			PrivacyVersion: os.Getenv("ZENRES_LEGAL_PRIVACY_VERSION"),
+			PublicURL:          publicURL,
+			AppURL:             appURL,
+			CookieDomain:       os.Getenv("COOKIE_DOMAIN"),
+			CookieSecure:       platform.Env("COOKIE_SECURE", "true") != "false",
+			GateSecret:         os.Getenv("ADMIN_GATE_SECRET"),
+			InternalSecret:     os.Getenv("INTERNAL_API_SECRET"),
+			LegalApproved:      os.Getenv("ZENRES_LEGAL_APPROVED") == "true",
+			TermsVersion:       os.Getenv("ZENRES_LEGAL_TERMS_VERSION"),
+			PrivacyVersion:     os.Getenv("ZENRES_LEGAL_PRIVACY_VERSION"),
+			SupportNotify:      os.Getenv("SUPPORT_EMAIL_NOTIFICATIONS") == "true" && os.Getenv("SMTP_ADDR") != "",
+			SupportPlanEnforce: os.Getenv("SUPPORT_PLAN_ENTITLEMENTS_ENFORCED") == "true",
 		},
 		Users: users, KV: kv, Vault: vault, Limiter: platform.NewMemLimiter(), Mail: mailer, Providers: providers, WebAuthn: wa, Now: time.Now,
+	}
+	if supportDB != nil {
+		srv.SupportDB = supportDB.DB
 	}
 
 	addr := platform.Env("AUTH_API_ADDR", ":8081")

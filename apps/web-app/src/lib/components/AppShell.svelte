@@ -62,6 +62,7 @@
 					<div class="menu-divider"></div>
                     <p class="menu-label">Display currency</p><div class="currencies">{#each ['USD', 'INR', 'EUR'] as const as currency (currency)}<button aria-pressed={ws.currency === currency} onclick={() => ws.setCurrency(currency)}>{currency}</button>{/each}</div>
 					<a class="menu-row" href="/settings/team"><Icon name="settings"/><span>Workspace settings</span></a>
+					<a class="menu-row" href="{siteURL}/support"><Icon name="inbox"/><span>Support centre</span></a>
 					{#if legalAvailable}<a class="menu-row" href="{siteURL}/account/privacy"><Icon name="shield"/><span>Privacy preferences</span></a>{/if}
 					<a class="menu-row" href="/logout" data-sveltekit-reload><Icon name="logout"/><span>Sign out</span></a>
 				</div>

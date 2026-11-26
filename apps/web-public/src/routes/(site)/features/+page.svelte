@@ -20,7 +20,8 @@
 			items: [
 				['Tally CSV import', 'Parsing and duplicate protection are implemented; live customer sync needs deployment and validation.'],
 				['CBAM and QR services', 'Calculation, export and QR resolver endpoints exist; regulatory and customer-data review remains.'],
-				['PGP administrator sign-in', 'The deployed auth service verifies a pinned PGP key; the operations dashboard still shows sample records.']
+				['PGP administrator sign-in', 'The deployed auth service verifies a pinned PGP key; the operations dashboard still shows sample records.'],
+				['Support centre', 'Searchable guides and account-based tickets, conversations and callbacks have backend code. Human coverage and external channels require configuration.']
 			]
 		},
 		{
@@ -30,7 +31,7 @@
 			items: [
 				['Business verification', 'No live GSTIN, PAN, IEC or representative-verification workflow is connected.'],
 				['Payments and subscriptions', 'Prices are illustrative plan information; there is no checkout or live billing.'],
-				['Evidence storage and support', 'The demo does not upload documents to a secure vault or run a support-ticket service.'],
+				['Evidence storage', 'The demo does not upload documents to a secure evidence vault.'],
 				['Marketplace transactions', 'Orders, settlements, inspections and international payments are future work.']
 			]
 		}

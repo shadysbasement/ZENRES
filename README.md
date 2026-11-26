@@ -28,7 +28,7 @@ zevra/
 │   ├── core-api/          # entitlements, RLS, SSE twin, Tally, CBAM/XML, QR, FreightLink, Connect, Importer Hub, seed
 │   ├── intel-worker/      # OCR extraction, buyer-mail triage, vernacular floor-bot, backhaul ranking
 │   └── internal/platform/ # shared Go helpers
-├── db/migrations/         # 001 auth + vault · 002 core platform · 003 admin handoff · 004 legal consent
+├── db/migrations/         # 001 auth + vault · 002 core platform · 003 admin handoff · 004 legal consent · 005–006 support
 ├── templates/typst/       # QR label sheets, EU Customs Audit Defence Pack, digital POD
 └── scripts/check-palette.mjs   # zero-yellow / banned-font guardrail
 ```
@@ -86,6 +86,8 @@ A soft glass workspace adapted from the [Hospital Management System ERP referenc
 
 The public `/features` page distinguishes interactive sample workflows, pilot backend code and capabilities that are not launched. `/status` checks website reachability and the configured auth API health endpoint on each request; it is a basic reachability view, not incident monitoring. The demo upload control keeps the chosen file in the browser session and does not claim secure evidence storage. The PGP admin console labels its sample service signals as demo data.
 
+**Customer support** — `/support` has searchable English/Hindi guides, a reviewed-answer assistant, account-scoped tickets and conversations, callback requests, issue reports, feedback and service notices. The PGP-protected `/ops-vault/support` queue gives managers assignment, priority, response and resolution tracking, satisfaction and actual work-cost summaries; support agents can access only tickets assigned to them. Ticket changes are audited. The assistant uses approved guide text by default; optional model-generated wording requires `SUPPORT_AI_API_KEY`, `SUPPORT_AI_MODEL`, a signed-in user and their explicit opt-in. Only public guide text reaches the model. Set `SUPPORT_EMAIL` and `SUPPORT_WHATSAPP` only after approving real contact details; set `SUPPORT_EMAIL_NOTIFICATIONS=true` only with a configured, verified SMTP sender. Human live chat, response-time commitments and plan-specific entitlements need staffed operations and verified subscriptions; `SUPPORT_PLAN_ENTITLEMENTS_ENFORCED` defaults to false. The ticket conversation is available now, with polling for new replies. Apply migrations `005` and `006` to the auth database before deployment.
+
 **Auth** — email + Argon2id (t=3, 64 MiB, p=4), Google & Apple OIDC with PKCE S256 and JWKS verification, Apple first-auth names and private relay support, safe account linking (never a silent merge), and the privacy-first **Proton flow**: domain/MX recognition → WKD key lookup → optionally PGP-encrypted single-use magic link → Proton Pass passkey enrolment. `ProtonOIDCStub` sits behind `ENABLE_PROTON_OIDC=false` — no fabricated Proton OAuth endpoints.
 
 **Hidden PGP admin vault** — no link, sitemap, robots entry or client-bundle string points at it. The gate lives at `ADMIN_GATE_PATH` behind a catch-all route that 404s every other path identically; `Ctrl+Shift+Alt+Z` (or five Shift-clicks on the footer build ID) opens a passphrase prompt that only the server can resolve. The admin requests an RFC 9580 challenge encrypted to their pinned key, decrypts and clearsigns it offline (`gpg --decrypt | gpg --clearsign`), and the Go verifier checks signer fingerprint, verified bytes (constant-time hash compare), 120 s expiry, /24 subnet, 3-attempt cap and atomic single-use consumption. Unknown identifiers receive an indistinguishable decoy challenge. A one-time handoff code becomes a host-only `__Host-zv_ops` cookie on the app, bound to UA + subnet with 4 h / 30 min expiry.
@@ -121,6 +123,7 @@ Live Tally sync, FreightLink, Connect and QR anchoring backend endpoints default
 | `npm test` | hint engine (all 15 rules, cooldown), manifests, carbon math, Tally CSV parser + idempotency, freight matcher, commercial terms |
 | `pytest` | buyer-mail triage, deadlines, OCR confidence flags, Hindi/Devanagari floor-bot parsing, backhaul ranking |
 | `python scripts/run-rls-integration.py` | starts a disposable local PostgreSQL database, applies migrations 001-002, and verifies plant read/write isolation under `zevra_app`; requires PostgreSQL command-line tools |
+| `python scripts/run-support-integration.py` | starts a disposable PostgreSQL database, applies all migrations and verifies customer ticket isolation, support roles, admin session binding, private notes and work costs |
 | Playwright (`apps/*/tests`) | responsive snapshots, pricing/corridor toggles, QR resolver states, stealth 404s and bundle scan, Starter gating, 3D canvas, bell increments, Tally re-import |
 
 ## Notes & honest gaps

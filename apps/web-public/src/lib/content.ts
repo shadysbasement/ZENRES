@@ -10,7 +10,8 @@ export const NAV_LINKS = [
 	{ label: 'CBAM & Carbon', href: '/#cbam' },
 	{ label: 'FreightLink', href: '/freightlink' },
 	{ label: 'Traceability', href: '/#traceability' },
-	{ label: 'Pricing', href: '/pricing' }
+	{ label: 'Pricing', href: '/pricing' },
+	{ label: 'Support', href: '/support' }
 ] as const;
 
 /* ------------------------------------------------------------------ */

@@ -10,7 +10,7 @@
 		{ title: 'Platform', links: [['Features & availability', '/features'], ['ZENRES Business', '/#platform'], ['ZENRES Carbon', '/#cbam'], ['ZENRES Trace', '/#traceability'], ['ZENRES Connect', '/#platform']] },
 		{ title: 'Logistics', links: [['FreightLink', '/freightlink'], ['Delhi ↔ Mumbai', '/freightlink#corridors'], ['Ludhiana ↔ Delhi', '/freightlink#corridors'], ['Free carrier onboarding', '/signup?role=transporter']] },
 		{ title: 'Commercial', links: [['Pricing', '/pricing'], ['Plan comparison', '/pricing#compare'], ['EU Importer Hub', '/pricing#importer_hub'], ['Verify a QR passport', '/verify/c/01JD8ZV001CNTR7Q4M2X9KPWBA']] },
-		{ title: 'Account', links: [['Sign in', '/login'], ['Create workspace', '/signup'], ['Continue with Proton', '/login?method=proton'], ['Service status', '/status'], ['Security', '/#security']] }
+		{ title: 'Account', links: [['Sign in', '/login'], ['Create workspace', '/signup'], ['Continue with Proton', '/login?method=proton'], ['Support centre', '/support'], ['Service status', '/status'], ['Security', '/#security']] }
 	];
 
 	let clicks: number[] = [];

@@ -76,8 +76,8 @@
 			<h1>FreightLink & pilot KPI telemetry</h1>
 			<div class="kp">{#each OPS.kpis as [l, v, d] (l)}<div class="card-d"><span class="mono k">{l}</span><div class="big mono">{v}</div><p>{d}</p></div>{/each}</div>
 		{:else}
-			<h1>System health & immutable PGP audit log</h1>
-			<div class="kp">{#each [['auth-api', 'p99 41 ms'], ['core-api', 'p99 88 ms'], ['intel-worker', 'queue 3'], ['postgres', 'replica lag 0.2 s']] as [s, v] (s)}<div class="card-d"><span class="mono k">{s}</span><div class="big mono ok">UP</div><p>{v}</p></div>{/each}</div>
+			<h1>Sample system signals & audit events</h1>
+			<div class="kp">{#each [['auth-api', 'Example latency: p99 41 ms'], ['core-api', 'Example latency: p99 88 ms'], ['intel-worker', 'Example queue depth: 3'], ['postgres', 'Example replica lag: 0.2 s']] as [s, v] (s)}<div class="card-d"><span class="mono k">{s}</span><div class="big mono">DEMO</div><p>{v}</p></div>{/each}</div>
 			<table><thead><tr><th>event</th><th>admin</th><th>ip</th><th>when</th></tr></thead><tbody>{#each audit as [e, a, ip, t] (e + t)}<tr class:bad={e !== 'verify_success' && e !== 'challenge_issued'}><td>{e}</td><td>{a}</td><td>{ip}</td><td>{t}</td></tr>{/each}</tbody></table>
 		{/if}
 	</main>
@@ -249,9 +249,6 @@
 	}
 	.big.warn {
 		color: var(--status-terracotta);
-	}
-	.big.ok {
-		color: #6986b0;
 	}
 	.meter {
 		height: 3px;

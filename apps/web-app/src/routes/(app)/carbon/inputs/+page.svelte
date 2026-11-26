@@ -76,7 +76,7 @@
 		<label class="drop" class:dragging ondragover={(e) => { e.preventDefault(); dragging = true; }} ondragleave={() => (dragging = false)} ondrop={(e) => { e.preventDefault(); dragging = false; const fl = e.dataTransfer?.files[0]; if (fl) onFile(fl); }}>
 			<input type="file" accept=".pdf,.png,.jpg,.jpeg,.csv,.xlsx" onchange={(e) => { const fl = (e.currentTarget as HTMLInputElement).files?.[0]; if (fl) onFile(fl); }} />
 			<Icon name="upload" size={20} />
-			{#if file}<strong>{file.name}</strong><span class="muted small">{(file.size / 1024).toFixed(0)} KB · stored in AES-256 evidence vault</span>{:else}<strong>Drop a utility bill, fuel log or invoice</strong><span class="muted small">PDF, photo or Tally CSV</span>{/if}
+			{#if file}<strong>{file.name}</strong><span class="muted small">{(file.size / 1024).toFixed(0)} KB · selected for this demo session; the file is not uploaded or stored</span>{:else}<strong>Drop a utility bill, fuel log or invoice</strong><span class="muted small">PDF, photo or Tally CSV</span>{/if}
 		</label>
 		<HintWhisper context="inputs-revised" />
 

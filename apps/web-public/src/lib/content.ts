@@ -6,6 +6,7 @@
 
 export const NAV_LINKS = [
 	{ label: 'Platform', href: '/#platform' },
+	{ label: 'Features', href: '/features' },
 	{ label: 'CBAM & Carbon', href: '/#cbam' },
 	{ label: 'FreightLink', href: '/freightlink' },
 	{ label: 'Traceability', href: '/#traceability' },

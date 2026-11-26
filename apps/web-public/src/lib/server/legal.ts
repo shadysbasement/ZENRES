@@ -2,7 +2,7 @@ import { dev } from '$app/environment';
 import { env } from '$env/dynamic/private';
 
 const required = [
-	'ZENRES_LEGAL_ENTITY_NAME', 'ZENRES_LEGAL_REGISTERED_ADDRESS', 'ZENRES_LEGAL_SUPPORT_CONTACT',
+	'ZENRES_LEGAL_OPERATOR_NAME', 'ZENRES_LEGAL_CONTACT_ADDRESS', 'ZENRES_LEGAL_SUPPORT_CONTACT',
 	'ZENRES_LEGAL_PRIVACY_CONTACT', 'ZENRES_LEGAL_JURISDICTION', 'ZENRES_LEGAL_RETENTION_SUMMARY',
 	'ZENRES_LEGAL_TERMS_VERSION', 'ZENRES_LEGAL_PRIVACY_VERSION', 'ZENRES_LEGAL_EFFECTIVE_DATE'
 ] as const;
@@ -17,8 +17,8 @@ export function legalConfig() {
 		published,
 		visible: published || dev,
 		missing,
-		entity: env.ZENRES_LEGAL_ENTITY_NAME || 'Legal entity to be confirmed',
-		address: env.ZENRES_LEGAL_REGISTERED_ADDRESS || 'Registered address to be confirmed',
+		operator: env.ZENRES_LEGAL_OPERATOR_NAME || 'Operator to be confirmed',
+		address: env.ZENRES_LEGAL_CONTACT_ADDRESS || 'Contact address to be confirmed',
 		support: env.ZENRES_LEGAL_SUPPORT_CONTACT || 'Support contact to be confirmed',
 		privacy: env.ZENRES_LEGAL_PRIVACY_CONTACT || 'Privacy contact to be confirmed',
 		jurisdiction: env.ZENRES_LEGAL_JURISDICTION || 'Jurisdiction to be confirmed',

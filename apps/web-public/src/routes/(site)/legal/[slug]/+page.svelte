@@ -19,7 +19,7 @@
 	<nav class="policy-nav" aria-label="Legal documents">{#each LEGAL_LINKS as link (link.slug)}<a href="/legal/{link.slug}" aria-current={data.slug === link.slug ? 'page' : undefined}>{link.label}</a>{/each}</nav>
 	<div class="sections">
 		{#each data.policy.sections as section (section.heading)}<section><h2>{section.heading}</h2><p>{section.text}</p></section>{/each}
-		<section><h2>Contact and legal details</h2><dl><div><dt>Legal entity</dt><dd>{data.config.entity}</dd></div><div><dt>Registered address</dt><dd>{data.config.address}</dd></div><div><dt>Support</dt><dd>{data.config.support}</dd></div><div><dt>Privacy requests</dt><dd>{data.config.privacy}</dd></div><div><dt>Jurisdiction</dt><dd>{data.config.jurisdiction}</dd></div><div><dt>Retention</dt><dd>{data.config.retention}</dd></div></dl></section>
+		<section><h2>Contact and legal details</h2><dl><div><dt>Operator</dt><dd>{data.config.operator}</dd></div><div><dt>Contact address</dt><dd>{data.config.address}</dd></div><div><dt>Support</dt><dd>{data.config.support}</dd></div><div><dt>Privacy requests</dt><dd>{data.config.privacy}</dd></div><div><dt>Jurisdiction</dt><dd>{data.config.jurisdiction}</dd></div><div><dt>Retention</dt><dd>{data.config.retention}</dd></div></dl></section>
 	</div>
 </article>
 

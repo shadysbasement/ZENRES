@@ -12,19 +12,20 @@ import (
 
 // Memory implements Users, Vault and KV in-process. Used by tests and `STORE=memory` demos.
 type Memory struct {
-	mu         sync.Mutex
-	users      map[uuid.UUID]*User
-	tokens     []*AuthToken
-	identities []OAuthIdentity
-	passkeys   []*Passkey
-	sessions   []*Session
-	orgs       map[uuid.UUID]*Org
-	members    map[uuid.UUID]uuid.UUID // user -> org
-	adminKeys  []*AdminKey
-	challenges map[uuid.UUID]*Challenge
-	adminSess  []*AdminSession
-	AuditLog   []AuditEvent
-	kv         map[string]kvEntry
+	mu           sync.Mutex
+	users        map[uuid.UUID]*User
+	policyEvents []PolicyEvent
+	tokens       []*AuthToken
+	identities   []OAuthIdentity
+	passkeys     []*Passkey
+	sessions     []*Session
+	orgs         map[uuid.UUID]*Org
+	members      map[uuid.UUID]uuid.UUID // user -> org
+	adminKeys    []*AdminKey
+	challenges   map[uuid.UUID]*Challenge
+	adminSess    []*AdminSession
+	AuditLog     []AuditEvent
+	kv           map[string]kvEntry
 }
 
 type kvEntry struct {
@@ -57,6 +58,56 @@ func (m *Memory) CreateUser(_ context.Context, u *User) error {
 	cp := *u
 	m.users[u.ID] = &cp
 	return nil
+}
+
+func (m *Memory) CreateUserWithLegal(_ context.Context, u *User, termsVersion, privacyVersion string, marketing bool) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	for _, x := range m.users {
+		if strings.EqualFold(x.Email, u.Email) {
+			return ErrConflict
+		}
+	}
+	if u.ID == uuid.Nil {
+		u.ID = uuid.New()
+	}
+	u.CreatedAt = time.Now().UTC()
+	cp := *u
+	m.users[u.ID] = &cp
+	for _, choice := range []struct {
+		id, version string
+		accepted    bool
+	}{
+		{"terms", termsVersion, true}, {"privacy_ack", privacyVersion, true}, {"marketing", "v1", marketing},
+	} {
+		m.policyEvents = append(m.policyEvents, PolicyEvent{UserID: u.ID, PolicyID: choice.id, PolicyVersion: choice.version, Accepted: choice.accepted, Source: "registration", OccurredAt: u.CreatedAt})
+	}
+	return nil
+}
+
+func (m *Memory) RecordPolicyEvent(_ context.Context, e PolicyEvent) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	if _, ok := m.users[e.UserID]; !ok {
+		return ErrNotFound
+	}
+	if e.OccurredAt.IsZero() {
+		e.OccurredAt = time.Now().UTC()
+	}
+	m.policyEvents = append(m.policyEvents, e)
+	return nil
+}
+
+func (m *Memory) PolicyEventsForUser(_ context.Context, userID uuid.UUID) ([]PolicyEvent, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	out := make([]PolicyEvent, 0)
+	for _, e := range m.policyEvents {
+		if e.UserID == userID {
+			out = append(out, e)
+		}
+	}
+	return out, nil
 }
 
 func (m *Memory) UserByEmail(_ context.Context, email string) (*User, error) {

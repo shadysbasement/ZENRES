@@ -1,4 +1,4 @@
-// Command api runs the Zevra core platform API (app.zevra.io backend).
+// Command api runs the ZENRES core platform API.
 package main
 
 import (
@@ -45,20 +45,24 @@ func main() {
 
 	srv := &api.Server{
 		Cfg: api.Config{
-			AppOrigin:      platform.Env("PUBLIC_APP_URL", "http://localhost:5174"),
-			WorkerURL:      platform.Env("WORKER_URL", "http://localhost:8090"),
-			AuthAPIURL:     platform.Env("AUTH_API_URL", "http://localhost:8081"),
-			InternalSecret: os.Getenv("INTERNAL_API_SECRET"),
-			InboundSecret:  os.Getenv("MAIL_INBOUND_SECRET"),
-			TypstBin:       platform.Env("TYPST_BIN", "typst"),
-			TemplatesDir:   platform.Env("TYPST_TEMPLATES", "templates/typst"),
+			AppOrigin:       platform.Env("PUBLIC_APP_URL", "http://localhost:5174"),
+			WorkerURL:       platform.Env("WORKER_URL", "http://localhost:8090"),
+			AuthAPIURL:      platform.Env("AUTH_API_URL", "http://localhost:8081"),
+			InternalSecret:  os.Getenv("INTERNAL_API_SECRET"),
+			InboundSecret:   os.Getenv("MAIL_INBOUND_SECRET"),
+			TypstBin:        platform.Env("TYPST_BIN", "typst"),
+			TemplatesDir:    platform.Env("TYPST_TEMPLATES", "templates/typst"),
+			EnableLiveTally: os.Getenv("ZENRES_ENABLE_LIVE_TALLY") == "true",
+			EnableFreight:   os.Getenv("ZENRES_ENABLE_FREIGHT") == "true",
+			EnableConnect:   os.Getenv("ZENRES_ENABLE_CONNECT") == "true",
+			EnableAnchoring: os.Getenv("ZENRES_ENABLE_ANCHORING") == "true",
 		},
 		DB: pool, Broker: twin.NewBroker(), Limiter: platform.NewMemLimiter(),
 	}
 	addr := platform.Env("CORE_API_ADDR", ":8082")
 	httpSrv := &http.Server{Addr: addr, Handler: srv.Routes(), ReadHeaderTimeout: 5 * time.Second}
 	go func() {
-		slog.Info("zevra-core-api listening", "addr", addr)
+		slog.Info("zenres-core-api listening", "addr", addr)
 		if err := httpSrv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			slog.Error("listen", "err", err)
 			os.Exit(1)

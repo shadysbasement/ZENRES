@@ -2,7 +2,7 @@
 	import Logo from '$design/components/Logo.svelte';
 	import SplitText from '$design/components/SplitText.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
 	const guarantees = [
 		['Tenant isolation', 'Row-level security on every tenant-scoped table'],
@@ -34,7 +34,7 @@
 			<a href="/" class="back link-u">← Back to ZENRES</a>
 		</div>
 		<div class="pane-body">{@render children()}</div>
-		<p class="pane-foot">By continuing you agree to ZENRES’s terms and privacy notice. ZENRES provides reporting support, not legal or tax advice.</p>
+		<p class="pane-foot">ZENRES provides reporting support, not legal or tax advice. {#if data.legalAvailable}<a href="/legal/terms">Terms</a> · <a href="/legal/privacy">Privacy</a>{/if}</p>
 	</main>
 </div>
 

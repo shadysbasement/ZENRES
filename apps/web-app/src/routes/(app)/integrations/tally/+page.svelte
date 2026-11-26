@@ -99,7 +99,7 @@
 		<section class="panel">
 			<div class="panel-head"><h2>Local middleware connector</h2><span class="pill pill-emerald"><span class="dot dot-live"></span>Online</span></div>
 			<ol class="setup" role="list">
-				<li><span class="mono">01</span>Install <span class="mono">zevra-tally-bridge</span> on the Tally machine (Windows service).</li>
+				<li><span class="mono">01</span>Install the ZENRES Tally bridge on the Tally machine when live sync is available.</li>
 				<li><span class="mono">02</span>Enable Tally ODBC (port 9000) & XML-over-HTTP — kept on the LAN only.</li>
 				<li><span class="mono">03</span>The bridge dials out over TLS; Tally is never exposed to the internet.</li>
 			</ol>

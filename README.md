@@ -28,7 +28,7 @@ zevra/
 │   ├── core-api/          # entitlements, RLS, SSE twin, Tally, CBAM/XML, QR, FreightLink, Connect, Importer Hub, seed
 │   ├── intel-worker/      # OCR extraction, buyer-mail triage, vernacular floor-bot, backhaul ranking
 │   └── internal/platform/ # shared Go helpers
-├── db/migrations/         # 001 auth + vault · 002 core platform · 003 admin handoff
+├── db/migrations/         # 001 auth + vault · 002 core platform · 003 admin handoff · 004 legal consent
 ├── templates/typst/       # QR label sheets, EU Customs Audit Defence Pack, digital POD
 └── scripts/check-palette.mjs   # zero-yellow / banned-font guardrail
 ```
@@ -100,6 +100,16 @@ make enroll-admin HANDLE=zv-founder-01 KEY=founder.asc
 Set `ADMIN_GATE_PATH`, `ADMIN_GATE_SECRET` and `ADMIN_GATE_PASSPHRASE_SHA256` (sha256 of your trigger passphrase) in the deployment's secret store — never in git. For local testing without GnuPG, `services/auth-api/cmd/vault-dev-sign` generates a throwaway key and performs the decrypt + clearsign step.
 
 The deployed auth service lives in the `services` Vercel project. Run migrations `001` and `003` against its Postgres database, then enroll a public key with `make enroll-admin`. The public and app projects both need `AUTH_API_URL`; the public site and auth API share `ADMIN_GATE_SECRET`, while the app and auth API share `INTERNAL_API_SECRET`. The one-time handoff is stored in Postgres so it works across Vercel instances.
+
+## Legal release preparation
+
+The six ZENRES legal pages are review drafts available in local development. They return 404 in production, have no production footer links and are excluded from the sitemap until the copy is approved. The legal text in `apps/web-public/src/lib/legal/policies.ts` still contains explicit review notes, so setting environment variables alone cannot publish it. An approved revision must replace those notes and change the `LEGAL_COPY_APPROVED` gate in `apps/web-public/src/lib/server/legal.ts` after legal review.
+
+Before enabling account registration under the approved terms, confirm the legal entity, registered address, support and privacy contacts, jurisdiction, retention schedule, policy versions and effective date in `.env.example`; review actual processing and vendor inventory, commercial/refund terms, and any needed DPA or partner agreements. Apply migration `004_zenres_legal_consent.sql` to the auth database, then configure `ZENRES_LEGAL_APPROVED=true` with the same terms and privacy versions in the public and auth services. The app can set `PUBLIC_LEGAL_PUBLISHED=true` only when those public routes are live. New account creation then requires the current terms acceptance and privacy acknowledgement, stores immutable versioned events, and offers separate optional marketing consent with an account withdrawal control. New Google, Apple and Proton signups are held to the email flow until their own consent capture is implemented.
+
+The retention and deletion/export procedures still require an approved schedule and an operator workflow. Existing tenant RLS and role checks need a database-backed cross-tenant verification before live customer records are admitted. Material future terms changes also need a renewal screen for existing accounts. These are release blockers, not capabilities claimed by the draft notice.
+
+Live Tally sync, FreightLink, Connect and QR anchoring backend endpoints default off. Their individual `ZENRES_ENABLE_*` switches are for a later reviewed launch; the current web workspace remains a demo with sample data. Do not enable paid checkout until the reviewed subscription, refund and tax terms are in place.
 
 ## Tests
 

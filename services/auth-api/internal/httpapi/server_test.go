@@ -133,6 +133,64 @@ func TestRegisterVerifyLoginAndCookieFlags(t *testing.T) {
 	}
 }
 
+func TestLegalAcceptanceAndMarketingHistory(t *testing.T) {
+	s, mem, mail := newServer(t)
+	s.Cfg.LegalApproved = true
+	s.Cfg.TermsVersion = "terms-2026-11"
+	s.Cfg.PrivacyVersion = "privacy-2026-11"
+	h := s.Routes()
+	base := map[string]any{"full_name": "Ananya Deshpande", "email": "ananya@deccanalloy.in", "password": "Deccan-Alloy-2026!"}
+	if rec := do(t, h, "POST", "/api/v1/auth/register", base, nil, nil); rec.Code != 400 || !strings.Contains(rec.Body.String(), "legal_terms_required") {
+		t.Fatalf("unchecked terms must fail: %d %s", rec.Code, rec.Body)
+	}
+	base["terms_accepted"] = true
+	base["terms_version"] = "old"
+	base["privacy_version"] = s.Cfg.PrivacyVersion
+	if rec := do(t, h, "POST", "/api/v1/auth/register", base, nil, nil); rec.Code != 400 {
+		t.Fatalf("stale terms must fail: %d %s", rec.Code, rec.Body)
+	}
+	base["terms_version"] = s.Cfg.TermsVersion
+	if rec := do(t, h, "POST", "/api/v1/auth/register", base, nil, nil); rec.Code != 201 {
+		t.Fatalf("current terms must pass: %d %s", rec.Code, rec.Body)
+	}
+	u, err := mem.UserByEmail(context.Background(), "ananya@deccanalloy.in")
+	if err != nil {
+		t.Fatal(err)
+	}
+	events, err := mem.PolicyEventsForUser(context.Background(), u.ID)
+	if err != nil || len(events) != 3 {
+		t.Fatalf("registration events: %v %+v", err, events)
+	}
+	if events[0].PolicyID != "terms" || events[0].PolicyVersion != s.Cfg.TermsVersion || !events[0].Accepted || events[1].PolicyID != "privacy_ack" || events[1].PolicyVersion != s.Cfg.PrivacyVersion || !events[1].Accepted || events[2].PolicyID != "marketing" || events[2].Accepted {
+		t.Fatalf("incorrect policy events: %+v", events)
+	}
+	if rec := do(t, h, "POST", "/api/v1/auth/verify-email", map[string]string{"token": mail.token()}, nil, nil); rec.Code != 200 {
+		t.Fatalf("verify: %d %s", rec.Code, rec.Body)
+	}
+	login := do(t, h, "POST", "/api/v1/auth/login", map[string]string{"email": "ananya@deccanalloy.in", "password": "Deccan-Alloy-2026!"}, nil, nil)
+	if login.Code != 200 {
+		t.Fatalf("login: %d %s", login.Code, login.Body)
+	}
+	cookies := login.Result().Cookies()
+	if rec := do(t, h, "POST", "/api/v1/auth/consent/marketing", map[string]bool{"marketing_opt_in": true}, cookies, nil); rec.Code != 403 {
+		t.Fatalf("marketing update needs CSRF: %d", rec.Code)
+	}
+	csrf := cookieNamed(login, CSRFCookie)
+	if csrf == nil {
+		t.Fatal("missing CSRF cookie")
+	}
+	if rec := do(t, h, "POST", "/api/v1/auth/consent/marketing", map[string]bool{"marketing_opt_in": true}, cookies, map[string]string{"X-CSRF-Token": csrf.Value}); rec.Code != 200 {
+		t.Fatalf("marketing opt in: %d %s", rec.Code, rec.Body)
+	}
+	if rec := do(t, h, "POST", "/api/v1/auth/consent/marketing", map[string]bool{"marketing_opt_in": false}, cookies, map[string]string{"X-CSRF-Token": csrf.Value}); rec.Code != 200 {
+		t.Fatalf("marketing withdrawal: %d %s", rec.Code, rec.Body)
+	}
+	events, _ = mem.PolicyEventsForUser(context.Background(), u.ID)
+	if len(events) != 5 || events[3].PolicyID != "marketing" || !events[3].Accepted || events[4].Accepted {
+		t.Fatalf("marketing history: %+v", events)
+	}
+}
+
 func TestProtonMagicLinkIsSingleUse(t *testing.T) {
 	s, _, mail := newServer(t)
 	h := s.Routes()

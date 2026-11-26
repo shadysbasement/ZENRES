@@ -116,9 +116,22 @@ type AuditEvent struct {
 	CreatedAt  time.Time
 }
 
+type PolicyEvent struct {
+	UserID        uuid.UUID  `json:"user_id"`
+	OrgID         *uuid.UUID `json:"org_id,omitempty"`
+	PolicyID      string     `json:"policy_id"`
+	PolicyVersion string     `json:"policy_version"`
+	Accepted      bool       `json:"accepted"`
+	Source        string     `json:"source"`
+	OccurredAt    time.Time  `json:"occurred_at"`
+}
+
 // Users is the standard-user persistence surface.
 type Users interface {
 	CreateUser(ctx context.Context, u *User) error
+	CreateUserWithLegal(ctx context.Context, u *User, termsVersion, privacyVersion string, marketing bool) error
+	RecordPolicyEvent(ctx context.Context, e PolicyEvent) error
+	PolicyEventsForUser(ctx context.Context, userID uuid.UUID) ([]PolicyEvent, error)
 	UserByEmail(ctx context.Context, email string) (*User, error)
 	UserByID(ctx context.Context, id uuid.UUID) (*User, error)
 	UpdateUser(ctx context.Context, u *User) error

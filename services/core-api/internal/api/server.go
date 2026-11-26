@@ -33,13 +33,17 @@ import (
 )
 
 type Config struct {
-	AppOrigin      string
-	WorkerURL      string
-	AuthAPIURL     string
-	InternalSecret string
-	InboundSecret  string // shared secret for the Postmark/SES inbound webhook
-	TypstBin       string
-	TemplatesDir   string
+	AppOrigin       string
+	WorkerURL       string
+	AuthAPIURL      string
+	InternalSecret  string
+	InboundSecret   string // shared secret for the Postmark/SES inbound webhook
+	TypstBin        string
+	TemplatesDir    string
+	EnableLiveTally bool
+	EnableFreight   bool
+	EnableConnect   bool
+	EnableAnchoring bool
 }
 
 type Server struct {
@@ -92,7 +96,7 @@ func (s *Server) Routes() http.Handler {
 
 		r.Get("/dashboard/financials", s.financials)
 		r.Post("/tally/import-csv", s.tallyImport)
-		r.Post("/tally/connector-sync", s.tallyConnectorSync)
+		r.With(releaseGate(s.Cfg.EnableLiveTally)).Post("/tally/connector-sync", s.tallyConnectorSync)
 
 		r.Post("/mail/connections", s.mailConnection)
 		r.Get("/notifications", s.notifications)
@@ -108,23 +112,24 @@ func (s *Server) Routes() http.Handler {
 		r.Post("/qr/batch", s.qrBatch)
 		r.Post("/qr/container", s.qrContainer)
 		r.Post("/qr/container/{id}/link-batches", s.qrLink)
-		r.Post("/qr/{id}/anchor-hash", s.qrAnchor)
+		r.With(releaseGate(s.Cfg.EnableAnchoring)).Post("/qr/{id}/anchor-hash", s.qrAnchor)
 		r.Post("/qr/{id}/revoke", s.qrRevoke)
 		r.Get("/qr/{id}/label.pdf", s.qrLabel)
 
 		r.Group(func(r chi.Router) {
+			r.Use(releaseGate(s.Cfg.EnableFreight))
 			r.Use(gate("freightlink_core", "starter.freight_search"))
 			r.Post("/freight/listings", s.freightListing)
 			r.Get("/freight/matches", s.freightMatches)
 			r.Post("/freight/quotes", s.freightQuote)
 			r.Post("/freight/bookings/{id}/scan-qr", s.freightScan)
 		})
-		r.With(gate("freightlink_enterprise_fleet", "growth.fleet")).Get("/freight/enterprise/fleet", s.fleet)
+		r.With(releaseGate(s.Cfg.EnableFreight), gate("freightlink_enterprise_fleet", "growth.fleet")).Get("/freight/enterprise/fleet", s.fleet)
 
-		r.Get("/connect/suppliers", s.connectSuppliers)
-		r.Post("/connect/rfqs", s.createRFQ)
-		r.With(gate("importer_multi_supplier", "growth.bulk_invite")).Post("/importer/suppliers/bulk-invite", s.bulkInvite)
-		r.With(gate("supplier_benchmarking", "growth.benchmark")).Get("/importer/benchmarks", s.benchmarks)
+		r.With(releaseGate(s.Cfg.EnableConnect)).Get("/connect/suppliers", s.connectSuppliers)
+		r.With(releaseGate(s.Cfg.EnableConnect)).Post("/connect/rfqs", s.createRFQ)
+		r.With(releaseGate(s.Cfg.EnableConnect), gate("importer_multi_supplier", "growth.bulk_invite")).Post("/importer/suppliers/bulk-invite", s.bulkInvite)
+		r.With(releaseGate(s.Cfg.EnableConnect), gate("supplier_benchmarking", "growth.benchmark")).Get("/importer/benchmarks", s.benchmarks)
 	})
 
 	// PGP-verified super-admin console: 404 unless the admin session validates.
@@ -137,6 +142,18 @@ func (s *Server) Routes() http.Handler {
 	})
 	r.NotFound(func(w http.ResponseWriter, _ *http.Request) { http.Error(w, "Not Found", 404) })
 	return r
+}
+
+func releaseGate(enabled bool) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if !enabled {
+				platform.Error(w, 403, "feature_not_launched")
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
 }
 
 /* ------------------------------------------------------------------ */

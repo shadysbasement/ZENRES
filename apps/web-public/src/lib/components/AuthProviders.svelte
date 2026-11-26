@@ -19,10 +19,16 @@
 	const roleParam = page.url.searchParams.get('role');
 	let role = $state<Role>(roleParam === 'transporter' ? 'transporter' : roleParam === 'eu_importer' ? 'eu_importer' : 'msme');
 
+	const legalPublished = page.data.legalPublished ?? false;
+	const termsVersion = page.data.legalTermsVersion ?? '';
+	const privacyVersion = page.data.legalPrivacyVersion ?? '';
 	let method = $state<'email' | 'proton'>(page.url.searchParams.get('method') === 'proton' ? 'proton' : 'email');
+	$effect(() => { if (mode === 'signup' && legalPublished) method = 'email'; });
 	let fullName = $state('');
 	let email = $state('');
 	let password = $state('');
+	let termsAccepted = $state(false);
+	let marketingOptIn = $state(false);
 	let showPw = $state(false);
 	let busy = $state(false);
 	let error = $state('');
@@ -47,6 +53,8 @@
 		email_unverified: 'Please verify your email first — we have re-sent the link.',
 		rate_limited: 'Too many attempts. Please wait a few minutes and try again.',
 		link_required: 'This email already has a password account. Confirm your password to link it.',
+		legal_terms_required: 'Please accept the current terms and acknowledge the privacy notice.',
+		legal_signup_requires_email: 'Create your account with email so your legal choices can be recorded.',
 		not_proton: 'This domain does not appear to be hosted by Proton.',
 		network: 'Network error. Check your connection and retry.'
 	};
@@ -58,10 +66,14 @@
 			error = errors.weak_password;
 			return;
 		}
+		if (mode === 'signup' && legalPublished && !termsAccepted) {
+			error = errors.legal_terms_required;
+			return;
+		}
 		busy = true;
 		const r =
 			mode === 'signup'
-				? await api('register', { full_name: fullName, email, password, role, plan })
+				? await api('register', { full_name: fullName, email, password, role, plan, terms_accepted: termsAccepted, terms_version: termsVersion, privacy_version: privacyVersion, marketing_opt_in: marketingOptIn })
 				: await api<{ redirect?: string; onboarded?: boolean }>('login', { email, password });
 		busy = false;
 		if (r.ok) {
@@ -74,7 +86,7 @@
 			}
 			return;
 		}
-		if (r.offline && DEMO) {
+		if (r.offline && DEMO && !(mode === 'signup' && legalPublished)) {
 			// Local demo without the Go auth service running.
 			if (mode === 'signup') goto(`/onboarding?role=${role}${plan ? `&plan=${plan}` : ''}&name=${encodeURIComponent(fullName)}`);
 			else window.location.assign(`${APP_URL}/dashboard`);
@@ -162,6 +174,9 @@
 		<button class="btn btn-ghost btn-sm" onclick={() => (sent = null)}>Use a different address</button>
 	</div>
 {:else}
+	{#if page.url.searchParams.get('error') === 'legal_signup_requires_email'}<p class="err" role="alert">{errors.legal_signup_requires_email}</p>{/if}
+	{#if mode === 'signup' && legalPublished}<p class="signup-note">For now, create a new account with work email. Other sign-in methods remain available for existing accounts.</p>{/if}
+	{#if mode !== 'signup' || !legalPublished}
 	<div class="providers">
 		<a class="prov" href="/api/auth/oauth/google/start{next ? `?next=${encodeURIComponent(next)}` : ''}">
 			<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" /></svg>
@@ -176,6 +191,7 @@
 			Continue with Proton
 		</button>
 	</div>
+	{/if}
 
 	{#if mode === 'signup'}
 		<div class="role">
@@ -242,6 +258,10 @@
 					<span class="hint">Minimum 12 characters. {strength.label}</span>
 				{/if}
 			</label>
+			{#if mode === 'signup' && legalPublished}
+				<label class="legal-choice"><input type="checkbox" bind:checked={termsAccepted} required /><span>I agree to the <a href="/legal/terms" target="_blank" rel="noopener">Terms and Conditions</a> and acknowledge the <a href="/legal/privacy" target="_blank" rel="noopener">Privacy Notice</a>.</span></label>
+				<label class="legal-choice"><input type="checkbox" bind:checked={marketingOptIn} /><span>Email me optional ZENRES product updates. I can withdraw this choice later.</span></label>
+			{/if}
 			<button class="btn btn-primary btn-lg full" disabled={busy}>
 				{busy ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Sign in'} <span class="arrow">→</span>
 			</button>
@@ -252,6 +272,10 @@
 {/if}
 
 <style>
+	.legal-choice { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0; font-size: 13px; line-height: 1.5; }
+	.legal-choice input { margin-top: 3px; accent-color: #6ab8ff; flex: none; }
+	.legal-choice a { text-decoration: underline; text-underline-offset: 2px; }
+	.signup-note { font-size: 13px; color: var(--ink-muted); margin-bottom: 16px; }
 	.providers {
 		display: flex;
 		flex-direction: column;

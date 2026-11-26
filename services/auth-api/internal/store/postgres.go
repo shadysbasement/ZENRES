@@ -57,6 +57,59 @@ func (p *Postgres) CreateUser(ctx context.Context, u *User) error {
 	return err
 }
 
+func (p *Postgres) CreateUserWithLegal(ctx context.Context, u *User, termsVersion, privacyVersion string, marketing bool) error {
+	tx, err := p.DB.Begin(ctx)
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback(ctx)
+	err = tx.QueryRow(ctx, `INSERT INTO users (email, email_verified, full_name, password_hash, auth_origin, proton_wkd_pgp, status)
+		VALUES ($1,$2,$3,$4,$5,$6,COALESCE(NULLIF($7,''),'active')) RETURNING id, created_at`,
+		u.Email, u.EmailVerified, u.FullName, nullStr(u.PasswordHash), u.AuthOrigin, nullStr(u.ProtonWKDPGP), u.Status).Scan(&u.ID, &u.CreatedAt)
+	if isUnique(err) {
+		return ErrConflict
+	}
+	if err != nil {
+		return err
+	}
+	for _, choice := range []struct {
+		id, version string
+		accepted    bool
+	}{
+		{"terms", termsVersion, true}, {"privacy_ack", privacyVersion, true}, {"marketing", "v1", marketing},
+	} {
+		if _, err = tx.Exec(ctx, `INSERT INTO user_policy_events (user_id, policy_id, policy_version, accepted, source)
+			VALUES ($1,$2,$3,$4,'registration')`, u.ID, choice.id, choice.version, choice.accepted); err != nil {
+			return err
+		}
+	}
+	return tx.Commit(ctx)
+}
+
+func (p *Postgres) RecordPolicyEvent(ctx context.Context, e PolicyEvent) error {
+	_, err := p.DB.Exec(ctx, `INSERT INTO user_policy_events (user_id, org_id, policy_id, policy_version, accepted, source, occurred_at)
+		VALUES ($1,$2,$3,$4,$5,$6,$7)`, e.UserID, e.OrgID, e.PolicyID, e.PolicyVersion, e.Accepted, e.Source, e.OccurredAt)
+	return err
+}
+
+func (p *Postgres) PolicyEventsForUser(ctx context.Context, userID uuid.UUID) ([]PolicyEvent, error) {
+	rows, err := p.DB.Query(ctx, `SELECT user_id, org_id, policy_id, policy_version, accepted, source, occurred_at
+		FROM user_policy_events WHERE user_id=$1 ORDER BY occurred_at, id`, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var out []PolicyEvent
+	for rows.Next() {
+		var e PolicyEvent
+		if err := rows.Scan(&e.UserID, &e.OrgID, &e.PolicyID, &e.PolicyVersion, &e.Accepted, &e.Source, &e.OccurredAt); err != nil {
+			return nil, err
+		}
+		out = append(out, e)
+	}
+	return out, rows.Err()
+}
+
 const userCols = `id, email, email_verified, full_name, COALESCE(password_hash,''), auth_origin, COALESCE(proton_wkd_pgp,''), status, created_at`
 
 func scanUser(row pgx.Row) (*User, error) {

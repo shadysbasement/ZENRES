@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
+	import { dev } from '$app/environment';
+	import { env } from '$env/dynamic/public';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
@@ -26,6 +28,8 @@
 	const currentPage = $derived(NAV.flatMap((g) => g.items).find((i) => isActive(i.key))?.label ?? 'Workspace');
 	const tiers: { id: SubscriptionTier; label: string }[] = [{ id: 'starter', label: 'MSME Starter' }, { id: 'growth', label: 'MSME Growth' }, { id: 'importer_hub', label: 'EU Importer Hub' }];
 	const date = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+	const legalAvailable = dev || env.PUBLIC_LEGAL_PUBLISHED === 'true';
+	const siteURL = env.PUBLIC_SITE_URL ?? 'http://localhost:5173';
 	onMount(() => appearance.init());
 	$effect(() => { void page.url.pathname; openGroup = ''; menuOpen = false; });
 	$effect(() => { const mod = moduleForPath(page.url.pathname); if (mod && !ws.manifest.visible_modules.includes(mod)) goto('/dashboard', { replaceState: true }); });
@@ -58,6 +62,7 @@
 					<div class="menu-divider"></div>
                     <p class="menu-label">Display currency</p><div class="currencies">{#each ['USD', 'INR', 'EUR'] as const as currency (currency)}<button aria-pressed={ws.currency === currency} onclick={() => ws.setCurrency(currency)}>{currency}</button>{/each}</div>
 					<a class="menu-row" href="/settings/team"><Icon name="settings"/><span>Workspace settings</span></a>
+					{#if legalAvailable}<a class="menu-row" href="{siteURL}/account/privacy"><Icon name="shield"/><span>Privacy preferences</span></a>{/if}
 					<a class="menu-row" href="/logout" data-sveltekit-reload><Icon name="logout"/><span>Sign out</span></a>
 				</div>
 			{/if}
@@ -94,7 +99,7 @@
 		</nav>
 	</div>
 	<main id="workspace-content" class="content" tabindex="-1">{@render children()}</main>
-	<footer class="workspace-footer"><span class="status"><i></i>{ws.mode === 'live' ? 'Connected to your workspace' : 'Demo workspace · sample data'}</span><span class="footer-date">{date}</span><button onclick={() => (appearanceOpen = true)}><Icon name="sparkle" size={13}/> Make it yours</button></footer>
+	<footer class="workspace-footer"><span class="status"><i></i>{ws.mode === 'live' ? 'Connected to your workspace' : 'Demo workspace · sample data'}</span><span class="footer-date">{date}</span>{#if legalAvailable}<a href="{siteURL}/legal/terms">Terms</a><a href="{siteURL}/legal/privacy">Privacy</a>{/if}<button onclick={() => (appearanceOpen = true)}><Icon name="sparkle" size={13}/> Make it yours</button></footer>
 </div>
 <AppearancePanel open={appearanceOpen} onclose={() => (appearanceOpen = false)}/>
 <MailBellDrawer/>

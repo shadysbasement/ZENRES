@@ -1,4 +1,4 @@
-// Command server runs the Zevra auth & identity API (zevra-auth-api).
+// Command server runs the ZENRES auth and identity API.
 package main
 
 import (
@@ -54,14 +54,14 @@ func main() {
 		}
 	}
 
-	vault, err := pgp.New(vaultStore, platform.Env("VAULT_DOMAIN", "zevra.io"))
+	vault, err := pgp.New(vaultStore, platform.Env("VAULT_DOMAIN", "zenres.example"))
 	if err != nil {
 		slog.Error("vault", "err", err)
 		os.Exit(1)
 	}
 
 	rpID := platform.Env("WEBAUTHN_RP_ID", "localhost")
-	wa, err := webauthn.New(&webauthn.Config{RPID: rpID, RPDisplayName: "Zevra", RPOrigins: strings.Split(platform.Env("WEBAUTHN_ORIGINS", publicURL+","+appURL), ",")})
+	wa, err := webauthn.New(&webauthn.Config{RPID: rpID, RPDisplayName: "ZENRES", RPOrigins: strings.Split(platform.Env("WEBAUTHN_ORIGINS", publicURL+","+appURL), ",")})
 	if err != nil {
 		slog.Error("webauthn", "err", err)
 		os.Exit(1)
@@ -69,7 +69,7 @@ func main() {
 
 	var mailer auth.Mailer = auth.LogMailer{}
 	if addr := os.Getenv("SMTP_ADDR"); addr != "" {
-		mailer = auth.SMTPMailer{Addr: addr, From: platform.Env("SMTP_FROM", "no-reply@zevra.io"), User: os.Getenv("SMTP_USER"), Pass: os.Getenv("SMTP_PASS")}
+		mailer = auth.SMTPMailer{Addr: addr, From: platform.Env("SMTP_FROM", "no-reply@zenres.example"), User: os.Getenv("SMTP_USER"), Pass: os.Getenv("SMTP_PASS")}
 	}
 
 	providers := map[string]auth.IdentityProvider{}
@@ -100,6 +100,9 @@ func main() {
 			CookieSecure:   platform.Env("COOKIE_SECURE", "true") != "false",
 			GateSecret:     os.Getenv("ADMIN_GATE_SECRET"),
 			InternalSecret: os.Getenv("INTERNAL_API_SECRET"),
+			LegalApproved:  os.Getenv("ZENRES_LEGAL_APPROVED") == "true",
+			TermsVersion:   os.Getenv("ZENRES_LEGAL_TERMS_VERSION"),
+			PrivacyVersion: os.Getenv("ZENRES_LEGAL_PRIVACY_VERSION"),
 		},
 		Users: users, KV: kv, Vault: vault, Limiter: platform.NewMemLimiter(), Mail: mailer, Providers: providers, WebAuthn: wa, Now: time.Now,
 	}
@@ -110,7 +113,7 @@ func main() {
 	}
 	httpSrv := &http.Server{Addr: addr, Handler: srv.Routes(), ReadHeaderTimeout: 5 * time.Second}
 	go func() {
-		slog.Info("zevra-auth-api listening", "addr", addr)
+		slog.Info("zenres-auth-api listening", "addr", addr)
 		if err := httpSrv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			slog.Error("listen", "err", err)
 			os.Exit(1)

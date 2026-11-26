@@ -37,6 +37,9 @@ type Config struct {
 	GateSecret     string // X-Zevra-Gate header required on vault endpoints
 	InternalSecret string // X-Internal-Secret for service-to-service calls
 	SessionTTL     time.Duration
+	LegalApproved  bool
+	TermsVersion   string
+	PrivacyVersion string
 }
 
 type Server struct {
@@ -70,6 +73,8 @@ func (s *Server) Routes() http.Handler {
 		r.Post("/login", s.login)
 		r.Post("/logout", s.logout)
 		r.Get("/me", s.me)
+		r.Get("/consent", s.consent)
+		r.Post("/consent/marketing", s.updateMarketing)
 		r.Post("/password/forgot", s.forgotPassword)
 		r.Post("/password/reset", s.resetPassword)
 		r.Post("/proton/wkd", s.protonWKD)
@@ -195,17 +200,25 @@ func (s *Server) currentUser(r *http.Request) (*store.User, *store.Session, erro
 /* ------------------------------------------------------------------ */
 
 type registerIn struct {
-	FullName string `json:"full_name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-	Plan     string `json:"plan"`
+	FullName       string `json:"full_name"`
+	Email          string `json:"email"`
+	Password       string `json:"password"`
+	Role           string `json:"role"`
+	Plan           string `json:"plan"`
+	TermsAccepted  bool   `json:"terms_accepted"`
+	TermsVersion   string `json:"terms_version"`
+	PrivacyVersion string `json:"privacy_version"`
+	MarketingOptIn bool   `json:"marketing_opt_in"`
 }
 
 func (s *Server) register(w http.ResponseWriter, r *http.Request) {
 	var in registerIn
 	if platform.DecodeLoose(r, &in) != nil || !emailRe.MatchString(in.Email) || strings.TrimSpace(in.FullName) == "" {
 		platform.Error(w, 400, "invalid_input")
+		return
+	}
+	if s.Cfg.LegalApproved && (!in.TermsAccepted || in.TermsVersion != s.Cfg.TermsVersion || in.PrivacyVersion != s.Cfg.PrivacyVersion || s.Cfg.TermsVersion == "" || s.Cfg.PrivacyVersion == "") {
+		platform.Error(w, 400, "legal_terms_required")
 		return
 	}
 	if !s.Limiter.Allow("register:"+platform.ClientIP(r), 10, time.Hour) {
@@ -218,7 +231,13 @@ func (s *Server) register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	u := &store.User{Email: strings.ToLower(strings.TrimSpace(in.Email)), FullName: strings.TrimSpace(in.FullName), PasswordHash: hash, AuthOrigin: "manual", Status: "pending"}
-	if err := s.Users.CreateUser(r.Context(), u); err != nil {
+	var createErr error
+	if s.Cfg.LegalApproved {
+		createErr = s.Users.CreateUserWithLegal(r.Context(), u, s.Cfg.TermsVersion, s.Cfg.PrivacyVersion, in.MarketingOptIn)
+	} else {
+		createErr = s.Users.CreateUser(r.Context(), u)
+	}
+	if err := createErr; err != nil {
 		if errors.Is(err, store.ErrConflict) {
 			platform.Error(w, 409, "email_taken")
 			return
@@ -226,7 +245,7 @@ func (s *Server) register(w http.ResponseWriter, r *http.Request) {
 		s.fail(w, err)
 		return
 	}
-	if err := s.sendToken(r.Context(), u, "email_verify", 24*time.Hour, "Verify your Zevra email", nil); err != nil {
+	if err := s.sendToken(r.Context(), u, "email_verify", 24*time.Hour, "Verify your ZENRES email", nil); err != nil {
 		s.fail(w, err)
 		return
 	}
@@ -240,7 +259,7 @@ func (s *Server) sendToken(ctx context.Context, u *store.User, purpose string, t
 		return err
 	}
 	path := "/auth/verify-email?purpose=" + purpose + "&token=" + url.QueryEscape(tok)
-	body := fmt.Sprintf("Hello %s,\n\nUse this single-use link within %s:\n%s%s\n\nIf you did not request this, ignore this email.\n— Zevra", u.FullName, ttl, s.Cfg.PublicURL, path)
+	body := fmt.Sprintf("Hello %s,\n\nUse this single-use link within %s:\n%s%s\n\nIf you did not request this, ignore this email.\n— ZENRES", u.FullName, ttl, s.Cfg.PublicURL, path)
 	return s.Mail.Send(ctx, u.Email, subject, body, nil)
 }
 
@@ -308,7 +327,7 @@ func (s *Server) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if !u.EmailVerified {
-		_ = s.sendToken(r.Context(), u, "email_verify", 24*time.Hour, "Verify your Zevra email", nil)
+		_ = s.sendToken(r.Context(), u, "email_verify", 24*time.Hour, "Verify your ZENRES email", nil)
 		platform.Error(w, 403, "email_unverified")
 		return
 	}
@@ -343,6 +362,46 @@ func (s *Server) me(w http.ResponseWriter, r *http.Request) {
 	platform.JSON(w, 200, out)
 }
 
+func (s *Server) consent(w http.ResponseWriter, r *http.Request) {
+	u, _, err := s.currentUser(r)
+	if err != nil {
+		platform.Error(w, 401, "unauthenticated")
+		return
+	}
+	events, err := s.Users.PolicyEventsForUser(r.Context(), u.ID)
+	if err != nil {
+		s.fail(w, err)
+		return
+	}
+	marketing := false
+	for _, e := range events {
+		if e.PolicyID == "marketing" {
+			marketing = e.Accepted
+		}
+	}
+	platform.JSON(w, 200, map[string]any{"marketing_opt_in": marketing, "events": events})
+}
+
+func (s *Server) updateMarketing(w http.ResponseWriter, r *http.Request) {
+	u, sess, err := s.currentUser(r)
+	if err != nil {
+		platform.Error(w, 401, "unauthenticated")
+		return
+	}
+	var in struct {
+		MarketingOptIn *bool `json:"marketing_opt_in"`
+	}
+	if platform.DecodeLoose(r, &in) != nil || in.MarketingOptIn == nil {
+		platform.Error(w, 400, "invalid_input")
+		return
+	}
+	if err := s.Users.RecordPolicyEvent(r.Context(), store.PolicyEvent{UserID: u.ID, OrgID: sess.OrgID, PolicyID: "marketing", PolicyVersion: "v1", Accepted: *in.MarketingOptIn, Source: "account_preferences", OccurredAt: s.Now().UTC()}); err != nil {
+		s.fail(w, err)
+		return
+	}
+	platform.JSON(w, 200, map[string]any{"marketing_opt_in": *in.MarketingOptIn})
+}
+
 func (s *Server) forgotPassword(w http.ResponseWriter, r *http.Request) {
 	var in struct {
 		Email string `json:"email"`
@@ -350,7 +409,7 @@ func (s *Server) forgotPassword(w http.ResponseWriter, r *http.Request) {
 	_ = platform.DecodeLoose(r, &in)
 	if s.Limiter.Allow("forgot:"+platform.ClientIP(r), 5, time.Hour) {
 		if u, err := s.Users.UserByEmail(r.Context(), strings.ToLower(in.Email)); err == nil && u.PasswordHash != "" {
-			_ = s.sendToken(r.Context(), u, "password_reset", time.Hour, "Reset your Zevra password", nil)
+			_ = s.sendToken(r.Context(), u, "password_reset", time.Hour, "Reset your ZENRES password", nil)
 		}
 	}
 	platform.JSON(w, 200, map[string]string{"status": "if_exists_sent"}) // identical response either way
@@ -436,7 +495,7 @@ func (s *Server) protonMagicLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	link := fmt.Sprintf("%s/auth/verify-email?purpose=proton_magic&token=%s", s.Cfg.PublicURL, url.QueryEscape(tok))
-	body := "Sign in to Zevra with this single-use link (valid 15 minutes):\n" + link + "\n\nAfter signing in you can save a passkey to Proton Pass."
+	body := "Sign in to ZENRES with this single-use link (valid 15 minutes):\n" + link + "\n\nAfter signing in you can save a passkey to Proton Pass."
 	var key *crypto.Key
 	if in.Encrypt {
 		ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
@@ -445,7 +504,7 @@ func (s *Server) protonMagicLink(w http.ResponseWriter, r *http.Request) {
 			key = k
 		}
 	}
-	if err := s.Mail.Send(r.Context(), email, "Your Zevra sign-in link", body, key); err != nil {
+	if err := s.Mail.Send(r.Context(), email, "Your ZENRES sign-in link", body, key); err != nil {
 		s.fail(w, err)
 		return
 	}
@@ -467,6 +526,10 @@ func (s *Server) protonVerify(w http.ResponseWriter, r *http.Request) {
 	}
 	u, err := s.Users.UserByEmail(r.Context(), t.Email)
 	if errors.Is(err, store.ErrNotFound) {
+		if s.Cfg.LegalApproved {
+			platform.Error(w, 409, "legal_signup_requires_email")
+			return
+		}
 		u = &store.User{Email: t.Email, EmailVerified: true, FullName: strings.Split(t.Email, "@")[0], AuthOrigin: "proton", Status: "active"}
 		if err := s.Users.CreateUser(r.Context(), u); err != nil {
 			s.fail(w, err)
@@ -715,6 +778,9 @@ func (s *Server) resolveOAuthUser(ctx context.Context, w http.ResponseWriter, r 
 		b, _ := json.Marshal(map[string]string{"provider": provider, "subject": c.Subject, "email": c.Email, "user_id": existing.ID.String()})
 		s.KV.Put("link:"+tok, b, 10*time.Minute)
 		return s.Cfg.PublicURL + "/login?link=" + tok + "&provider=" + provider, nil
+	}
+	if s.Cfg.LegalApproved {
+		return s.Cfg.PublicURL + "/signup?error=legal_signup_requires_email", nil
 	}
 	name := strings.TrimSpace(c.Name)
 	if name == "" {

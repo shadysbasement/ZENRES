@@ -3,6 +3,8 @@
 	import { reveal, magnetic } from '$design/motion';
 	import SplitText from '$design/components/SplitText.svelte';
 	import { DISCLAIMERS } from '$lib/content';
+	import { LEGAL_LINKS } from '$lib/legal/policies';
+	let { legalAvailable = false }: { legalAvailable?: boolean } = $props();
 
 	const columns = [
 		{ title: 'Platform', links: [['ZENRES Business', '/#platform'], ['ZENRES Carbon', '/#cbam'], ['ZENRES Trace', '/#traceability'], ['ZENRES Connect', '/#platform']] },
@@ -72,9 +74,10 @@
 		</div>
 
 		<div class="bar">
-			<span>© 2026 ZENRES Technologies. All rights reserved.</span>
+			<span>© 2026 ZENRES. All rights reserved.</span>
 			<span class="build" onclick={buildClick} role="presentation">BUILD 2026.11 // ZV-CORE</span>
 		</div>
+		{#if legalAvailable}<nav class="legal-links" aria-label="Legal information">{#each LEGAL_LINKS as link (link.slug)}<a href="/legal/{link.slug}">{link.label}</a>{/each}</nav>{/if}
 	</div>
 </footer>
 
@@ -189,6 +192,9 @@
 		letter-spacing: 0.06em;
 		user-select: none;
 	}
+	.legal-links { display: flex; flex-wrap: wrap; gap: 10px 20px; padding-bottom: 26px; font-size: 12px; }
+	.legal-links a { color: #c9d5d4; }
+	.legal-links a:hover { color: #fff; }
 	@media (max-width: 1024px) {
 		.cols {
 			grid-template-columns: repeat(2, 1fr);

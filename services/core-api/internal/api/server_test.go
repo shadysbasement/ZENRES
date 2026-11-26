@@ -1,6 +1,7 @@
 package api
 
 import (
+	"net/http"
 	"net/http/httptest"
 	"regexp"
 	"testing"
@@ -8,6 +9,19 @@ import (
 	"github.com/shadysbasement/zevra/services/core-api/internal/twin"
 	"github.com/shadysbasement/zevra/services/internal/platform"
 )
+
+func TestUnlaunchedFeatureCannotReachHandler(t *testing.T) {
+	called := false
+	h := releaseGate(false)(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		called = true
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/api/v1/tally/connector-sync", nil))
+	if rec.Code != http.StatusForbidden || called {
+		t.Fatalf("disabled feature: status %d, handler called %t", rec.Code, called)
+	}
+}
 
 func TestPublicTokensAreNonGuessable(t *testing.T) {
 	re := regexp.MustCompile(`^[0-9A-HJKMNP-TV-Z]{26}$`)

@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 	let auth: 'operational' | 'unavailable' | 'not configured' = 'not configured';
 	if (base) {
 		try {
-			const response = await fetch(`${base.replace(/\/$/, '')}/healthz`, { signal: AbortSignal.timeout(2500), cache: 'no-store' });
+			const response = await fetch(`${base.replace(/\/$/, '')}/healthz`, { signal: AbortSignal.timeout(6000), cache: 'no-store' });
 			const body = response.ok ? await response.json() : null;
 			auth = response.ok && body?.status === 'ok' ? 'operational' : 'unavailable';
 		} catch {

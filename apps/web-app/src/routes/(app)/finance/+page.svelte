@@ -27,9 +27,9 @@
 		xAxis: { type: 'category', data: months.map((m) => m.m) },
 		yAxis: { type: 'value', axisLabel: { formatter: (v: number) => money(v / k, ws.currency, { compact: true }) } },
 		series: [
-			{ name: 'Revenue', type: 'bar', barGap: '10%', barWidth: 9, data: months.map((m) => Math.round(m.revenue * k)), itemStyle: { color: '#14533C', borderRadius: [2, 2, 0, 0] } },
-			{ name: 'Expenses', type: 'bar', barWidth: 9, data: months.map((m) => Math.round(m.expenses * k)), itemStyle: { color: '#C5CFCA', borderRadius: [2, 2, 0, 0] } },
-			{ name: 'Net profit', type: 'line', smooth: 0.3, symbolSize: 5, data: months.map((m) => Math.round(m.net * k)), lineStyle: { color: '#1E4D6B', width: 2 }, itemStyle: { color: '#1E4D6B' } }
+			{ name: 'Revenue', type: 'bar', barGap: '10%', barWidth: 9, data: months.map((m) => Math.round(m.revenue * k)), itemStyle: { color: '#8CBDE9', borderRadius: [2, 2, 0, 0] } },
+			{ name: 'Expenses', type: 'bar', barWidth: 9, data: months.map((m) => Math.round(m.expenses * k)), itemStyle: { color: '#CFDEED', borderRadius: [2, 2, 0, 0] } },
+			{ name: 'Net profit', type: 'line', smooth: 0.3, symbolSize: 5, data: months.map((m) => Math.round(m.net * k)), lineStyle: { color: '#B6A0DD', width: 2 }, itemStyle: { color: '#B6A0DD' } }
 		]
 	});
 	const aging = (rows: { bucket: string; amount: number }[], color: string) => ({
@@ -44,7 +44,7 @@
 
 <svelte:head><title>Finance — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Business · A4" title="Financials, orders &" serif="production costing" lede="Revenue, expenses and profit sourced from Tally vouchers, with order books, invoice register and receivables/payables aging." />
+<PageHeader eyebrow="ZENRES Business" title="Financials, orders &" serif="production costing" lede="Revenue, expenses and profit sourced from Tally vouchers, with order books, invoice register and receivables/payables aging." />
 
 <div class="kpis">
 	<Kpi i={0} label="Revenue · 12 mo" value={money(ytd.revenue, ws.currency, { compact: true })} />
@@ -56,8 +56,8 @@
 <div class="g2">
 	<section class="panel"><div class="panel-head"><h2>Profit & loss</h2><span class="muted mono small">Tally-synced · {ws.currency}</span></div><EChart option={pnl} height={280} /></section>
 	<div class="side">
-		<section class="panel"><div class="panel-head"><h2>Receivables aging</h2></div><EChart option={aging(ORDERS.receivables, '#14533C')} height={120} /></section>
-		<section class="panel"><div class="panel-head"><h2>Payables aging</h2></div><EChart option={aging(ORDERS.payables, '#1E4D6B')} height={120} /></section>
+		<section class="panel"><div class="panel-head"><h2>Receivables aging</h2></div><EChart option={aging(ORDERS.receivables, '#8CBDE9')} height={120} /></section>
+		<section class="panel"><div class="panel-head"><h2>Payables aging</h2></div><EChart option={aging(ORDERS.payables, '#B6A0DD')} height={120} /></section>
 	</div>
 </div>
 

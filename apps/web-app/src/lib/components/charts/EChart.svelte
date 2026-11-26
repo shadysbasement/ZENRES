@@ -13,30 +13,30 @@
 	let chart: ECharts | null = null;
 
 	const theme = {
-		color: ['#14533C', '#1E4D6B', '#C05A3C', '#47544F', '#38B884', '#3F7396', '#9AA7A1'],
+		color: ['#8CBDE9', '#B6A0DD', '#DFA6AF', '#60718B', '#8CBFAB', '#9CADCE', '#8B9AAF'],
 		backgroundColor: 'transparent',
-		textStyle: { fontFamily: 'Switzer, sans-serif', color: '#47544F' },
+		textStyle: { fontFamily: 'Urbanist Variable, sans-serif', color: '#60718B' },
 		grid: { left: 8, right: 8, top: 24, bottom: 4, containLabel: true },
 		categoryAxis: {
-			axisLine: { lineStyle: { color: '#DCE3DF' } },
+			axisLine: { lineStyle: { color: '#E3EAF3' } },
 			axisTick: { show: false },
-			axisLabel: { color: '#6E7D77', fontFamily: 'IBM Plex Mono', fontSize: 10 },
+			axisLabel: { color: '#7D8CA3', fontFamily: 'Urbanist Variable', fontSize: 10 },
 			splitLine: { show: false }
 		},
 		valueAxis: {
 			axisLine: { show: false },
 			axisTick: { show: false },
-			axisLabel: { color: '#9AA7A1', fontFamily: 'IBM Plex Mono', fontSize: 10 },
-			splitLine: { lineStyle: { color: '#EEF2F0', type: 'dashed' } }
+			axisLabel: { color: '#8B9AAF', fontFamily: 'Urbanist Variable', fontSize: 10 },
+			splitLine: { lineStyle: { color: '#EEF2F8', type: 'dashed' } }
 		},
 		tooltip: {
-			backgroundColor: '#0E1412',
+			backgroundColor: '#FCFDFF',
 			borderWidth: 0,
 			padding: [8, 12],
-			textStyle: { color: '#F7F8F7', fontFamily: 'IBM Plex Mono', fontSize: 11 },
-			extraCssText: 'border-radius:6px;box-shadow:0 12px 32px -12px rgba(14,20,18,.4);'
+			textStyle: { color: '#52647E', fontFamily: 'Urbanist Variable', fontSize: 11 },
+			extraCssText: 'border-radius:14px;box-shadow:0 8px 32px rgba(70,90,120,.12);border:1px solid white;'
 		},
-		legend: { textStyle: { color: '#47544F', fontSize: 11 }, icon: 'rect', itemWidth: 10, itemHeight: 3 }
+		legend: { textStyle: { color: '#60718B', fontSize: 11 }, icon: 'rect', itemWidth: 10, itemHeight: 3 }
 	};
 
 	onMount(() => {
@@ -53,7 +53,7 @@
 			if (disposed) return;
 			echarts.registerTheme('zevra', theme);
 			chart = echarts.init(el, 'zevra', { renderer: 'svg' });
-			chart.setOption({ animationDuration: 1100, animationEasing: 'cubicOut', ...option });
+			chart.setOption({ animationDuration: 1000, animationDurationUpdate: 650, animationEasing: 'cubicOut', animationEasingUpdate: 'cubicOut', ...option, animation: !window.matchMedia('(prefers-reduced-motion: reduce)').matches });
 			ro = new ResizeObserver(() => chart?.resize());
 			ro.observe(el);
 		})();

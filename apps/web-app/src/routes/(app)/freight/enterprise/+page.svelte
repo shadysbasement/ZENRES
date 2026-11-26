@@ -28,7 +28,7 @@
 
 <svelte:head><title>Enterprise Fleet — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Trace & FreightLink · C5" title="Enterprise fleet &" serif="international coordination" lede="Live multi-truck fleet, bulk and AI-assisted backhaul, cargo consolidation and multi-company freight performance — for EU Importer Hub networks." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink" title="Enterprise fleet &" serif="international coordination" lede="Live multi-truck fleet, bulk and AI-assisted backhaul, cargo consolidation and multi-company freight performance — for EU Importer Hub networks." />
 
 <div class="kpis">
 	<Kpi i={0} label="Trucks live" value="5" delta="consent-based GPS" />

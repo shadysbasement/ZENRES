@@ -19,7 +19,7 @@
 
 <svelte:head><title>Transporters — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Trace & FreightLink · C4" title="Transporter onboarding &" serif="verified directory" lede="Free carrier onboarding. Verified badges and organic ranking never depend on paid promotion." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink" title="Transporter onboarding &" serif="verified directory" lede="Free carrier onboarding. Verified badges and organic ranking never depend on paid promotion." />
 
 <div class="g2">
 	<form class="panel" onsubmit={submit}>

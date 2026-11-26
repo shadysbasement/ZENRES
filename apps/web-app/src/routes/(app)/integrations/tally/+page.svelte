@@ -50,7 +50,7 @@
 
 <svelte:head><title>Tally.ERP 9 Hub — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Business · A5" title="Tally.ERP 9" serif="integration hub" lede="ZENRES connects to Tally — it never replaces it. Import day books, run a local middleware connector, and keep an audit trail of every sync and correction." />
+<PageHeader eyebrow="ZENRES Business" title="Tally.ERP 9" serif="integration hub" lede="ZENRES connects to Tally — it never replaces it. Import day books, run a local middleware connector, and keep an audit trail of every sync and correction." />
 
 <div class="g2">
 	<section class="panel wizard">
@@ -128,11 +128,12 @@ token        = "zvt_••••••••••••3f9a"</pre>
 <style>
 	.g2 {
 		display: grid;
-		grid-template-columns: 1.5fr 1fr;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 		gap: 16px;
 		align-items: start;
 	}
 	.side {
+		min-width: 0;
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
@@ -237,7 +238,7 @@ token        = "zvt_••••••••••••3f9a"</pre>
 		padding: 12px;
 		font-size: 11px;
 		background: var(--obsidian);
-		color: #a9d8c2;
+		color: #c3d8f4;
 		border-radius: var(--radius-sm);
 		overflow-x: auto;
 	}
@@ -262,7 +263,15 @@ token        = "zvt_••••••••••••3f9a"</pre>
 	}
 	@media (max-width: 1100px) {
 		.g2 {
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
 		}
 	}
+
+    @media (max-width: 650px) {
+        .maps, .res { grid-template-columns: 1fr; }
+        .drop { padding: 30px 16px; }
+        .drop input { width: 100%; }
+        .drop strong, .drop .muted { max-width: 100%; overflow-wrap: anywhere; }
+        .steps { flex-wrap: wrap; }
+    }
 </style>

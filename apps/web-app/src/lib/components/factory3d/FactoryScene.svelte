@@ -80,7 +80,7 @@
 </T.PerspectiveCamera>
 
 <T.AmbientLight intensity={mode === 'studio' ? 0.55 : 1.1} />
-<T.HemisphereLight args={[mode === 'studio' ? '#bfe3d3' : '#ffffff', mode === 'studio' ? '#0a0e0d' : '#dce3df', mode === 'studio' ? 0.6 : 0.8]} />
+<T.HemisphereLight args={[mode === 'studio' ? '#d1e2f9' : '#ffffff', mode === 'studio' ? '#202b3d' : '#d8e3f1', mode === 'studio' ? 0.6 : 0.8]} />
 <T.DirectionalLight position={[30, 50, 20]} intensity={mode === 'studio' ? 1.6 : 1.4} castShadow shadow.mapSize={[2048, 2048]} shadow.camera.left={-50} shadow.camera.right={50} shadow.camera.top={40} shadow.camera.bottom={-40} />
 <T.DirectionalLight position={[-30, 20, -30]} intensity={0.35} color="#9cc4b4" />
 
@@ -167,8 +167,8 @@
 		border-radius: 3px;
 		overflow: hidden;
 		background: #fff;
-		border: 1px solid #dce3df;
-		color: #0e1412;
+		border: 1px solid #d8e3f1;
+		color: #2c3b50;
 		box-shadow: 0 6px 18px -8px rgba(14, 20, 18, 0.4);
 		transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms;
 		user-select: none;
@@ -180,16 +180,16 @@
 	}
 	.pin.hot {
 		transform: translateY(-4px) scale(1.06);
-		border-color: #38b884;
+		border-color: #99c7f2;
 	}
 	.code {
 		padding: 3px 6px;
-		background: #0e1412;
-		color: #38b884;
+		background: #2c3b50;
+		color: #99c7f2;
 		letter-spacing: 0.04em;
 	}
 	.dark .code {
-		background: #14533c;
+		background: #7b95bb;
 		color: #e8f3ee;
 	}
 	.p {

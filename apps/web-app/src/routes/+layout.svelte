@@ -7,7 +7,7 @@
 	let { children } = $props();
 
 	onNavigate((navigation) => {
-		if (!document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
 		return new Promise((resolve) => {
 			document.startViewTransition(async () => {
 				resolve();
@@ -20,10 +20,11 @@
 {@render children()}
 
 <style>
-	:global(::view-transition-old(root)) {
+	:global(::view-transition-old(root)), :global(::view-transition-new(root)) { animation: none; }
+	:global(::view-transition-old(workspace-content)) {
 		animation: 220ms cubic-bezier(0.65, 0, 0.35, 1) both zv-out;
 	}
-	:global(::view-transition-new(root)) {
+	:global(::view-transition-new(workspace-content)) {
 		animation: 520ms cubic-bezier(0.16, 1, 0.3, 1) both zv-in;
 	}
 	@keyframes -global-zv-out {

@@ -17,7 +17,7 @@
 	});
 
 	onNavigate((navigation) => {
-		if (!document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
 		return new Promise((resolve) => {
 			document.startViewTransition(async () => {
 				resolve();

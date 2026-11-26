@@ -29,7 +29,7 @@
 
 <svelte:head><title>Inventory — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Business · A3" title="Inventory &" serif="material movement" lede="Raw materials, WIP and finished goods linked to production batches, with custody events and Tally stock-item mapping." />
+<PageHeader eyebrow="ZENRES Business" title="Inventory &" serif="material movement" lede="Raw materials, WIP and finished goods linked to production batches, with custody events and Tally stock-item mapping." />
 
 <div class="kpis">
 	<Kpi i={0} label="Total stock value" value={money(value(), ws.currency, { compact: true })} />

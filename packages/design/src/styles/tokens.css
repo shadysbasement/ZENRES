@@ -1,6 +1,6 @@
 /*
- * ZENRES DESIGN SYSTEM — Swiss Industrial Minimalism
- * Zero-yellow palette. Self-hosted Switzer / Newsreader / IBM Plex Mono.
+ * ZENRES DESIGN SYSTEM — Soft glass, blue & lilac
+ * Self-hosted Urbanist, with Newsreader and IBM Plex Mono for editorial and technical content.
  * Cascade layers keep resets, tokens, base, layout, components and utilities predictable.
  */
 @layer reset, tokens, base, layout, components, utilities;
@@ -8,28 +8,28 @@
 @layer tokens {
 	:root {
 		/* Surfaces */
-		--surface-canvas: #f7f8f7;
-		--surface-card: #ffffff;
-		--surface-subtle: #eef2f0;
-		--surface-sunken: #e6ebe8;
-		--border-hairline: #dce3df;
-		--border-strong: #c5cfca;
+		--surface-canvas: #e3eaf2;
+		--surface-card: #fcfdff;
+		--surface-subtle: #edf1f7;
+		--surface-sunken: #e1e7f0;
+		--border-hairline: #e2e7ee;
+		--border-strong: #bdcbdc;
 
 		/* Ink */
-		--ink-primary: #0e1412;
-		--ink-secondary: #47544f;
-		--ink-muted: #6e7d77;
-		--ink-faint: #9aa7a1;
-		--ink-inverse: #f7f8f7;
+		--ink-primary: #2c3137;
+		--ink-secondary: #525e6b;
+		--ink-muted: #687585;
+		--ink-faint: #8895a5;
+		--ink-inverse: #fcfdff;
 
 		/* Brand */
-		--brand-emerald: #14533c;
-		--brand-emerald-hover: #0e3d2c;
-		--brand-emerald-tint: #e8f3ee;
-		--brand-emerald-mid: #2f7a5c;
-		--accent-cobalt: #1e4d6b;
-		--accent-cobalt-tint: #eaf1f6;
-		--accent-cobalt-mid: #3f7396;
+		--brand-emerald: #436c9b;
+		--brand-emerald-hover: #365a85;
+		--brand-emerald-tint: #e7f1fc;
+		--brand-emerald-mid: #6ab8ff;
+		--accent-cobalt: #8265a8;
+		--accent-cobalt-tint: #f1eafa;
+		--accent-cobalt-mid: #cfa3f6;
 
 		/* Status (terracotta replaces any yellow/amber) */
 		--status-crimson: #b03838;
@@ -38,18 +38,18 @@
 		--status-terracotta-tint: #f9ede8;
 
 		/* Vault / dark surfaces */
-		--vault-bg: #0a0e0d;
-		--vault-panel: #0f1513;
-		--vault-border: #24332d;
-		--vault-phosphor: #38b884;
-		--vault-dim: #5d7268;
-		--obsidian: #0e1412;
-		--obsidian-2: #141c19;
-		--obsidian-3: #1c2622;
-		--obsidian-line: #26332e;
+		--vault-bg: #161b28;
+		--vault-panel: #202838;
+		--vault-border: #344158;
+		--vault-phosphor: #9bbdf1;
+		--vault-dim: #8c9cb5;
+		--obsidian: #293448;
+		--obsidian-2: #303d52;
+		--obsidian-3: #3d4c64;
+		--obsidian-line: #4b5b73;
 
 		/* Typography */
-		--font-sans: 'Switzer', 'Switzer Fallback', ui-sans-serif, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+		--font-sans: 'Urbanist Variable', 'Switzer Fallback', ui-sans-serif, -apple-system, 'Helvetica Neue', Arial, sans-serif;
 		--font-serif: 'Newsreader Variable', 'Newsreader', 'Newsreader Fallback', ui-serif, Georgia, serif;
 		--font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
@@ -75,10 +75,10 @@
 		--gap: 24px;
 
 		/* Shape */
-		--radius-xs: 2px;
-		--radius-sm: 4px;
-		--radius-md: 6px;
-		--radius-lg: 10px;
+		--radius-xs: 8px;
+		--radius-sm: 12px;
+		--radius-md: 18px;
+		--radius-lg: 24px;
 		--hairline: 1px solid var(--border-hairline);
 
 		/* Elevation — hairline first, shadow only for floating layers */
@@ -753,4 +753,10 @@
 	.nowrap {
 		white-space: nowrap;
 	}
+}
+
+/* Device motion preferences apply to every surface and interaction. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

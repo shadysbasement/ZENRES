@@ -1,5 +1,12 @@
 <script lang="ts">
 	import Logo from '$design/components/Logo.svelte';
+	import { onMount } from 'svelte';
+	import WorkspaceBackdrop from '$lib/components/WorkspaceBackdrop.svelte';
+	import AppearancePanel from '$lib/components/AppearancePanel.svelte';
+	import Icon from '$lib/components/ui/Icon.svelte';
+	import { appearance } from '$lib/stores/appearance.svelte';
+	let appearanceOpen = $state(false);
+	onMount(() => appearance.init());
 	import { OPS } from '$lib/demo/seed';
 
 	let { data } = $props();
@@ -22,15 +29,17 @@
 <svelte:head><title>·</title><meta name="robots" content="noindex, nofollow, noarchive" /></svelte:head>
 
 <div class="ov">
+	<WorkspaceBackdrop/>
 	<header>
-		<Logo size={22} inverse />
-		<span class="mono tag">SUPER-ADMIN VAULT</span>
+		<Logo size={26} />
+		<span class="tag">Admin workspace</span>
 		<span class="sp"></span>
 		<span class="mono who">PGP · {data.admin.handle} · …{data.admin.fingerprint.slice(-16)}</span>
-		<a class="mono out" href="/ops-vault/logout">EXIT</a>
+		<button class="appearance-button" aria-label="Customize appearance" onclick={() => (appearanceOpen = true)}><Icon name="settings" size={18}/></button><a class="btn btn-sm out" href="/ops-vault/logout">Exit vault ↗</a>
 	</header>
 	<nav>{#each tabs as t, i (t)}<button class:on={tab === t} onclick={() => (tab = t)}><span class="mono">0{i + 1}</span>{t}</button>{/each}</nav>
 	<main>
+		<div class="admin-welcome"><span>Welcome back, {data.admin.handle}</span><h2>Your operations, in focus.</h2></div>
 		<p class="mono dim">DEMO OPERATIONS · Sample records and edits in this view stay in this browser session.</p>
 		{#if tab === 'Approvals'}
 			<h1>Account & transporter approvals</h1>
@@ -74,14 +83,18 @@
 	</main>
 </div>
 
+<AppearancePanel open={appearanceOpen} onclose={() => (appearanceOpen = false)}/>
+
 <style>
 	:global(body:has(.ov)) {
-		background: var(--vault-bg);
+		background: transparent;
 	}
 	.ov {
 		min-height: 100dvh;
-		background: var(--vault-bg);
-		color: #c4d6ce;
+		background: transparent;
+		color: var(--ink-secondary);
+		position: relative;
+		isolation: isolate;
 	}
 	header {
 		display: flex;
@@ -89,14 +102,14 @@
 		gap: 14px;
 		height: 56px;
 		padding: 0 24px;
-		border-bottom: 1px solid var(--vault-border);
+		border-bottom: 1px solid var(--border-hairline);
 	}
 	.tag {
 		font-size: 10.5px;
 		letter-spacing: 0.14em;
-		color: var(--vault-phosphor);
+		color: #6986b0;
 		padding: 4px 8px;
-		border: 1px solid var(--vault-border);
+		border: 1px solid var(--border-hairline);
 	}
 	.sp {
 		flex: 1;
@@ -104,7 +117,7 @@
 	.who,
 	.out {
 		font-size: 11px;
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 	}
 	.out:hover {
 		color: var(--status-crimson);
@@ -113,7 +126,7 @@
 		display: flex;
 		gap: 2px;
 		padding: 0 16px;
-		border-bottom: 1px solid var(--vault-border);
+		border-bottom: 1px solid var(--border-hairline);
 		overflow-x: auto;
 	}
 	nav button {
@@ -123,7 +136,7 @@
 		align-items: center;
 		padding: 0 14px;
 		font-size: 12.5px;
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 		border-bottom: 2px solid transparent;
 		white-space: nowrap;
 	}
@@ -131,8 +144,8 @@
 		font-size: 10px;
 	}
 	nav button.on {
-		color: #e8f3ee;
-		border-color: var(--vault-phosphor);
+		color: var(--ink-primary);
+		border-color: #6986b0;
 	}
 	main {
 		padding: 28px 24px;
@@ -141,7 +154,7 @@
 		animation: zv-fade-in 500ms var(--ease-expo);
 	}
 	h1 {
-		color: #e8f3ee;
+		color: var(--ink-primary);
 		font-size: 1.5rem;
 		margin-bottom: 18px;
 	}
@@ -149,7 +162,7 @@
 		font-size: 10.5px;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: var(--vault-phosphor);
+		color: #6986b0;
 		display: block;
 		margin-bottom: 4px;
 	}
@@ -159,23 +172,23 @@
 		align-items: center;
 		gap: 16px;
 		padding: 16px 0;
-		border-bottom: 1px solid var(--vault-border);
+		border-bottom: 1px solid var(--border-hairline);
 		font-size: 13px;
 	}
 	.rowc strong {
-		color: #e8f3ee;
+		color: var(--ink-primary);
 	}
 	.rowc p {
 		font-size: 12px;
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 		margin-top: 2px;
 	}
 	.st {
 		font-size: 11px;
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 	}
 	.st.live {
-		color: var(--vault-phosphor);
+		color: #6986b0;
 	}
 	.btns {
 		display: flex;
@@ -185,8 +198,8 @@
 	.draft button {
 		height: 32px;
 		padding: 0 14px;
-		border: 1px solid var(--vault-phosphor);
-		color: var(--vault-phosphor);
+		border: 1px solid #c7d6ed;
+		color: #6986b0;
 		font-family: var(--font-mono);
 		font-size: 11px;
 	}
@@ -203,9 +216,9 @@
 	.draft input {
 		height: 34px;
 		padding: 0 10px;
-		background: var(--vault-panel);
-		border: 1px solid var(--vault-border);
-		color: #e8f3ee;
+		background: #fcfdfff0;
+		border: 1px solid var(--border-hairline);
+		color: var(--ink-primary);
 		font-family: var(--font-mono);
 		font-size: 12px;
 	}
@@ -221,28 +234,28 @@
 	}
 	.card-d {
 		padding: 18px;
-		border: 1px solid var(--vault-border);
-		background: var(--vault-panel);
+		border: 1px solid var(--border-hairline);
+		background: #fcfdfff0;
 	}
 	.card-d p {
 		font-size: 11.5px;
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 		margin-top: 6px;
 	}
 	.big {
 		font-size: 2rem;
-		color: #e8f3ee;
+		color: var(--ink-primary);
 		letter-spacing: -0.04em;
 	}
 	.big.warn {
 		color: var(--status-terracotta);
 	}
 	.big.ok {
-		color: var(--vault-phosphor);
+		color: #6986b0;
 	}
 	.meter {
 		height: 3px;
-		background: var(--vault-border);
+		background: var(--border-hairline);
 		margin: 12px 0;
 	}
 	.meter span {
@@ -258,7 +271,7 @@
 		justify-content: space-between;
 		font-size: 11.5px;
 		padding: 4px 0;
-		border-top: 1px solid var(--vault-border);
+		border-top: 1px solid var(--border-hairline);
 		text-transform: capitalize;
 	}
 	table {
@@ -270,10 +283,10 @@
 	td {
 		text-align: left;
 		padding: 10px 8px;
-		border-bottom: 1px solid var(--vault-border);
+		border-bottom: 1px solid var(--border-hairline);
 	}
 	th {
-		color: var(--vault-dim);
+		color: var(--ink-muted);
 		font-weight: 400;
 		font-size: 10.5px;
 		text-transform: uppercase;
@@ -288,4 +301,31 @@
 			grid-template-columns: 1fr;
 		}
 	}
+
+    header { height: 100px; padding-inline: clamp(20px, 4vw, 64px); border: 0; }
+    .tag { border: 0; border-radius: 100px; background: #fcfdff80; padding: 5px 12px; font-size: 12px; letter-spacing: 0; }
+    .appearance-button { width: 36px; height: 36px; display: grid; place-items: center; background: #fcfdffb0; border: 1px solid white; border-radius: 50%; }
+    nav { justify-content: center; gap: 8px; border: 0; padding: 18px 24px; }
+    nav button { border: 1px solid #ffffffdf; border-radius: 100px; background: #fcfdffa8; transition: background 250ms, transform 300ms var(--ease-out); }
+    nav button:hover { transform: translateY(-2px); background: #fcfdff; }
+    nav button.on { background: linear-gradient(100deg, #a4d4f6, #cfb7ee); color: #3b4d68; border-color: #fff; }
+    nav button .mono { font-family: var(--font-sans); }
+    main { padding-top: 24px; }
+    .admin-welcome { margin: 0 0 25px; }
+    .admin-welcome > span { font-size: 13px; color: var(--ink-muted); }
+    .admin-welcome h2 { font-size: 32px; font-weight: 450; margin-top: 8px; }
+    main > .dim { font-size: 10px; color: var(--ink-muted); margin-bottom: 24px; }
+    h1 { font-size: 21px; font-weight: 500; }
+    .card-d, .rowc { border-radius: 20px; border: 1px solid #fff; background: #fcfdffed; padding: 24px; backdrop-filter: blur(15px); }
+    .rowc { margin-bottom: 12px; }
+    .card-d p { font-size: 12px; }
+    .k { font-family: var(--font-sans); font-size: 12px; letter-spacing: 0; text-transform: capitalize; }
+    .big { font-family: var(--font-sans); font-size: 42px; font-weight: 450; margin: 20px 0 10px; }
+    .meter { height: 5px; border-radius: 20px; overflow: hidden; background: #e7edf5; }
+    .meter span { background: linear-gradient(90deg, #91c9f2, #bda5e8); }
+    .btns button, .draft button, .draft input { border-radius: 100px; height: 38px; font-family: var(--font-sans); }
+    .draft button { background: linear-gradient(100deg, #bbdcf5, #d8c5f2); }
+    table { background: #fcfdffeb; border-radius: 20px; overflow: hidden; }
+    th, td { padding: 16px; }
+    @media (max-width: 900px) { header { height: auto; min-height: 100px; flex-wrap: wrap; padding: 22px; } .who { order: 5; width: 100%; } nav { justify-content: flex-start; } .tag { display: none; } }
 </style>

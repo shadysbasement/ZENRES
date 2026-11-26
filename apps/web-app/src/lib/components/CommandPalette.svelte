@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { tick } from 'svelte';
+	import { fly, fade } from 'svelte/transition';
+	import { appearance } from '$lib/stores/appearance.svelte';
 	import Icon from './ui/Icon.svelte';
 	import HintWhisper from './HintWhisper.svelte';
 	import { ws } from '$lib/stores/workspace.svelte';
@@ -64,8 +66,8 @@
 </script>
 
 {#if ws.paletteOpen}
-	<div class="scrim" onclick={() => (ws.paletteOpen = false)} role="presentation"></div>
-	<div class="pal card" role="dialog" aria-label="Command palette">
+	<div class="scrim" transition:fade={{ duration: appearance.motion ? 180 : 0 }} onclick={() => (ws.paletteOpen = false)} role="presentation"></div>
+	<div class="pal card" transition:fly={{ y: -12, duration: appearance.motion ? 240 : 0 }} role="dialog" aria-label="Command palette">
 		<div class="pfield">
 			<Icon name="search" size={17} />
 			<input bind:this={input} bind:value={query} onkeydown={onKey} placeholder="Search pages, SKUs, batches, buyer emails…" aria-label="Search" />
@@ -96,7 +98,7 @@
 		z-index: 300;
 		background: rgba(14, 20, 18, 0.24);
 		backdrop-filter: blur(2px);
-		animation: fade 250ms;
+
 	}
 	@keyframes fade {
 		from { opacity: 0; }
@@ -110,7 +112,7 @@
 		transform: translateX(-50%);
 		box-shadow: var(--shadow-pop);
 		overflow: hidden;
-		animation: pal 450ms var(--ease-expo);
+
 	}
 	@keyframes pal {
 		from { opacity: 0; transform: translateX(-50%) translateY(-10px) scale(0.98); }
@@ -209,4 +211,6 @@
 	.foot kbd {
 		margin-right: 3px;
 	}
+
+	.pal { background: #fcfdfffa; border-radius: 24px; border-color: white; backdrop-filter: blur(30px); }
 </style>

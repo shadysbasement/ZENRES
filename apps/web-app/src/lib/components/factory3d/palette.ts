@@ -1,9 +1,9 @@
 export type TwinMode = 'studio' | 'cad';
 export const PAL = {
-	studio: { bg: '#0E1412', floor: '#141C19', slab: '#1C2622', edge: '#2F3F38', body: '#26332E', body2: '#33443D', glass: '#5d8f7c', accent: '#38B884', crate: '#4A5A53', grid: '#1F2A26' },
-	cad: { bg: '#F7F8F7', floor: '#EEF2F0', slab: '#FFFFFF', edge: '#9AA7A1', body: '#E6EBE8', body2: '#D5DDD9', glass: '#9cc4b4', accent: '#14533C', crate: '#C5CFCA', grid: '#DCE3DF' }
+	studio: { bg: '#202B3D', floor: '#29374B', slab: '#33445B', edge: '#536986', body: '#405670', body2: '#4B6481', glass: '#91B4DB', accent: '#99C7F2', crate: '#687F9D', grid: '#38495F' },
+	cad: { bg: '#E7EEF7', floor: '#DCE6F2', slab: '#FFFFFF', edge: '#8D9FBA', body: '#D0DDED', body2: '#BDCCE2', glass: '#A4C9EA', accent: '#7D97C8', crate: '#C2CFE3', grid: '#CEDBEA' }
 } as const;
-export const EMERALD = '#38B884';
-export const TERRACOTTA = '#C05A3C';
-export const COBALT = '#1E4D6B';
+export const EMERALD = '#99C7F2';
+export const TERRACOTTA = '#C3899D';
+export const COBALT = '#9B82C9';
 export type Pal = (typeof PAL)['studio'] | (typeof PAL)['cad'];

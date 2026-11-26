@@ -32,7 +32,7 @@
 
 <svelte:head><title>Team & Access — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Settings · E2" title="Team, RBAC &" serif="tenant security" lede="Seven roles from the ZENRES blueprint, each scoped by PostgreSQL row-level security. External partners only ever see what is assigned to them." />
+<PageHeader eyebrow="Settings" title="Your team &" serif="workspace access" lede="Invite your team, manage roles, and decide who can see and work with each part of your business." />
 
 <div class="g2">
 	<section class="panel">

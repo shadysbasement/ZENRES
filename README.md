@@ -72,11 +72,13 @@ make test            # vitest + go vet/test + pytest + palette guardrail
 
 ## Design language
 
-Swiss industrial minimalism with a portfolio-grade motion layer:
+A soft glass workspace adapted from the [Hospital Management System ERP reference](https://www.behance.net/gallery/250314135/Hospital-Management-System-ERP-Solution-UI-UX), using ZENRES content and original abstract backgrounds.
 
-- **Typography** — self-hosted Switzer (UI), Newsreader italic (editorial accents), IBM Plex Mono with tabular numerals for every figure. No Inter / Roboto / Poppins / Space Grotesk.
-- **Palette** — alabaster canvas, carbon obsidian, deep-forest emerald, steel cobalt; terracotta replaces any warning yellow. `node scripts/check-palette.mjs` fails the build on yellow/gold/amber or banned fonts.
-- **Motion** — counting preloader with letter-by-letter wordmark and curtain lift, Lenis smooth scrolling, masked line-by-line headline reveals, scroll-scrubbed manifesto, pinned horizontal journey, magnetic buttons, custom cursor, view-transition page changes, animated SVG corridors. Everything respects `prefers-reduced-motion`.
+- **Typography** — self-hosted Urbanist, with tabular numerals for metrics and IBM Plex Mono for technical identifiers.
+- **Palette & surfaces** — blue-gray canvas, translucent white cards, rounded module navigation, blue-to-lilac accents, and muted status colors.
+- **Backgrounds** — Silk, Aurora, Contour, Rosewater, and Mist. The appearance control saves the selection and ambient-motion preference on the current device. No DNA imagery or third-party artwork is bundled.
+- **Motion** — staggered card entrances, content-only page transitions, smooth module menus, animated charts, drawers, toasts, and optional slow ambient movement. Device reduced-motion preferences disable these effects. The workspace opens directly without an artificial loading delay.
+- **Layout** — six overview cards, performance charts, inbox, production records, and an expandable factory twin. All modules share the same forms, tables, and navigation; the admin workspace retains its PGP authentication.
 
 ## Highlights
 

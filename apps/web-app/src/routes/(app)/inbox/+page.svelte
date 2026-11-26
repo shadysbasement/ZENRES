@@ -41,7 +41,7 @@
 
 <svelte:head><title>Inbox — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Business · A6" title="Connected mail &" serif="buying agency inbox" lede="Buyer RFQs, agency requests and compliance deadlines classified from your business mailboxes — feeding the top-right bell.">
+<PageHeader eyebrow="ZENRES Business" title="Connected mail &" serif="buying agency inbox" lede="Buyer RFQs, agency requests and compliance deadlines classified from your business mailboxes — feeding the top-right bell.">
 	{#snippet actions()}
 		<button class="btn btn-sm" onclick={() => (showConnect = !showConnect)}><Icon name="link" size={14} />Mail connections</button>
 		<button class="btn btn-sm btn-dark" onclick={() => ws.simulateInbound()}><Icon name="mail" size={14} />Send mock inbound webhook</button>
@@ -108,7 +108,7 @@
 				<p>Kind regards,<br />{cur.sender_name}</p>
 			</div>
 			<div class="extract card">
-				<span class="eyebrow">Triage extraction · intel-worker</span>
+				<span class="eyebrow">Message details</span>
 				<dl>
 					<div><dt>Category</dt><dd>{cur.category.replace('_', ' & ')}</dd></div>
 					<div><dt>Detected CN</dt><dd class="mono">{cur.tag ?? '—'}</dd></div>
@@ -333,4 +333,19 @@
 			position: static;
 		}
 	}
+
+    .filters { background: #eef2f7; border-radius: 100px; }
+    .filters button { border-radius: 100px; }
+    .filters button.on { background: #fff; color: #536987; box-shadow: 0 2px 6px #52678812; }
+    @media (max-width: 650px) {
+        .reader { padding: 20px; }
+        .reader header { flex-direction: column; }
+        .reader header > div { min-width: 0; max-width: 100%; }
+        .reader header .pill { white-space: normal; height: auto; min-height: 22px; }
+        .tags { justify-content: flex-start; }
+        .extract dl { grid-template-columns: 1fr 1fr; }
+        .rule { grid-template-columns: 1fr; gap: 5px; padding: 8px 0; }
+        .addr { overflow-wrap: anywhere; }
+        .acts .btn { white-space: normal; height: auto; min-height: 34px; padding-block: 8px; text-align: center; }
+    }
 </style>

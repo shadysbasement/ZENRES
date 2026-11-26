@@ -47,7 +47,7 @@
 				type: 'scatter',
 				symbolSize: (d: [number, number, string, number]) => 8 + Math.sqrt(d[3]) * 2.4,
 				data: ws.suppliers.filter((s) => s.intensity).map((s) => [s.intensity, s.intensity! * s.tonnes * CERT_PRICE_EUR, s.name, s.tonnes]),
-				itemStyle: { color: 'rgba(20,83,60,0.55)', borderColor: '#14533C' }
+				itemStyle: { color: 'rgba(140,189,233,0.55)', borderColor: '#8CBDE9' }
 			}
 		]
 	});
@@ -56,7 +56,7 @@
 
 <svelte:head><title>Importer Hub — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Connect · D2 · EU Importer Hub" title="Supplier" serif="network portal" lede="15 suppliers included, scalable to 500. Each supplier works in an isolated tenant — no supplier ever sees another’s pricing, BOM or records.">
+<PageHeader eyebrow="ZENRES Connect · EU Importer Hub" title="Supplier" serif="network portal" lede="15 suppliers included, scalable to 500. Each supplier works in an isolated tenant — no supplier ever sees another’s pricing, BOM or records.">
 	{#snippet actions()}
 		<a class="btn btn-sm btn-primary" href="/carbon/exports"><Icon name="layers" size={14} />Roll into consolidated XML</a>
 	{/snippet}
@@ -125,11 +125,12 @@
 	}
 	.g2 {
 		display: grid;
-		grid-template-columns: 1.6fr 1fr;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
 		gap: 16px;
 		align-items: start;
 	}
 	.side {
+		min-width: 0;
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
@@ -193,4 +194,12 @@
 			grid-template-columns: 1fr 1fr;
 		}
 	}
+
+    @media (max-width: 650px) {
+        .row { flex-direction: column; align-items: stretch; }
+        .b { grid-template-columns: 24px minmax(0, 1fr) 36px; gap: 6px 8px; padding: 12px 0; }
+        .b > .small { grid-column: 2; grid-row: 2; }
+        .b > .bar { grid-column: 2 / 4; grid-row: 3; }
+        .b > .mono:last-child { grid-column: 3; grid-row: 1; text-align: right; }
+    }
 </style>

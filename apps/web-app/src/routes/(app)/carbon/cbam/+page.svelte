@@ -43,8 +43,8 @@
 				barWidth: 18,
 				data: [
 					{ value: Math.round(cmp.defaultEur), itemStyle: { color: '#9AA7A1' } },
-					{ value: Math.round(cmp.actualEur), itemStyle: { color: '#14533C' } },
-					...(art9 ? [{ value: Math.round(cmp.actualEur - deduction), itemStyle: { color: '#38B884' } }] : [])
+					{ value: Math.round(cmp.actualEur), itemStyle: { color: '#8CBDE9' } },
+					...(art9 ? [{ value: Math.round(cmp.actualEur - deduction), itemStyle: { color: '#8CBFAB' } }] : [])
 				],
 				itemStyle: { borderRadius: 2 },
 				label: { show: true, position: 'right', fontFamily: 'IBM Plex Mono', fontSize: 11, formatter: (x: { value: number }) => `€${num(x.value)}` }
@@ -55,7 +55,7 @@
 
 <svelte:head><title>CBAM Engine — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Carbon · B2" title="Emissions &" serif="CBAM calculation" lede={full ? 'Full CN-code engine with precursor chains and Article 9 / CCTS deductions. Every figure is versioned and labelled for data quality.' : 'Scope 1 & 2 accounting from factory data and a default-value versus actual-emissions CBAM comparison.'}>
+<PageHeader eyebrow="ZENRES Carbon" title="Emissions &" serif="CBAM calculation" lede={full ? 'Full CN-code engine with precursor chains and Article 9 / CCTS deductions. Every figure is versioned and labelled for data quality.' : 'Scope 1 & 2 accounting from factory data and a default-value versus actual-emissions CBAM comparison.'}>
 	{#snippet actions()}
 		<select class="select rulesel" bind:value={rule}><option>IR (EU) 2025/2621 · effective 2026-01-01</option><option>IR (EU) 2023/1773 · transitional (archived)</option></select>
 	{/snippet}

@@ -25,7 +25,8 @@
 		justify-content: space-between;
 		align-items: flex-end;
 		gap: 24px;
-		margin-bottom: 28px;
+		margin-bottom: 26px;
+		padding: 8px 0 12px;
 		animation: ph 800ms var(--ease-expo);
 	}
 	@keyframes ph {
@@ -37,15 +38,17 @@
 	.ph-l {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 8px;
 	}
 	h1 {
-		font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+		font-size: clamp(1.6rem, 2.3vw, 2.15rem);
+		font-weight: 450;
 		letter-spacing: -0.03em;
 		line-height: 1.05;
 	}
 	h1 .serif {
-		color: var(--brand-emerald);
+		color: inherit;
+		font-style: normal;
 	}
 	p {
 		max-width: 70ch;

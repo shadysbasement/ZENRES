@@ -32,3 +32,13 @@
 		animation: none;
 	}
 }
+
+/* Carry the workspace's visual language through the public and sign-in surfaces. */
+:root { --font-serif: var(--font-sans); }
+.serif { font-style: normal; font-weight: inherit; }
+.btn { border-radius: 100px; }
+.btn-primary { background: linear-gradient(105deg, #a4d4f7, #cbb5ed); border-color: #ffffffc9; color: #32435c; }
+.btn-primary::before { background: linear-gradient(105deg, #93c9f0, #bfa4e4); }
+.pill { border-radius: 100px; font-family: var(--font-sans); text-transform: none; letter-spacing: 0; }
+.eyebrow { font-family: var(--font-sans); letter-spacing: .06em; }
+.card { border-color: #ffffffce; box-shadow: 0 4px 24px #53668a08; }

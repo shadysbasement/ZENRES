@@ -47,7 +47,7 @@
 
 <svelte:head><title>FreightLink Marketplace — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Trace & FreightLink · C2" title="Backhaul" serif="marketplace" lede="Empty-truck finder, return-capacity and load-demand posting, and a deterministic corridor matcher. Nothing is ever auto-booked." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink" title="Backhaul" serif="marketplace" lede="Empty-truck finder, return-capacity and load-demand posting, and a deterministic corridor matcher. Nothing is ever auto-booked." />
 
 <div class="tabs-line" role="tablist">
 	<button role="tab" aria-selected={tab === 'match'} onclick={() => (tab = 'match')}>Corridor matcher</button>

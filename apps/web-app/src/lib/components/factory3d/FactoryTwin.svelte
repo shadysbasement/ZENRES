@@ -11,7 +11,7 @@
 	}
 	let { initialZone = null }: Props = $props();
 
-	let mode = $state<TwinMode>('studio');
+	let mode = $state<TwinMode>('cad');
 	let preset = $state('birds');
 	let overlay = $state<'workers' | 'skus' | 'emissions' | 'clean'>('workers');
 	let renderer = $state<'loading' | '3d' | '2d'>('loading');

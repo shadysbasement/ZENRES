@@ -25,9 +25,9 @@
 					label: { show: false },
 					data: [
 						{ name: 'Material', value: p.cost.material, itemStyle: { color: '#47544F' } },
-						{ name: 'Energy', value: p.cost.energy, itemStyle: { color: '#14533C' } },
-						{ name: 'Labour', value: p.cost.labour, itemStyle: { color: '#1E4D6B' } },
-						{ name: 'Overhead', value: p.cost.overhead, itemStyle: { color: '#C5CFCA' } }
+						{ name: 'Energy', value: p.cost.energy, itemStyle: { color: '#8CBDE9' } },
+						{ name: 'Labour', value: p.cost.labour, itemStyle: { color: '#B6A0DD' } },
+						{ name: 'Overhead', value: p.cost.overhead, itemStyle: { color: '#CFDEED' } }
 					]
 				}
 			]

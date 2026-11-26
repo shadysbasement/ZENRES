@@ -3,8 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Shared ZENRES Swiss-industrial design system: tokens, self-hosted fonts, motion primitives and brand components.",
+  "description": "Shared ZENRES soft-glass design system: tokens, self-hosted fonts, motion primitives and brand components.",
   "files": [
     "src"
-  ]
+  ],
+  "dependencies": {
+    "@fontsource-variable/urbanist": "^5.3.0"
+  }
 }

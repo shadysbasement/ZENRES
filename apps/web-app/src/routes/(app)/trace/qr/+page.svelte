@@ -54,7 +54,7 @@
 
 <svelte:head><title>QR Studio — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Trace · C1" title="Dual QR identity &" serif="traceability studio" lede="Product/Batch and Container/Shipment QR passports with non-guessable tokens, versioned corrections and selective off-chain hash anchoring.">
+<PageHeader eyebrow="ZENRES Trace" title="Dual QR identity &" serif="traceability studio" lede="Product/Batch and Container/Shipment QR passports with non-guessable tokens, versioned corrections and selective off-chain hash anchoring.">
 	{#snippet actions()}
 		<button class="btn btn-sm" onclick={() => window.print()}><Icon name="download" size={14} />Print label sheet (Typst PDF)</button>
 	{/snippet}

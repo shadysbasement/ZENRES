@@ -39,15 +39,15 @@
 		xAxis: { type: 'category', data: ws.freight.shipments.map((x) => x.ref.slice(-3)) },
 		yAxis: { type: 'value', name: 'L', nameTextStyle: { fontSize: 10 } },
 		series: [
-			{ name: 'Baseline (empty return + separate trip)', type: 'bar', barWidth: 12, data: ws.freight.shipments.map((x) => x.baseline_l), itemStyle: { color: '#C5CFCA', borderRadius: [2, 2, 0, 0] } },
-			{ name: 'Matched journey', type: 'bar', barWidth: 12, data: ws.freight.shipments.map((x) => x.matched_l), itemStyle: { color: '#1E4D6B', borderRadius: [2, 2, 0, 0] } }
+			{ name: 'Baseline (empty return + separate trip)', type: 'bar', barWidth: 12, data: ws.freight.shipments.map((x) => x.baseline_l), itemStyle: { color: '#CFDEED', borderRadius: [2, 2, 0, 0] } },
+			{ name: 'Matched journey', type: 'bar', barWidth: 12, data: ws.freight.shipments.map((x) => x.matched_l), itemStyle: { color: '#B6A0DD', borderRadius: [2, 2, 0, 0] } }
 		]
 	});
 </script>
 
 <svelte:head><title>Shipments — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Trace & FreightLink · C3" title="Shipments, tracking &" serif="proof of delivery" lede="Booked → Pickup → In transit → Delivered, with QR scans at both ends, consent-based GPS, a digital POD and a document vault." />
+<PageHeader eyebrow="ZENRES Trace & FreightLink" title="Shipments, tracking &" serif="proof of delivery" lede="Booked → Pickup → In transit → Delivered, with QR scans at both ends, consent-based GPS, a digital POD and a document vault." />
 
 <div class="list">
 	{#each ws.freight.shipments as x (x.id)}

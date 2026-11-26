@@ -72,16 +72,16 @@
 	}
 	.zone.hot rect:first-child,
 	.zone:focus-visible rect:first-child {
-		stroke: #38b884;
+		stroke: #91b5e3;
 		stroke-opacity: 1;
 		stroke-width: 1.5;
-		fill: #38b884;
+		fill: #91b5e3;
 		fill-opacity: 0.08;
 	}
 	.code {
 		font-family: var(--font-mono);
 		font-size: 10px;
-		fill: #38b884;
+		fill: #91b5e3;
 		letter-spacing: 0.06em;
 	}
 	.name {

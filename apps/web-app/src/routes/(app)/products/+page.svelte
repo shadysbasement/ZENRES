@@ -29,7 +29,7 @@
 
 <svelte:head><title>Products & SKUs — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Business · A2" title="Products &" serif="CN-code SKUs" lede="Export products mapped to 8-digit EU Combined Nomenclature codes, with bills of materials, costing and embedded emissions.">
+<PageHeader eyebrow="ZENRES Business" title="Products &" serif="CN-code SKUs" lede="Export products mapped to 8-digit EU Combined Nomenclature codes, with bills of materials, costing and embedded emissions.">
 	{#snippet actions()}
 		<span class="mono muted usage">{ws.products.length}{max ? ` / ${max}` : ''} SKUs</span>
 		<button class="btn btn-sm btn-primary" onclick={start}><Icon name="plus" size={14} />Map new SKU</button>

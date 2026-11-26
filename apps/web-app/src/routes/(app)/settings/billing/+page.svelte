@@ -31,7 +31,7 @@
 
 <svelte:head><title>Billing & Usage — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="Settings · E1" title="Subscription, billing &" serif="usage" lede="Transparent plan management. Prices in USD excluding applicable taxes; INR and EUR shown for convenience.">
+<PageHeader eyebrow="Settings" title="Subscription, billing &" serif="usage" lede="Transparent plan management. Prices in USD excluding applicable taxes; INR and EUR shown for convenience.">
 	{#snippet actions()}
 		<div class="cyc">
 			<button class:on={cycle === 'monthly'} onclick={() => (cycle = 'monthly')}>Monthly</button>

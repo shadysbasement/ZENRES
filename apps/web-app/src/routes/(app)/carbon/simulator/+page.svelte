@@ -46,8 +46,8 @@
 				smooth: 0.3,
 				symbolSize: 6,
 				data: s.cumulative,
-				lineStyle: { width: 2, color: '#14533C' },
-				itemStyle: { color: '#14533C' },
+				lineStyle: { width: 2, color: '#8CBDE9' },
+				itemStyle: { color: '#8CBDE9' },
 				areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(20,83,60,0.18)' }, { offset: 1, color: 'rgba(20,83,60,0)' }] } },
 				markLine: { symbol: 'none', lineStyle: { color: '#C05A3C', type: 'dashed' }, label: { formatter: 'break-even', color: '#C05A3C', fontFamily: 'IBM Plex Mono', fontSize: 10 }, data: [{ yAxis: 0 }] }
 			}
@@ -57,7 +57,7 @@
 
 <svelte:head><title>Capex Simulator — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Carbon · B5" title="Decarbonisation" serif="capex ROI simulator" lede="Model solar PV, scrap-ratio optimisation, fuel switching and qualifying-asset depreciation — and see payback, IRR, avoided tCO₂e and projected CBAM savings." />
+<PageHeader eyebrow="ZENRES Carbon" title="Decarbonisation" serif="capex ROI simulator" lede="Model solar PV, scrap-ratio optimisation, fuel switching and qualifying-asset depreciation — and see payback, IRR, avoided tCO₂e and projected CBAM savings." />
 
 <div class="g2">
 	<section class="panel">

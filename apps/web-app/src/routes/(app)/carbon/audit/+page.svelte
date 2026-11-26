@@ -68,7 +68,7 @@
 
 <svelte:head><title>Audit Locker — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Carbon · B4" title="Audit evidence locker &" serif="verification" lede="Every bill, meter reading, invoice and calculation version in one encrypted repository — linked to the numbers they support.">
+<PageHeader eyebrow="ZENRES Carbon" title="Audit evidence locker &" serif="verification" lede="Every bill, meter reading, invoice and calculation version in one encrypted repository — linked to the numbers they support.">
 	{#snippet actions()}
 		<button class="btn btn-sm" onclick={() => ws.hint('audit', { kind: 'manual_effort', payload: 'revised_upload' })}><Icon name="upload" size={14} />Upload revised version</button>
 		{#if customs}<button class="btn btn-sm btn-primary" onclick={pack}><Icon name="shield" size={14} />EU Customs Audit Defence Pack</button>{/if}

@@ -20,7 +20,7 @@
 
 <svelte:head><title>ZENRES Connect — ZENRES</title></svelte:head>
 
-<PageHeader eyebrow="ZENRES Connect · D1" title="Global B2B" serif="discovery" lede="Verified MSME profiles, carbon-enriched catalogues, structured RFQs and side-by-side quote comparison. Every claim carries a verification tier." />
+<PageHeader eyebrow="ZENRES Connect" title="Global B2B" serif="discovery" lede="Verified MSME profiles, carbon-enriched catalogues, structured RFQs and side-by-side quote comparison. Every claim carries a verification tier." />
 
 <div class="tabs-line" role="tablist">
 	<button role="tab" aria-selected={tab === 'rfqs'} onclick={() => (tab = 'rfqs')}>RFQs & quotes</button>

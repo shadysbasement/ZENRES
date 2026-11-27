@@ -32,7 +32,7 @@
 		{ id: 'chat', no: '02', icon: '◌', title: 'Human support', note: 'A conversation with our team', tone: 'lilac' },
 		{ id: 'tickets', no: '03', icon: '▤', title: 'Support tickets', note: 'Track requests and replies', tone: 'mint' },
 		{ id: 'help', no: '04', icon: '⌕', title: 'Help centre', note: 'Guides and common questions', tone: 'peach' },
-		{ id: 'callback', no: '05', icon: '↗', title: 'Request a callback', note: 'Suggest a time for our team', tone: 'yellow' },
+		{ id: 'callback', no: '05', icon: '↗', title: 'Request a callback', note: 'Suggest a time for our team', tone: 'periwinkle' },
 		{ id: 'status', no: '06', icon: '◉', title: 'System status', note: 'Reachability and notices', tone: 'slate' }
 	] as const;
 	function csrf() { return document.cookie.match(/(?:^|;\s*)zv_csrf=([^;]+)/)?.[1] ?? ''; }
@@ -164,7 +164,7 @@
 	.cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
 	.support-card { min-height: 182px; text-align: left; padding: 21px; border: 1px solid #ffffffdf; border-radius: 22px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: transform .45s var(--ease-out),box-shadow .45s var(--ease-out),border-color .3s; }
 	.support-card:hover,.support-card.active { transform: translateY(-5px); box-shadow: 0 18px 42px #667b9b1c; border-color: #fff; }
-	.support-card.blue { background: #e7f1fa; }.support-card.lilac { background: #eee8f7; }.support-card.mint { background: #e7f3ed; }.support-card.peach { background: #f8eee9; }.support-card.yellow { background: #f6f1df; }.support-card.slate { background: #e9edf3; }
+	.support-card.blue { background: #e7f1fa; }.support-card.lilac { background: #eee8f7; }.support-card.mint { background: #e7f3ed; }.support-card.peach { background: #f8eee9; }.support-card.periwinkle { background: #e9eafa; }.support-card.slate { background: #e9edf3; }
 	.card-top,.card-bottom { display: flex; justify-content: space-between; align-items: flex-start; }
 	.card-no { font-size: 11px; letter-spacing: .12em; color: #8492a1; }.card-icon { font-size: 39px; line-height: .8; color: #718ba9; transition: transform .5s var(--ease-out); }.support-card:hover .card-icon { transform: rotate(18deg) scale(1.1); }
 	.card-bottom { flex-direction: column; gap: 4px; }.card-bottom strong { font-size: 22px; color: #394b61; letter-spacing: -.04em; }.card-bottom small { color: #6b7c89; font-size: 12px; }.card-arrow { position: absolute; right: 22px; bottom: 22px; color: #6b8295; transition: transform .3s; }.support-card:hover .card-arrow { transform: translate(3px,-3px); }

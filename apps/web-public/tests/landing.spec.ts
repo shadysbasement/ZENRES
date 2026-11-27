@@ -12,7 +12,10 @@ test('landing renders hero, pillars, pricing and disclaimers without console err
 	await expect(page.getByText('One ledger.')).toBeVisible();
 	await expect(page.getByText('Illustrative estimate').first()).toBeVisible();
 	await expect(page.getByText('not legal, tax or accounting advice').first()).toBeAttached();
-	await expect(page).toHaveScreenshot({ fullPage: false, maxDiffPixelRatio: 0.02 });
+	// The hero is a live 3D scene, so assert its structure rather than a pixel snapshot.
+	await expect(page.getByRole('tablist', { name: 'Explore the platform' })).toBeVisible();
+	await expect(page.locator('.stage canvas, .stage .fallback').first()).toBeAttached({ timeout: 15_000 });
+	await expect(page.getByRole('heading', { name: /From a Tally voucher/ })).toBeAttached();
 	expect(errors).toEqual([]);
 });
 
@@ -30,7 +33,7 @@ test('pricing toggles: monthly/annual and USD/INR/EUR', async ({ page }) => {
 test('FreightLink corridor steps update the readout', async ({ page }) => {
 	await page.goto('/freightlink');
 	await page.getByRole('button', { name: /Corridor match/ }).click();
-	await expect(page.getByText('Hard filters first')).toBeVisible();
+	await expect(page.getByText('Hard filters first').first()).toBeVisible();
 	await expect(page.getByText('40 L').first()).toBeVisible();
 	await page.getByRole('button', { name: 'Ludhiana ↔ Delhi' }).click();
 	await expect(page.getByText('310 km')).toBeVisible();

@@ -55,10 +55,12 @@ test.describe('Growth tier — digital twin & bell', () => {
 		page.on('pageerror', (e) => errors.push(e.message));
 		await page.goto('/dashboard');
 		await expect(page.locator('canvas[data-engine^="three.js"]')).toBeVisible();
-		const badge = page.locator('.bell .badge');
-		const before = Number(await badge.textContent());
+		// The bell shows a dot; its accessible name carries the unread count.
+		const bell = page.getByRole('button', { name: /^Notifications, \d+ unread$/ });
+		const unread = async () => Number((await bell.getAttribute('aria-label'))?.match(/\d+/)?.[0]);
+		const before = await unread();
 		await page.getByRole('button', { name: 'Simulate buyer email' }).click();
-		await expect(badge).toHaveText(String(before + 1));
+		await expect(page.getByRole('button', { name: `Notifications, ${before + 1} unread` })).toBeVisible();
 		expect(errors).toEqual([]);
 	});
 

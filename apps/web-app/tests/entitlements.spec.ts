@@ -56,6 +56,8 @@ test.describe('Growth tier — digital twin & bell', () => {
 		const errors: string[] = [];
 		page.on('pageerror', (e) => errors.push(e.message));
 		await page.goto('/dashboard');
+		// The twin is collapsed by default on the dashboard.
+		await page.getByRole('button', { name: /Open digital twin/ }).click();
 		// 3D twin when WebGL2 is available; headless CI browsers may get the 2D blueprint fallback.
 		await expect(page.locator('canvas[data-engine^="three.js"], svg.map').first()).toBeVisible({ timeout: 20_000 });
 		// The bell shows a dot; its accessible name carries the unread count.

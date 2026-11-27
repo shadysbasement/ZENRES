@@ -27,7 +27,9 @@ test.describe('Starter tier — silent gating', () => {
 
 	test('typing "freight" in Cmd+K surfaces a dismissible whisper', async ({ page }) => {
 		await page.goto('/dashboard');
-		await page.keyboard.press('Meta+k');
+		// The workspace is a client-rendered app: wait for the shell before using its shortcut.
+		await expect(page.getByRole('button', { name: /^Notifications, \d+ unread$/ })).toBeVisible();
+		await page.keyboard.press('ControlOrMeta+k');
 		await page.getByPlaceholder(/Search pages/).fill('freight');
 		const w = page.locator('.whisper');
 		await expect(w).toContainText('FreightLink backhaul matching is included in Growth');
@@ -54,7 +56,8 @@ test.describe('Growth tier — digital twin & bell', () => {
 		const errors: string[] = [];
 		page.on('pageerror', (e) => errors.push(e.message));
 		await page.goto('/dashboard');
-		await expect(page.locator('canvas[data-engine^="three.js"]')).toBeVisible();
+		// 3D twin when WebGL2 is available; headless CI browsers may get the 2D blueprint fallback.
+		await expect(page.locator('canvas[data-engine^="three.js"], svg.map').first()).toBeVisible({ timeout: 20_000 });
 		// The bell shows a dot; its accessible name carries the unread count.
 		const bell = page.getByRole('button', { name: /^Notifications, \d+ unread$/ });
 		const unread = async () => Number((await bell.getAttribute('aria-label'))?.match(/\d+/)?.[0]);

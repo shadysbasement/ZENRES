@@ -5,8 +5,9 @@
 	import CountUp from '$design/components/CountUp.svelte';
 	import { reveal, magnetic, parallax, scrollToTarget } from '$design/motion';
 	import HeroWorkbench from '$lib/components/HeroWorkbench.svelte';
+	import HeroStage from '$lib/three/HeroStage.svelte';
 	import PillarTabs from '$lib/components/PillarTabs.svelte';
-	import JourneyStrip from '$lib/components/JourneyStrip.svelte';
+	import Journey3D from '$lib/components/Journey3D.svelte';
 	import FreightCorridor from '$lib/components/FreightCorridor.svelte';
 	import PricingMatrix from '$lib/components/PricingMatrix.svelte';
 	import QrPassportDemo from '$lib/components/QrPassportDemo.svelte';
@@ -45,45 +46,47 @@
 		{#each Array(12) as _, i (i)}<span style="--i:{i}"></span>{/each}
 	</div>
 	<div class="container-wide hero-inner">
-		<div class="hero-meta">
-			<span class="pill pill-outline"><span class="dot dot-live text-emerald"></span>EU CBAM definitive regime — live since Jan 2026</span>
-			<span class="eyebrow meta-r">For Indian MSMEs, transporters & EU importers</span>
+		<div class="hero-copy">
+			<div class="hero-meta">
+				<span class="pill pill-outline live"><span class="dot dot-live text-emerald"></span>EU CBAM definitive regime — live since Jan 2026</span>
+			</div>
+
+			<SplitText
+				tag="h1"
+				class="hero-title"
+				manual
+				play={ui.ready}
+				delay={150}
+				lines={[
+					[{ text: 'Turn factory records' }],
+					[{ text: 'into ' }, { text: 'EU CBAM proof,', accent: true }],
+					[{ text: 'verifiable QR passports' }],
+					[{ text: '& revenue-generating' }],
+					[{ text: 'return freight.', accent: true }]
+				]}
+			/>
+
+			<p class="lede hero-lede">
+				ZENRES connects to Tally.ERP 9 — it never replaces it — and turns your ledgers, utility bills and floor sheets into
+				measured carbon intelligence, dual QR traceability and discovery by global B2B buyers.
+			</p>
+			<div class="hero-ctas">
+				<span use:magnetic><a href="/signup" class="btn btn-primary btn-lg" data-cursor="Start">Create Workspace <span class="arrow">→</span></a></span>
+				<button class="btn btn-lg btn-glass" onclick={() => scrollToTarget('#workbench', -90)}>Run the CBAM numbers</button>
+			</div>
+			<dl class="hero-stats">
+				<div><dt>Connected pillars</dt><dd><CountUp value={4} /></dd></div>
+				<div><dt>Steps, voucher → XML</dt><dd><CountUp value={8} /></dd></div>
+				<div><dt>Suppliers per hub</dt><dd class="num">15–500</dd></div>
+			</dl>
 		</div>
-
-		<SplitText
-			tag="h1"
-			class="hero-title"
-			manual
-			play={ui.ready}
-			delay={150}
-			lines={[
-				[{ text: 'Turn factory records into ' }, { text: 'EU CBAM proof,', serif: true }],
-				[{ text: 'verifiable QR passports, and' }],
-				[{ text: 'revenue-generating ' }, { text: 'return freight.', serif: true, accent: true }]
-			]}
-		/>
-
-		<div class="hero-lower">
-			<div class="hero-copy">
-				<p class="lede">
-					ZENRES connects to Tally.ERP 9 — it never replaces it — and turns your ledgers, utility bills and floor sheets into
-					measured carbon intelligence, dual QR traceability and discovery by global B2B buyers.
-				</p>
-				<div class="hero-ctas">
-					<span use:magnetic><a href="/signup" class="btn btn-primary btn-lg" data-cursor="Start">Create Workspace <span class="arrow">→</span></a></span>
-					<button class="btn btn-lg" onclick={() => scrollToTarget('#workbench', -100)}>Inspect Sample CBAM & Freight Flow</button>
-				</div>
-				<dl class="hero-stats">
-					<div><dt class="eyebrow">Pillars</dt><dd><CountUp value={4} /></dd></div>
-					<div><dt class="eyebrow">Journey steps</dt><dd><CountUp value={8} /></dd></div>
-					<div><dt class="eyebrow">Supplier portal</dt><dd class="num">15–500</dd></div>
-				</dl>
-			</div>
-			<div class="hero-bench" id="workbench">
-				<HeroWorkbench />
-			</div>
+		<div class="hero-stage">
+			<HeroStage play={ui.ready} />
 		</div>
 	</div>
+	<button class="scroll-cue" onclick={() => scrollToTarget('#workbench', -90)} aria-label="Scroll to the workbench">
+		<span>Scroll</span><i aria-hidden="true"></i>
+	</button>
 </section>
 
 <!-- ───────────────────────── SECTOR MARQUEE ───────────────────────── -->
@@ -93,6 +96,28 @@
 			<span class="band-item">{s}</span><span class="band-sep" aria-hidden="true">✦</span>
 		{/each}
 	</Marquee>
+</section>
+
+<!-- ───────────────────────── WORKBENCH ───────────────────────── -->
+<section class="section container-wide workbench" id="workbench">
+	<div class="wb-grid">
+		<div class="wb-copy">
+			<span class="eyebrow" use:reveal><span class="idx">(00)</span> — Live workbench</span>
+			<SplitText tag="h2" class="sh-title" lines={[[{ text: 'Run the numbers ' }], [{ text: 'before you sign up.', accent: true }]]} />
+			<p use:reveal={{ delay: 120 }}>
+				Slide your annual EU export volume to see how measured emissions change your illustrative CBAM exposure — or switch to
+				FreightLink and watch an empty Mumbai return leg get matched.
+			</p>
+			<ul role="list" class="wb-points" use:reveal={{ delay: 200 }}>
+				<li><span></span>Default values vs measured actuals, per CN code</li>
+				<li><span></span>Avoided fuel reported separately from CBAM</li>
+				<li><span></span>Every figure labelled as an illustrative estimate</li>
+			</ul>
+		</div>
+		<div class="wb-bench" use:reveal={{ delay: 120 }}>
+			<HeroWorkbench />
+		</div>
+	</div>
 </section>
 
 <!-- ───────────────────────── MANIFESTO ───────────────────────── -->
@@ -147,7 +172,7 @@
 </section>
 
 <!-- ───────────────────────── JOURNEY ───────────────────────── -->
-<JourneyStrip />
+<Journey3D />
 
 <!-- ───────────────────────── FREIGHTLINK ───────────────────────── -->
 <section class="section container-wide" id="freightlink">
@@ -200,9 +225,22 @@
 	/* HERO */
 	.hero {
 		position: relative;
-		padding-top: 128px;
-		padding-bottom: 72px;
+		min-height: max(760px, 100svh);
+		padding-top: 96px;
+		padding-bottom: 40px;
+		display: flex;
+		align-items: center;
 		overflow: hidden;
+	}
+	.hero::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(900px 600px at 78% 42%, rgba(164, 212, 247, 0.35), transparent 70%),
+			radial-gradient(700px 520px at 92% 78%, rgba(203, 181, 237, 0.32), transparent 70%),
+			radial-gradient(600px 400px at 8% 10%, rgba(255, 255, 255, 0.7), transparent 70%);
+		pointer-events: none;
 	}
 	.hero-grid {
 		position: absolute;
@@ -213,30 +251,36 @@
 		margin: 0 auto;
 		padding-inline: var(--gutter);
 		pointer-events: none;
+		mask-image: linear-gradient(180deg, transparent, #000 20%, #000 70%, transparent);
 	}
 	.hero-grid span {
-		border-left: 1px solid var(--border-hairline);
-		opacity: 0.55;
+		border-left: 1px solid rgba(189, 203, 220, 0.45);
 		transform: scaleY(0);
 		transform-origin: top;
 		transition: transform 1.6s var(--ease-expo);
 		transition-delay: calc(var(--i) * 45ms);
 	}
 	.hero-grid span:last-child {
-		border-right: 1px solid var(--border-hairline);
+		border-right: 1px solid rgba(189, 203, 220, 0.45);
 	}
 	.ready .hero-grid span {
 		transform: scaleY(1);
 	}
 	.hero-inner {
 		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+		gap: clamp(16px, 3vw, 48px);
+		align-items: center;
+	}
+	.hero-copy {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		gap: 26px;
 	}
 	.hero-meta {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 16px;
-		margin-bottom: 36px;
 		opacity: 0;
 		transform: translateY(12px);
 		transition: opacity 1s var(--ease-expo) 0.1s, transform 1s var(--ease-expo) 0.1s;
@@ -245,52 +289,59 @@
 		opacity: 1;
 		transform: none;
 	}
-	.hero-meta .pill {
-		height: 28px;
-		padding: 0 12px;
-		background: var(--surface-card);
+	.hero-meta .live {
+		height: 30px;
+		padding: 0 14px;
+		background: rgba(252, 253, 255, 0.7);
+		border: 1px solid rgba(255, 255, 255, 0.95);
+		box-shadow: 0 6px 20px -12px rgba(67, 92, 140, 0.4);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
 		text-transform: none;
 		letter-spacing: 0;
-		font-size: 12px;
+		font-size: 12.5px;
+		font-weight: 500;
 		color: var(--ink-secondary);
 	}
 	:global(.hero-title) {
-		font-size: clamp(2.6rem, 6.4vw, 6.6rem);
-		font-weight: 500;
-		letter-spacing: -0.042em;
-		line-height: 0.98;
+		font-size: clamp(2.4rem, 3.7vw, 4.1rem);
+		font-weight: 600;
+		letter-spacing: -0.045em;
+		line-height: 1;
 		color: var(--ink-primary);
 	}
-	:global(.hero-title .serif) {
-		letter-spacing: -0.03em;
+	:global(.hero-title .accent),
+	:global(.sh-title .accent),
+	:global(.cta-title .accent) {
+		background: linear-gradient(100deg, #436c9b 0%, #6a8fd6 45%, #8265a8 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		padding-right: 0.04em;
 	}
-	.hero-lower {
-		display: grid;
-		grid-template-columns: 5fr 7fr;
-		gap: clamp(32px, 5vw, 80px);
-		margin-top: 56px;
-		align-items: start;
+	.hero-lede {
+		max-width: 46ch;
+		font-size: 1.08rem;
 	}
-	.hero-copy {
-		display: flex;
-		flex-direction: column;
-		gap: 28px;
-		padding-top: 8px;
-	}
-	.hero-copy,
-	.hero-bench {
+	.hero-lede,
+	.hero-ctas,
+	.hero-stats {
 		opacity: 0;
-		transform: translateY(28px);
+		transform: translateY(20px);
 		transition: opacity 1.2s var(--ease-expo), transform 1.2s var(--ease-expo);
 	}
-	.hero-copy {
+	.hero-lede {
 		transition-delay: 0.55s;
 	}
-	.hero-bench {
-		transition-delay: 0.75s;
+	.hero-ctas {
+		transition-delay: 0.68s;
 	}
-	.ready .hero-copy,
-	.ready .hero-bench {
+	.hero-stats {
+		transition-delay: 0.8s;
+	}
+	.ready .hero-lede,
+	.ready .hero-ctas,
+	.ready .hero-stats {
 		opacity: 1;
 		transform: none;
 	}
@@ -299,22 +350,133 @@
 		gap: 10px;
 		flex-wrap: wrap;
 	}
+	:global(.btn-glass) {
+		--btn-bg: rgba(252, 253, 255, 0.62);
+		--btn-bd: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		box-shadow: 0 8px 24px -16px rgba(67, 92, 140, 0.5);
+	}
 	.hero-stats {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		border-top: var(--hairline);
-		padding-top: 20px;
-		margin-top: 8px;
+		display: flex;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.hero-stats > div {
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 2px;
+		padding: 10px 16px;
+		border-radius: var(--radius-md);
+		background: rgba(252, 253, 255, 0.55);
+		border: 1px solid rgba(255, 255, 255, 0.9);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+	.hero-stats dt {
+		font-size: 11.5px;
+		color: var(--ink-muted);
 	}
 	.hero-stats dd {
-		margin-top: 6px;
-		font-family: var(--font-mono);
-		font-size: 1.9rem;
+		font-size: 1.45rem;
+		font-weight: 600;
+		letter-spacing: -0.03em;
 		color: var(--ink-primary);
-		letter-spacing: -0.04em;
 	}
-	.hero-bench {
-		scroll-margin-top: 100px;
+	.hero-stage {
+		position: relative;
+		height: clamp(520px, 74vh, 780px);
+		margin-right: calc(var(--gutter) * -1);
+	}
+	.scroll-cue {
+		position: absolute;
+		left: 50%;
+		bottom: 18px;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--ink-muted);
+		opacity: 0;
+		transition: opacity 1s var(--ease-out) 1.4s;
+	}
+	.ready .scroll-cue {
+		opacity: 1;
+	}
+	.scroll-cue i {
+		position: relative;
+		width: 1px;
+		height: 34px;
+		background: rgba(104, 117, 133, 0.25);
+		overflow: hidden;
+	}
+	.scroll-cue i::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: -40%;
+		width: 1px;
+		height: 40%;
+		background: var(--brand-emerald);
+		animation: cue 1.8s var(--ease-in-out) infinite;
+	}
+	@keyframes cue {
+		to {
+			top: 100%;
+		}
+	}
+
+	/* WORKBENCH */
+	.wb-grid {
+		display: grid;
+		grid-template-columns: 5fr 7fr;
+		gap: clamp(32px, 5vw, 80px);
+		align-items: center;
+	}
+	.wb-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+	.wb-copy .idx {
+		color: var(--brand-emerald);
+	}
+	.wb-copy :global(.sh-title) {
+		font-size: clamp(2.2rem, 3.5vw, 3.6rem);
+		max-width: none;
+	}
+	.wb-copy p {
+		max-width: 44ch;
+		font-size: 1.02rem;
+	}
+	.wb-points {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		font-size: 14px;
+		color: var(--ink-primary);
+	}
+	.wb-points li {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+	.wb-points span {
+		width: 18px;
+		height: 18px;
+		flex: none;
+		border-radius: 50%;
+		background:
+			url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='7' fill='none'%3E%3Cpath stroke='%2332435c' stroke-width='1.6' d='m1 3.5 2.2 2.2L8 1'/%3E%3C/svg%3E") center no-repeat,
+			linear-gradient(135deg, #a4d4f7, #cbb5ed);
+	}
+	.wb-bench :global(.wb) {
+		box-shadow: 0 40px 90px -40px rgba(67, 92, 140, 0.55);
 	}
 
 	/* BAND */
@@ -496,17 +658,26 @@
 	}
 
 	@media (max-width: 1100px) {
-		.hero-lower {
+		.hero-inner,
+		.wb-grid {
 			grid-template-columns: 1fr;
+		}
+		.hero {
+			min-height: 0;
+			padding-top: 112px;
+		}
+		.hero-stage {
+			height: clamp(420px, 62vh, 600px);
+			margin: 0 calc(var(--gutter) * -1);
+		}
+		.scroll-cue {
+			display: none;
 		}
 	}
 	@media (max-width: 900px) {
 		.cbam-grid,
 		.trust {
 			grid-template-columns: 1fr;
-		}
-		.meta-r {
-			display: none;
 		}
 	}
 	@media (max-width: 600px) {

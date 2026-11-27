@@ -15,9 +15,10 @@ const config = {
 			mode: 'hash',
 			directives: {
 				'default-src': ['self'],
-				'script-src': ['self'],
+				'script-src': ['self', 'wasm-unsafe-eval'],
 				'style-src': ['self', 'unsafe-inline'],
 				'img-src': ['self', 'data:', 'blob:'],
+				'worker-src': ['self', 'blob:'],
 				'font-src': ['self', 'data:'],
 				'connect-src': ['self'],
 				'frame-ancestors': ['none'],

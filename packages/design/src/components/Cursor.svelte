@@ -103,7 +103,7 @@
 		height: 34px;
 		margin: -17px 0 0 -17px;
 		border-radius: 50%;
-		border: 1px solid rgba(14, 20, 18, 0.28);
+		border: 1px solid rgba(67, 108, 155, 0.35);
 		display: grid;
 		place-items: center;
 		transition:
@@ -118,15 +118,15 @@
 		width: 54px;
 		height: 54px;
 		margin: -27px 0 0 -27px;
-		background: rgba(20, 83, 60, 0.08);
-		border-color: rgba(20, 83, 60, 0.35);
+		background: rgba(106, 184, 255, 0.12);
+		border-color: rgba(130, 101, 168, 0.4);
 	}
 	.label .ring {
 		width: 84px;
 		height: 84px;
 		margin: -42px 0 0 -42px;
-		background: var(--brand-emerald);
-		border-color: var(--brand-emerald);
+		background: linear-gradient(135deg, #6ab8ff, #a98fcf);
+		border-color: transparent;
 	}
 	.pressed .ring {
 		width: 26px;

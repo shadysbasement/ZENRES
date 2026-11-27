@@ -17,13 +17,16 @@
 	});
 
 	onNavigate((navigation) => {
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
+		if (document.visibilityState === 'hidden' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.startViewTransition || navigation.from?.url.pathname === navigation.to?.url.pathname) return;
 		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
+			const vt = document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
 				window.scrollTo(0, 0);
 			});
+			// A transition can be skipped (tab hidden, rapid navigation); that's not an error.
+			vt.finished.catch(() => {});
+			vt.ready.catch(() => {});
 		});
 	});
 </script>

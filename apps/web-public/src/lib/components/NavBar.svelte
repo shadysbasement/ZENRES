@@ -7,6 +7,7 @@
 	import { ui } from '$lib/stores/ui.svelte';
 
 	let scrolled = $state(false);
+	let progress = $state(0);
 	let hidden = $state(false);
 
 	onMount(() => {
@@ -14,6 +15,8 @@
 		const onScroll = () => {
 			const y = window.scrollY;
 			scrolled = y > 24;
+			const max = document.documentElement.scrollHeight - window.innerHeight;
+			progress = max > 0 ? Math.min(1, y / max) : 0;
 			hidden = y > 320 && y > last && !ui.menuOpen;
 			last = y;
 		};
@@ -40,6 +43,7 @@
 </script>
 
 <header class="nav" class:scrolled class:hidden class:open={ui.menuOpen}>
+	<span class="progress" aria-hidden="true" style="transform:scaleX({progress})"></span>
 	<div class="container-wide inner">
 		<a href="/" class="brand" aria-label="ZENRES home" onclick={() => { ui.menuOpen = false; lockScroll(false); }}>
 			<Logo size={26} inverse={ui.menuOpen} />
@@ -258,5 +262,20 @@
 		.sheet {
 			display: none;
 		}
+	}
+	.progress {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -1px;
+		height: 2px;
+		background: linear-gradient(90deg, #6ab8ff, #a98fcf 60%, #cfa3f6);
+		transform-origin: left;
+		opacity: 0;
+		transition: opacity 400ms var(--ease-out);
+		pointer-events: none;
+	}
+	.scrolled .progress {
+		opacity: 1;
 	}
 </style>

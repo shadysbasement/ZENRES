@@ -42,3 +42,40 @@
 .pill { border-radius: 100px; font-family: var(--font-sans); text-transform: none; letter-spacing: 0; }
 .eyebrow { font-family: var(--font-sans); letter-spacing: .06em; }
 .card { border-color: #ffffffce; box-shadow: 0 4px 24px #53668a08; }
+
+/* ——— High-end finish ——— */
+
+/* Gradient accent words in every split headline (hero, section heads, page titles). */
+.split .accent {
+	background: linear-gradient(100deg, #436c9b 0%, #6a8fd6 45%, #8265a8 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	padding-right: 0.04em;
+}
+
+/* A whisper of film grain so large pastel surfaces feel printed rather than flat. */
+body::after {
+	content: '';
+	position: fixed;
+	inset: -50%;
+	z-index: 9998;
+	pointer-events: none;
+	opacity: 0.045;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.25 0 0 0 0 0.35 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Softer, deeper elevation on interactive glass cards. */
+.card {
+	transition:
+		box-shadow 500ms var(--ease-expo),
+		transform 600ms var(--ease-expo),
+		border-color 300ms var(--ease-out);
+}
+
+/* Section rhythm: generous breathing room between chapters. */
+@media (min-width: 1100px) {
+	main > .section {
+		padding-block: 132px;
+	}
+}
